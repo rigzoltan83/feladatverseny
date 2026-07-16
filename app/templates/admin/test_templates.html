@@ -8,12 +8,13 @@
     <section class="page-header page-header-row">
         <div>
             <h1>Tesztsablonok</h1>
-
             <p>
                 A generálható feladatsorok
                 beállításai.
             </p>
         </div>
+
+        <th>Művelet</th>
 
         <a
             class="button"
@@ -104,12 +105,22 @@
                                 </span>
                             {% endif %}
                         </td>
+                        <td>
+                            <a
+                                class="table-link"
+                                href="{{ url_for(
+                                    'admin_templates.template_detail',
+                                    template_id=template.id
+                                ) }}"
+                            >
+                                Megnyitás
+                            </a>
+                        </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="8">
-                            Nincs még rögzített
-                            tesztsablon.
+                        <td colspan="9">
+                            Nincs még rögzített tesztsablon.
                         </td>
                     </tr>
                 {% endfor %}

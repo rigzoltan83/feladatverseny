@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ template.name }} – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>{{ template.name }}</h1>
+
+            <p>
+                Tesztsablon részletes beállításai.
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <a
+                class="button"
+                href="{{ url_for(
+                    'admin_templates.template_edit',
+                    template_id=template.id
+                ) }}"
+            >
+                Szerkesztés
+            </a>
+
+            <form
+                method="post"
+                action="{{ url_for(
+                    'admin_templates.template_toggle_active',
+                    template_id=template.id
+                ) }}"
+            >
+                <button
+                    class="button
+                    {% if template.is_active %}
+                        button-danger
+                    {% endif %}"
+                    type="submit"
+                >
+                    {% if template.is_active %}
+                        Inaktiválás
+                    {% else %}
+                        Aktiválás
+                    {% endif %}
+                </button>
+            </form>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin_templates.template_list'
+                ) }}"
+            >
+                Vissza a listához
+            </a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article class="card">
+            <h2>Alapadatok</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Azonosító</dt>
+                    <dd>{{ template.id }}</dd>
+                </div>
+
+                <div>
+                    <dt>Feladatok száma</dt>
+                    <dd>{{ template.question_count }}</dd>
+                </div>
+
+                <div>
+                    <dt>Állapot</dt>
+                    <dd>
+                        {% if template.is_active %}
+                            <span
+                                class="status-badge status-active"
+                            >
+                                Aktív
+                            </span>
+                        {% else %}
+                            <span
+                                class="status-badge status-inactive"
+                            >
+                                Inaktív
+                            </span>
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+
+        <article class="card">
+            <h2>Keverési beállítások</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Kérdések</dt>
+                    <dd>
+                        {% if template.shuffle_questions %}
+                            Keverve
+                        {% else %}
+                            Eredeti sorrendben
+                        {% endif %}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Válaszok</dt>
+                    <dd>
+                        {% if template.shuffle_answers %}
+                            Keverve
+                        {% else %}
+                            Eredeti sorrendben
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+
+        <article class="card">
+            <h2>Évfolyamok</h2>
+
+            <div class="tag-list">
+                {% for grade in template.grades %}
+                    <span class="tag">
+                        {{ grade.name }}
+                    </span>
+                {% else %}
+                    <span>–</span>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="card">
+            <h2>Témakörök</h2>
+
+            <div class="tag-list">
+                {% for topic in template.topics %}
+                    <span class="tag">
+                        {{ topic.name }}
+                    </span>
+                {% else %}
+                    <span>–</span>
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+
+    {% if template.description %}
+        <section class="card">
+            <h2>Leírás</h2>
+
+            <div class="question-text">
+                {{ template.description }}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Új tesztsablon – Feladatverseny
+    {% if template %}
+        Tesztsablon szerkesztése – Feladatverseny
+    {% else %}
+        Új tesztsablon – Feladatverseny
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Új tesztsablon</h1>
+        <h1>
+            {% if template %}
+                Tesztsablon szerkesztése
+            {% else %}
+                Új tesztsablon
+            {% endif %}
+        </h1>
 
         <p>
             A generálandó feladatsor
@@ -30,7 +40,7 @@
                 maxlength="200"
                 value="{{ request.form.get(
                     'name',
-                    ''
+                    template.name if template else ''
                 ) }}"
                 required
             >
@@ -48,10 +58,7 @@
                 id="description"
                 name="description"
                 rows="4"
-            >{{ request.form.get(
-                'description',
-                ''
-            ) }}</textarea>
+            >{% if request.method == 'POST' %}{{ request.form.get('description', '') }}{% elif template and template.description %}{{ template.description }}{% endif %}</textarea>
         </div>
 
         <div class="form-group">
@@ -67,7 +74,8 @@
                 max="100"
                 value="{{ request.form.get(
                     'question_count',
-                    '25'
+                    template.question_count if template 
+                    else '25'
                 ) }}"
                 required
             >
@@ -83,12 +91,14 @@
                             type="checkbox"
                             name="grade_ids"
                             value="{{ grade.id }}"
-                            {% if
-                                grade.id|string
-                                in request.form.getlist(
-                                    'grade_ids'
-                                )
-                            %}
+                            {% if request.method == 'POST' %}
+                                {% if
+                                    grade.id|string
+                                    in request.form.getlist('grade_ids')
+                                %}
+                                    checked
+                                {% endif %}
+                            {% elif grade.id in selected_grade_ids %}
                                 checked
                             {% endif %}
                         >
@@ -109,12 +119,14 @@
                             type="checkbox"
                             name="topic_ids"
                             value="{{ topic.id }}"
-                            {% if
-                                topic.id|string
-                                in request.form.getlist(
-                                    'topic_ids'
-                                )
-                            %}
+                            {% if request.method == 'POST' %}
+                                {% if
+                                    topic.id|string
+                                    in request.form.getlist('topic_ids')
+                                %}
+                                    checked
+                                {% endif %}
+                            {% elif topic.id in selected_topic_ids %}
                                 checked
                             {% endif %}
                         >
@@ -133,16 +145,14 @@
                     <input
                         type="checkbox"
                         name="shuffle_questions"
-                        {% if
-                            request.method != 'POST'
-                            or request.form.get(
-                                'shuffle_questions'
-                            )
-                        %}
+                        {% if request.method == 'POST' %}
+                            {% if request.form.get('shuffle_questions') %}
+                                checked
+                            {% endif %}
+                        {% elif not template or template.shuffle_questions %}
                             checked
                         {% endif %}
-                    >
-
+                    > 
                     <span>
                         Kérdések sorrendjének keverése
                     </span>
@@ -152,16 +162,14 @@
                     <input
                         type="checkbox"
                         name="shuffle_answers"
-                        {% if
-                            request.method != 'POST'
-                            or request.form.get(
-                                'shuffle_answers'
-                            )
-                        %}
+                        {% if request.method == 'POST' %}
+                            {% if request.form.get('shuffle_answers') %}
+                                checked
+                            {% endif %}
+                        {% elif not template or template.shuffle_answers %}
                             checked
                         {% endif %}
                     >
-
                     <span>
                         Válaszok sorrendjének keverése
                     </span>
@@ -174,7 +182,11 @@
                 class="button"
                 type="submit"
             >
-                Tesztsablon mentése
+                {% if template %}
+                    Módosítások mentése
+                {% else %}
+                    Tesztsablon mentése
+                {% endif %}
             </button>
 
             <a
