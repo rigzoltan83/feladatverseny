@@ -1142,3 +1142,33 @@ def question_import():
         preview_rows=preview_rows,
         import_errors=import_errors,
     )
+
+@admin_bp.post(
+    "/questions/<int:question_id>/toggle-active"
+)
+def question_toggle_active(question_id: int):
+    question = db.get_or_404(
+        Question,
+        question_id,
+    )
+
+    question.is_active = not question.is_active
+
+    db.session.commit()
+
+    if question.is_active:
+        message = "A feladatot aktiváltuk."
+    else:
+        message = "A feladatot inaktiváltuk."
+
+    flash(
+        message,
+        "success",
+    )
+
+    return redirect(
+        url_for(
+            "admin.question_detail",
+            question_id=question.id,
+        )
+    )

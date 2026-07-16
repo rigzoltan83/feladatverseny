@@ -14,24 +14,47 @@
             </p>
         </div>
 
-	<div class="form-actions">
-    	    <a
-        	class="button"
-        	href="{{ url_for(
-            	    'admin.question_edit',
-            	    question_id=question.id
-        	) }}"
-    	    >
-        	Szerkesztés
-    	    </a>
+        <div class="form-actions">
+            <a
+                class="button"
+                href="{{ url_for(
+                    'admin.question_edit',
+                    question_id=question.id
+                ) }}"
+            >
+                Szerkesztés
+            </a>
 
-    	    <a
-        	class="button button-secondary"
-        	href="{{ url_for('admin.questions') }}"
-    	    >
-        	Vissza a listához
-    	    </a>
-	</div>
+            <form
+                method="post"
+                action="{{ url_for(
+                    'admin.question_toggle_active',
+                    question_id=question.id
+                ) }}"
+            >
+                <button
+                    class="button
+                    {% if question.is_active %}
+                        button-danger
+                    {% endif %}"
+                    type="submit"
+                >
+                    {% if question.is_active %}
+                        Inaktiválás
+                    {% else %}
+                        Aktiválás
+                    {% endif %}
+                </button>
+            </form>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for('admin.questions') }}"
+            >
+                Vissza a listához
+            </a>
+        </div>
+
     </section>
 
     <section class="detail-grid">
