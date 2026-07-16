@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Témakörök – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Témakörök</h1>
+
+        <p>
+            A feladatokhoz rendelhető témakörök.
+        </p>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Azonosító</th>
+                    <th>Megnevezés</th>
+                    <th>Állapot</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for topic in topics %}
+                    <tr>
+                        <td>{{ topic.id }}</td>
+                        <td>{{ topic.name }}</td>
+                        <td>
+                            {% if topic.is_active %}
+                                Aktív
+                            {% else %}
+                                Inaktív
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">
+                            Nincs még rögzített témakör.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from app.models import Grade
+from app.models import Grade, Topic
 
 
 admin_bp = Blueprint(
@@ -24,4 +24,15 @@ def grades():
     return render_template(
         "admin/grades.html",
         grades=grade_list,
+    )
+
+@admin_bp.get("/topics")
+def topics():
+    topic_list = Topic.query.order_by(
+        Topic.name
+    ).all()
+
+    return render_template(
+        "admin/topics.html",
+        topics=topic_list,
     )
