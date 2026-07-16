@@ -700,7 +700,14 @@ def question_import():
     import_errors = []
 
     if request.method == "POST":
-        uploaded_file = request.files.get("csv_file")
+        action = request.form.get(
+            "action",
+            "preview",
+        )
+
+        uploaded_file = request.files.get(
+            "csv_file"
+        )
 
         if (
             uploaded_file is None
@@ -717,7 +724,9 @@ def question_import():
                 import_errors=import_errors,
             )
 
-        if not uploaded_file.filename.lower().endswith(".csv"):
+        if not uploaded_file.filename.lower().endswith(
+            ".csv"
+        ):
             flash(
                 "Csak CSV-fájl tölthető fel.",
                 "error",
@@ -733,11 +742,12 @@ def question_import():
             file_content = uploaded_file.read().decode(
                 "utf-8-sig"
             )
+
         except UnicodeDecodeError:
             flash(
                 (
-                    "A CSV nem olvasható UTF-8 "
-                    "kódolással."
+                    "A CSV nem olvasható "
+                    "UTF-8 kódolással."
                 ),
                 "error",
             )
@@ -768,8 +778,12 @@ def question_import():
                     {
                         "line": 1,
                         "messages": [
-                            "Elvárt fejléc: "
-                            + ";".join(CSV_FIELDNAMES)
+                            (
+                                "Elvárt fejléc: "
+                                + ";".join(
+                                    CSV_FIELDNAMES
+                                )
+                            )
                         ],
                     }
                 ],
@@ -787,7 +801,8 @@ def question_import():
 
         source_year_by_number = {
             source_year.year_number: source_year
-            for source_year in SourceYear.query.all()
+            for source_year
+            in SourceYear.query.all()
         }
 
         for line_number, row in enumerate(
@@ -842,7 +857,10 @@ def question_import():
             except ValueError:
                 correct_answer = None
                 row_errors.append(
-                    "A helyes válasz nem érvényes szám."
+                    (
+                        "A helyes válasz "
+                        "nem érvényes szám."
+                    )
                 )
 
             if (
@@ -862,7 +880,10 @@ def question_import():
                 and not 1 <= original_position <= 25
             ):
                 row_errors.append(
-                    "A sorszám 1 és 25 közötti lehet."
+                    (
+                        "A sorszám 1 és 25 "
+                        "közötti lehet."
+                    )
                 )
 
             if (
@@ -870,15 +891,22 @@ def question_import():
                 and not 1 <= difficulty <= 25
             ):
                 row_errors.append(
-                    "A nehézség 1 és 25 közötti lehet."
+                    (
+                        "A nehézség 1 és 25 "
+                        "közötti lehet."
+                    )
                 )
 
             if (
                 correct_answer is not None
-                and correct_answer not in range(1, 6)
+                and correct_answer
+                not in range(1, 6)
             ):
                 row_errors.append(
-                    "A helyes válasz 1 és 5 közötti lehet."
+                    (
+                        "A helyes válasz 1 és 5 "
+                        "közötti lehet."
+                    )
                 )
 
             grade_numbers = []
@@ -892,7 +920,10 @@ def question_import():
                     continue
 
                 try:
-                    grade_number = int(grade_value)
+                    grade_number = int(
+                        grade_value
+                    )
+
                 except ValueError:
                     row_errors.append(
                         (
@@ -910,11 +941,16 @@ def question_import():
                         )
                     )
                 else:
-                    grade_numbers.append(grade_number)
+                    grade_numbers.append(
+                        grade_number
+                    )
 
             if not grade_numbers:
                 row_errors.append(
-                    "Legalább egy évfolyam szükséges."
+                    (
+                        "Legalább egy évfolyam "
+                        "szükséges."
+                    )
                 )
 
             topic_names = []
@@ -938,12 +974,17 @@ def question_import():
                     )
                 else:
                     topic_names.append(
-                        topic_by_name[topic_key].name
+                        topic_by_name[
+                            topic_key
+                        ].name
                     )
 
             if not topic_names:
                 row_errors.append(
-                    "Legalább egy témakör szükséges."
+                    (
+                        "Legalább egy témakör "
+                        "szükséges."
+                    )
                 )
 
             if not normalized_row["feladat"]:
@@ -952,7 +993,9 @@ def question_import():
                 )
 
             answer_texts = [
-                normalized_row[f"valasz{position}"]
+                normalized_row[
+                    f"valasz{position}"
+                ]
                 for position in range(1, 6)
             ]
 
@@ -962,7 +1005,8 @@ def question_import():
             ):
                 row_errors.append(
                     (
-                        "Mind az öt válaszlehetőséget "
+                        "Mind az öt "
+                        "válaszlehetőséget "
                         "ki kell tölteni."
                     )
                 )
@@ -974,19 +1018,46 @@ def question_import():
             if is_active is None:
                 row_errors.append(
                     (
-                        "Az aktív mező értéke legyen "
-                        "igen vagy nem."
+                        "Az aktív mező értéke "
+                        "legyen igen vagy nem."
                     )
                 )
 
             preview_row = {
                 "line": line_number,
                 "source_year": source_year_number,
-                "original_position": original_position,
+                "source_year_object": (
+                    source_year_by_number.get(
+                        source_year_number
+                    )
+                ),
+                "original_position": (
+                    original_position
+                ),
                 "difficulty": difficulty,
                 "grades": grade_numbers,
+                "grade_objects": [
+                    grade_by_number[
+                        grade_number
+                    ]
+                    for grade_number
+                    in grade_numbers
+                    if grade_number
+                    in grade_by_number
+                ],
                 "topics": topic_names,
-                "question_text": normalized_row["feladat"],
+                "topic_objects": [
+                    topic_by_name[
+                        topic_name.casefold()
+                    ]
+                    for topic_name
+                    in topic_names
+                    if topic_name.casefold()
+                    in topic_by_name
+                ],
+                "question_text": normalized_row[
+                    "feladat"
+                ],
                 "answer_texts": answer_texts,
                 "correct_answer": correct_answer,
                 "explanation": normalized_row[
@@ -996,7 +1067,9 @@ def question_import():
                 "errors": row_errors,
             }
 
-            preview_rows.append(preview_row)
+            preview_rows.append(
+                preview_row
+            )
 
             if row_errors:
                 import_errors.append(
@@ -1006,24 +1079,147 @@ def question_import():
                     }
                 )
 
+        # Fontos: ez már a for cikluson kívül van.
         if not preview_rows:
             flash(
                 "A CSV nem tartalmaz adatsort.",
                 "error",
             )
+
         elif import_errors:
             flash(
                 (
                     f"{len(import_errors)} hibás "
-                    "CSV-sor található."
+                    "CSV-sor található. "
+                    "Az import nem történt meg."
                 ),
                 "error",
             )
+
+        elif action == "import":
+            try:
+                imported_questions = []
+
+                for row in preview_rows:
+                    question = Question(
+                        source_year=row[
+                            "source_year_object"
+                        ],
+                        original_position=row[
+                            "original_position"
+                        ],
+                        difficulty=row[
+                            "difficulty"
+                        ],
+                        question_text=row[
+                            "question_text"
+                        ],
+                        explanation=(
+                            row["explanation"]
+                            or None
+                        ),
+                        is_active=row[
+                            "is_active"
+                        ],
+                    )
+
+                    question.grades = row[
+                        "grade_objects"
+                    ]
+
+                    question.topics = row[
+                        "topic_objects"
+                    ]
+
+                    for (
+                        position,
+                        answer_text,
+                    ) in enumerate(
+                        row["answer_texts"],
+                        start=1,
+                    ):
+                        question.answer_options.append(
+                            AnswerOption(
+                                original_position=(
+                                    position
+                                ),
+                                answer_text=(
+                                    answer_text
+                                ),
+                                is_correct=(
+                                    position
+                                    == row[
+                                        "correct_answer"
+                                    ]
+                                ),
+                            )
+                        )
+
+                    db.session.add(
+                        question
+                    )
+
+                    imported_questions.append(
+                        question
+                    )
+
+                db.session.flush()
+
+                imported_summary = [
+                    {
+                        "line": row["line"],
+                        "question_id": (
+                            question.id
+                        ),
+                        "image_filename": (
+                            question.image_filename
+                        ),
+                    }
+                    for row, question in zip(
+                        preview_rows,
+                        imported_questions,
+                    )
+                ]
+
+                db.session.commit()
+
+            except Exception:
+                db.session.rollback()
+
+                current_app.logger.exception(
+                    (
+                        "Hiba történt a "
+                        "CSV-import során."
+                    )
+                )
+
+                flash(
+                    (
+                        "Az importálás közben "
+                        "hiba történt. Egyetlen "
+                        "rekordot sem mentettünk el."
+                    ),
+                    "error",
+                )
+
+            else:
+                return render_template(
+                    (
+                        "admin/"
+                        "question_import_result.html"
+                    ),
+                    imported_summary=(
+                        imported_summary
+                    ),
+                )
+
         else:
             flash(
                 (
                     f"{len(preview_rows)} sor "
-                    "ellenőrzése sikeres."
+                    "ellenőrzése sikeres. "
+                    "Az adatok még nem kerültek "
+                    "az adatbázisba."
                 ),
                 "success",
             )

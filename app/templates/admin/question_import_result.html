@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}
+    CSV-import eredménye – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>CSV-import sikeres</h1>
+
+            <p>
+                {{ imported_summary|length }}
+                feladatot importáltunk.
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <a
+                class="button"
+                href="{{ url_for('admin.questions') }}"
+            >
+                Feladatok megnyitása
+            </a>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin.question_import'
+                ) }}"
+            >
+                Újabb CSV importálása
+            </a>
+        </div>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>CSV-sor</th>
+                    <th>Feladat ID</th>
+                    <th>Várt képfájlnév</th>
+                    <th>Művelet</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in imported_summary %}
+                    <tr>
+                        <td>{{ item.line }}</td>
+
+                        <td>{{ item.question_id }}</td>
+
+                        <td>
+                            <code>
+                                {{ item.image_filename }}
+                            </code>
+                        </td>
+
+                        <td>
+                            <a
+                                class="table-link"
+                                href="{{ url_for(
+                                    'admin.question_detail',
+                                    question_id=item.question_id
+                                ) }}"
+                            >
+                                Megnyitás
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
