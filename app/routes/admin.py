@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from app.models import Grade, SourceYear, Topic
+from app.models import Grade, Question, SourceYear, Topic
 
 
 admin_bp = Blueprint(
@@ -46,4 +46,20 @@ def source_years():
     return render_template(
         "admin/source_years.html",
         source_years=source_year_list,
+    )
+
+@admin_bp.get("/questions")
+def questions():
+    question_list = (
+        Question.query
+        .order_by(
+            Question.source_year_id.desc(),
+            Question.original_position.asc(),
+        )
+        .all()
+    )
+
+    return render_template(
+        "admin/questions.html",
+        questions=question_list,
     )

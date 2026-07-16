@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Feladatok – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>Feladatok</h1>
+
+            <p>
+                Az adatbázisban tárolt feladatok listája.
+            </p>
+        </div>
+
+        <a class="button" href="#">
+            + Új feladat
+        </a>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Forrásév</th>
+                    <th>Sorszám</th>
+                    <th>Nehézség</th>
+                    <th>Évfolyamok</th>
+                    <th>Témakörök</th>
+                    <th>Feladat</th>
+                    <th>Állapot</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question.id }}</td>
+
+                        <td>
+                            {{ question.source_year.year_number }}
+                        </td>
+
+                        <td>
+                            {{ question.original_position }}
+                        </td>
+
+                        <td>
+                            {{ question.difficulty }}
+                        </td>
+
+                        <td>
+                            {% for grade in question.grades %}
+                                {{ grade.grade_number }}{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                –
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% for topic in question.topics %}
+                                {{ topic.name }}{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                –
+                            {% endfor %}
+                        </td>
+
+                        <td class="question-preview">
+                            {{ question.question_text }}
+                        </td>
+
+                        <td>
+                            {% if question.is_active %}
+                                Aktív
+                            {% else %}
+                                Inaktív
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">
+                            Nincs még rögzített feladat.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
