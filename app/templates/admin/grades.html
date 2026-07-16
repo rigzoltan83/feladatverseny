@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Évfolyamok – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Évfolyamok</h1>
+
+        <p>
+            Az adatbázisban jelenleg elérhető évfolyamok.
+        </p>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Azonosító</th>
+                    <th>Évfolyam</th>
+                    <th>Megnevezés</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for grade in grades %}
+                    <tr>
+                        <td>{{ grade.id }}</td>
+                        <td>{{ grade.grade_number }}</td>
+                        <td>{{ grade.name }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">
+                            Nincs még rögzített évfolyam.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

@@ -80,3 +80,32 @@ body {
     margin-bottom: 0;
     line-height: 1.5;
 }
+
+.card {
+    margin-bottom: 40px;
+    padding: 24px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgb(0 0 0 / 8%);
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 13px 14px;
+    text-align: left;
+    border-bottom: 1px solid #dfe5eb;
+}
+
+.data-table th {
+    color: #34495e;
+    background: #eef2f6;
+}
+
+.data-table tbody tr:hover {
+    background: #f7f9fb;
+}

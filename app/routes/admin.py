@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template
 
+from app.models import Grade
+
 
 admin_bp = Blueprint(
     "admin",
@@ -11,3 +13,15 @@ admin_bp = Blueprint(
 @admin_bp.get("/")
 def index():
     return render_template("admin/index.html")
+
+
+@admin_bp.get("/grades")
+def grades():
+    grade_list = Grade.query.order_by(
+        Grade.grade_number
+    ).all()
+
+    return render_template(
+        "admin/grades.html",
+        grades=grade_list,
+    )
