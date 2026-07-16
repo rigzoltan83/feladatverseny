@@ -104,6 +104,21 @@
         </div>
     </section>
 
+    {% if image_exists %}
+        <section class="card">
+            <h2>Feladat képe</h2>
+
+            <img
+                class="question-image"
+                src="{{ url_for(
+                    'admin.question_image',
+                    filename=question.image_filename
+                ) }}"
+                alt="A feladathoz tartozó kép"
+            >
+        </section>
+    {% endif %}
+
     <section class="card">
         <h2>Válaszlehetőségek</h2>
 

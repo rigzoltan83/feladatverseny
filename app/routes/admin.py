@@ -1,12 +1,15 @@
 from flask import (
     Blueprint,
+    current_app,
     flash,
     redirect,
     render_template,
     request,
+    send_from_directory,
     url_for,
 )
 
+from pathlib import Path
 from app.extensions import db
 from app.models import (
     AnswerOption,
@@ -294,9 +297,16 @@ def question_detail(question_id: int):
         question_id,
     )
 
+    image_path = (
+        Path(current_app.config["MEDIA_ROOT"])
+        / "questions"
+        / question.image_filename
+    )
+
     return render_template(
         "admin/question_detail.html",
         question=question,
+        image_exists=image_path.is_file(),
     )
 
 @admin_bp.route(
@@ -534,4 +544,13 @@ def question_edit(question_id: int):
         selected_grade_ids=selected_grade_ids,
         selected_topic_ids=selected_topic_ids,
         answer_by_position=answer_by_position,
+    )
+
+@admin_bp.get("/media/questions/<path:filename>")
+def question_image(filename: str):
+    media_root = current_app.config["MEDIA_ROOT"]
+
+    return send_from_directory(
+        f"{media_root}/questions",
+        filename,
     )

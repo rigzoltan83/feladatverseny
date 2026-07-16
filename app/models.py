@@ -199,6 +199,10 @@ class Question(db.Model):
         ),
     )
 
+    @property
+    def image_filename(self) -> str:
+        return f"{self.id:07d}.jpg"
+
     def __repr__(self) -> str:
         return (
             f"<Question id={self.id} "
