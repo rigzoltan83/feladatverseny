@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Új feladat – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Új feladat</h1>
+
+        <p>
+            A feladat alapadatainak rögzítése.
+        </p>
+    </section>
+
+    <form
+        class="card form-card"
+        method="post"
+    >
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="source_year_id">
+                    Forrásév
+                </label>
+
+                <select
+                    id="source_year_id"
+                    name="source_year_id"
+                    required
+                >
+                    <option value="">
+                        Válassz forrásévet
+                    </option>
+
+                    {% for source_year in source_years %}
+                        <option
+                            value="{{ source_year.id }}"
+                            {% if
+                                request.form.get(
+                                    'source_year_id'
+                                ) == source_year.id|string
+                            %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ source_year.year_number }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="original_position">
+                    Eredeti sorszám
+                </label>
+
+                <input
+                    id="original_position"
+                    name="original_position"
+                    type="number"
+                    min="1"
+                    max="25"
+                    value="{{
+                        request.form.get(
+                            'original_position',
+                            ''
+                        )
+                    }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="difficulty">
+                    Nehézség
+                </label>
+
+                <input
+                    id="difficulty"
+                    name="difficulty"
+                    type="number"
+                    min="1"
+                    max="25"
+                    value="{{
+                        request.form.get(
+                            'difficulty',
+                            ''
+                        )
+                    }}"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="question_text">
+                Feladat szövege
+            </label>
+
+            <textarea
+                id="question_text"
+                name="question_text"
+                rows="6"
+                required
+            >{{ request.form.get('question_text', '') }}</textarea>
+        </div>
+
+        <div class="form-section">
+            <h2>Évfolyamok</h2>
+
+            <div class="checkbox-grid">
+                {% for grade in grades %}
+                    <label class="checkbox-option">
+                        <input
+                            type="checkbox"
+                            name="grade_ids"
+                            value="{{ grade.id }}"
+                            {% if
+                                grade.id|string
+                                in request.form.getlist(
+                                    'grade_ids'
+                                )
+                            %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>{{ grade.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Témakörök</h2>
+
+            <div class="checkbox-grid">
+                {% for topic in topics %}
+                    <label class="checkbox-option">
+                        <input
+                            type="checkbox"
+                            name="topic_ids"
+                            value="{{ topic.id }}"
+                            {% if
+                                topic.id|string
+                                in request.form.getlist(
+                                    'topic_ids'
+                                )
+                            %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>{{ topic.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="explanation">
+                Magyarázat
+                <span class="optional">
+                    – opcionális
+                </span>
+            </label>
+
+            <textarea
+                id="explanation"
+                name="explanation"
+                rows="4"
+            >{{ request.form.get('explanation', '') }}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Feladat mentése
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for('admin.questions') }}"
+            >
+                Mégse
+            </a>
+        </div>
+    </form>
+{% endblock %}

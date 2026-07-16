@@ -1,4 +1,13 @@
-from flask import Blueprint, render_template
+from flask import (
+    Blueprint,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+
+from app.extensions import db
 
 from app.models import Grade, Question, SourceYear, Topic
 
@@ -62,4 +71,159 @@ def questions():
     return render_template(
         "admin/questions.html",
         questions=question_list,
+    )
+
+@admin_bp.route("/questions/new", methods=["GET", "POST"])
+def question_new():
+    grade_list = Grade.query.order_by(
+        Grade.grade_number
+    ).all()
+
+    topic_list = Topic.query.filter_by(
+        is_active=True
+    ).order_by(
+        Topic.name
+    ).all()
+
+    source_year_list = SourceYear.query.filter_by(
+        is_active=True
+    ).order_by(
+        SourceYear.year_number.desc()
+    ).all()
+
+    if request.method == "POST":
+        source_year_id = request.form.get(
+            "source_year_id",
+            type=int,
+        )
+
+        original_position = request.form.get(
+            "original_position",
+            type=int,
+        )
+
+        difficulty = request.form.get(
+            "difficulty",
+            type=int,
+        )
+
+        question_text = request.form.get(
+            "question_text",
+            "",
+        ).strip()
+
+        explanation = request.form.get(
+            "explanation",
+            "",
+        ).strip()
+
+        selected_grade_ids = request.form.getlist(
+            "grade_ids",
+            type=int,
+        )
+
+        selected_topic_ids = request.form.getlist(
+            "topic_ids",
+            type=int,
+        )
+
+        errors = []
+
+        source_year = db.session.get(
+            SourceYear,
+            source_year_id,
+        )
+
+        if source_year is None:
+            errors.append(
+                "Érvényes forrásévet kell választani."
+            )
+
+        if (
+            original_position is None
+            or not 1 <= original_position <= 25
+        ):
+            errors.append(
+                "A feladat sorszáma 1 és 25 közötti lehet."
+            )
+
+        if (
+            difficulty is None
+            or not 1 <= difficulty <= 25
+        ):
+            errors.append(
+                "A nehézség 1 és 25 közötti lehet."
+            )
+
+        if not question_text:
+            errors.append(
+                "A feladat szövege kötelező."
+            )
+
+        if not selected_grade_ids:
+            errors.append(
+                "Legalább egy évfolyamot ki kell választani."
+            )
+
+        if not selected_topic_ids:
+            errors.append(
+                "Legalább egy témakört ki kell választani."
+            )
+
+        selected_grades = Grade.query.filter(
+            Grade.id.in_(selected_grade_ids)
+        ).all()
+
+        selected_topics = Topic.query.filter(
+            Topic.id.in_(selected_topic_ids)
+        ).all()
+
+        if len(selected_grades) != len(
+            set(selected_grade_ids)
+        ):
+            errors.append(
+                "Az évfolyamválasztás érvénytelen."
+            )
+
+        if len(selected_topics) != len(
+            set(selected_topic_ids)
+        ):
+            errors.append(
+                "A témakörválasztás érvénytelen."
+            )
+
+        if errors:
+            for error in errors:
+                flash(error, "error")
+
+        else:
+            question = Question(
+                source_year=source_year,
+                original_position=original_position,
+                difficulty=difficulty,
+                question_text=question_text,
+                explanation=explanation or None,
+                is_active=True,
+            )
+
+            question.grades = selected_grades
+            question.topics = selected_topics
+
+            db.session.add(question)
+            db.session.commit()
+
+            flash(
+                "A feladat alapadatait elmentettük.",
+                "success",
+            )
+
+            return redirect(
+                url_for("admin.questions")
+            )
+
+    return render_template(
+        "admin/question_form.html",
+        grades=grade_list,
+        topics=topic_list,
+        source_years=source_year_list,
     )
