@@ -10,6 +10,7 @@ from flask import (
 from app.extensions import db
 from app.models import (
     Grade,
+    Question,
     TestTemplate,
     Topic,
 )
@@ -226,11 +227,70 @@ def template_detail(template_id: int):
         template_id,
     )
 
+    grade_ids = [
+        grade.id
+        for grade in template.grades
+    ]
+
+    topic_ids = [
+        topic.id
+        for topic in template.topics
+    ]
+
+    candidate_query = Question.query.filter(
+        Question.is_active.is_(True)
+    )
+
+    if grade_ids:
+        candidate_query = candidate_query.filter(
+            Question.grades.any(
+                Grade.id.in_(grade_ids)
+            )
+        )
+    else:
+        candidate_query = candidate_query.filter(
+            db.false()
+        )
+
+    if topic_ids:
+        candidate_query = candidate_query.filter(
+            Question.topics.any(
+                Topic.id.in_(topic_ids)
+            )
+        )
+    else:
+        candidate_query = candidate_query.filter(
+            db.false()
+        )
+
+    available_question_count = (
+        candidate_query.count()
+    )
+
+    enough_questions = (
+        available_question_count
+        >= template.question_count
+    )
+
+    sample_questions = (
+        candidate_query
+        .order_by(
+            Question.difficulty,
+            Question.id,
+        )
+        .limit(10)
+        .all()
+    )
+
     return render_template(
         "admin/test_template_detail.html",
         template=template,
+        available_question_count=(
+            available_question_count
+        ),
+        enough_questions=enough_questions,
+        sample_questions=sample_questions,
     )
-
 
 @template_bp.route(
     "/<int:template_id>/edit",

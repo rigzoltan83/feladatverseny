@@ -15,6 +15,15 @@
         </div>
 
         <div class="form-actions">
+        {% if template.is_active and enough_questions %}
+            <a
+                class="button"
+                href="#"
+            >
+                Feladatsor generálása
+            </a>
+        {% endif %}
+
             <a
                 class="button"
                 href="{{ url_for(
@@ -93,6 +102,129 @@
                 </div>
             </dl>
         </article>
+
+<section class="card">
+    <h2>Generálhatóság</h2>
+
+    <dl class="detail-list">
+        <div>
+            <dt>Kért feladatok</dt>
+            <dd>{{ template.question_count }}</dd>
+        </div>
+
+        <div>
+            <dt>Elérhető aktív feladatok</dt>
+            <dd>{{ available_question_count }}</dd>
+        </div>
+
+        <div>
+            <dt>Állapot</dt>
+            <dd>
+                {% if enough_questions %}
+                    <span
+                        class="status-badge status-active"
+                    >
+                        Generálható
+                    </span>
+                {% else %}
+                    <span
+                        class="status-badge status-inactive"
+                    >
+                        Nincs elég feladat
+                    </span>
+                {% endif %}
+            </dd>
+        </div>
+    </dl>
+
+    {% if enough_questions %}
+        <p>
+            A sablonhoz elegendő aktív feladat
+            található az adatbázisban.
+        </p>
+    {% else %}
+        <p>
+            Még
+            <strong>
+                {{
+                    template.question_count
+                    - available_question_count
+                }}
+            </strong>
+            megfelelő feladatra lenne szükség.
+        </p>
+    {% endif %}
+</section>
+
+<section class="card">
+    <h2>Megfelelő feladatok – minta</h2>
+
+    {% if sample_questions %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nehézség</th>
+                    <th>Évfolyam</th>
+                    <th>Témakör</th>
+                    <th>Feladat</th>
+                    <th>Művelet</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for question in sample_questions %}
+                    <tr>
+                        <td>{{ question.id }}</td>
+
+                        <td>{{ question.difficulty }}</td>
+
+                        <td>
+                            {% for grade in question.grades %}
+                                {{ grade.grade_number }}.
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% for topic in question.topics %}
+                                {{ topic.name }}
+                                {% if not loop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+
+                        <td class="question-preview">
+                            {{ question.question_text }}
+                        </td>
+
+                        <td>
+                            <a
+                                class="table-link"
+                                href="{{ url_for(
+                                    'admin.question_detail',
+                                    question_id=question.id
+                                ) }}"
+                            >
+                                Megnyitás
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if available_question_count > 10 %}
+            <p>
+                Az első 10 megfelelő feladat látható.
+            </p>
+        {% endif %}
+    {% else %}
+        <p>
+            A sablon feltételeinek jelenleg
+            egyetlen aktív feladat sem felel meg.
+        </p>
+    {% endif %}
+</section>
 
         <article class="card">
             <h2>Keverési beállítások</h2>
