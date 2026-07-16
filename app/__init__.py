@@ -27,6 +27,10 @@ def create_app() -> Flask:
 
     from app import models
 
+    from app.routes.admin import admin_bp
+
+    app.register_blueprint(admin_bp)
+
     register_routes(app)
 
     return app

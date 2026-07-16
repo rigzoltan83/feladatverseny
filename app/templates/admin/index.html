@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Adminisztráció – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Adminisztráció</h1>
+
+        <p>
+            A Feladatverseny adatainak és működésének kezelése.
+        </p>
+    </section>
+
+    <section class="admin-grid">
+        <a class="admin-card" href="#">
+            <h2>Évfolyamok</h2>
+            <p>Évfolyamok kezelése.</p>
+        </a>
+
+        <a class="admin-card" href="#">
+            <h2>Forrásévek</h2>
+            <p>A korábbi versenyévek kezelése.</p>
+        </a>
+
+        <a class="admin-card" href="#">
+            <h2>Feladatok</h2>
+            <p>Feladatok és válaszlehetőségek kezelése.</p>
+        </a>
+
+        <a class="admin-card" href="#">
+            <h2>Versenyzők</h2>
+            <p>Versenyzők és felhasználók kezelése.</p>
+        </a>
+
+        <a class="admin-card" href="#">
+            <h2>Feladatsorok</h2>
+            <p>Tesztsablonok és generálási szabályok.</p>
+        </a>
+
+        <a class="admin-card" href="#">
+            <h2>Eredmények</h2>
+            <p>Kitöltések és pontszámok megtekintése.</p>
+        </a>
+    </section>
+{% endblock %}
