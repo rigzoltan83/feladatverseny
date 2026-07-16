@@ -386,3 +386,30 @@ button.button {
     object-fit: contain;
     border-radius: 8px;
 }
+
+.image-filename {
+    color: #687582;
+    font-family: monospace;
+}
+
+.section-divider {
+    margin: 28px 0;
+    border: 0;
+    border-top: 1px solid #dfe5eb;
+}
+
+.button-danger {
+    background: #b02a37;
+}
+
+.button-danger:hover {
+    background: #8c202b;
+}
+
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc8d3;
+    border-radius: 7px;
+    background: white;
+}

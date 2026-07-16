@@ -104,10 +104,10 @@
         </div>
     </section>
 
-    {% if image_exists %}
-        <section class="card">
-            <h2>Feladat képe</h2>
+    <section class="card">
+        <h2>Feladat képe</h2>
 
+        {% if image_exists %}
             <img
                 class="question-image"
                 src="{{ url_for(
@@ -116,8 +116,79 @@
                 ) }}"
                 alt="A feladathoz tartozó kép"
             >
-        </section>
-    {% endif %}
+
+            <p class="image-filename">
+                {{ question.image_filename }}
+            </p>
+
+            <form
+                method="post"
+                action="{{ url_for(
+                    'admin.question_image_delete',
+                    question_id=question.id
+                ) }}"
+                onsubmit="return confirm(
+                    'Biztosan törlöd a képet?'
+                );"
+            >
+                <button
+                    class="button button-danger"
+                    type="submit"
+                >
+                    Kép törlése
+                </button>
+            </form>
+        {% else %}
+            <p>
+                Ehhez a feladathoz még nincs kép feltöltve.
+            </p>
+
+            <p>
+                Várt fájlnév:
+                <strong>{{ question.image_filename }}</strong>
+            </p>
+        {% endif %}
+
+        <hr class="section-divider">
+
+        <form
+            method="post"
+            action="{{ url_for(
+                'admin.question_image_upload',
+                question_id=question.id
+            ) }}"
+            enctype="multipart/form-data"
+        >
+            <div class="form-group">
+                <label for="image">
+                    {% if image_exists %}
+                        Kép lecserélése
+                    {% else %}
+                        JPG-kép feltöltése
+                    {% endif %}
+                </label>
+
+                <input
+                    id="image"
+                    name="image"
+                    type="file"
+                    accept=".jpg,.jpeg,image/jpeg"
+                    required
+                >
+            </div>
+
+            <button
+                class="button"
+                type="submit"
+            >
+                {% if image_exists %}
+                    Új kép feltöltése
+                {% else %}
+                    Kép feltöltése
+                {% endif %}
+            </button>
+        </form>
+    </section>
 
     <section class="card">
         <h2>Válaszlehetőségek</h2>

@@ -43,3 +43,5 @@ class Config:
         "MEDIA_ROOT",
         "/srv/feladatverseny/media",
     )
+
+    MAX_CONTENT_LENGTH = 10 * 1024 * 1024
