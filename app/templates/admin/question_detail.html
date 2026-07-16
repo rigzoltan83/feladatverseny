@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Feladat #{{ question.id }} – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>Feladat #{{ question.id }}</h1>
+
+            <p>
+                A feladat részletes adatai és válaszlehetőségei.
+            </p>
+        </div>
+
+        <a
+            class="button button-secondary"
+            href="{{ url_for('admin.questions') }}"
+        >
+            Vissza a listához
+        </a>
+    </section>
+
+    <section class="detail-grid">
+        <article class="card">
+            <h2>Alapadatok</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Forrásév</dt>
+                    <dd>{{ question.source_year.year_number }}</dd>
+                </div>
+
+                <div>
+                    <dt>Eredeti sorszám</dt>
+                    <dd>{{ question.original_position }}</dd>
+                </div>
+
+                <div>
+                    <dt>Nehézség</dt>
+                    <dd>{{ question.difficulty }}</dd>
+                </div>
+
+                <div>
+                    <dt>Állapot</dt>
+                    <dd>
+                        {% if question.is_active %}
+                            Aktív
+                        {% else %}
+                            Inaktív
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+
+        <article class="card">
+            <h2>Évfolyamok</h2>
+
+            <div class="tag-list">
+                {% for grade in question.grades %}
+                    <span class="tag">
+                        {{ grade.name }}
+                    </span>
+                {% else %}
+                    <span>–</span>
+                {% endfor %}
+            </div>
+        </article>
+
+        <article class="card">
+            <h2>Témakörök</h2>
+
+            <div class="tag-list">
+                {% for topic in question.topics %}
+                    <span class="tag">
+                        {{ topic.name }}
+                    </span>
+                {% else %}
+                    <span>–</span>
+                {% endfor %}
+            </div>
+        </article>
+    </section>
+
+    <section class="card">
+        <h2>Feladat szövege</h2>
+
+        <div class="question-text">
+            {{ question.question_text }}
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Válaszlehetőségek</h2>
+
+        <ol class="answer-detail-list">
+            {% for answer in question.answer_options %}
+                <li
+                    class="{% if answer.is_correct %}correct-answer{% endif %}"
+                >
+                    <span>{{ answer.answer_text }}</span>
+
+                    {% if answer.is_correct %}
+                        <strong>Helyes válasz</strong>
+                    {% endif %}
+                </li>
+            {% else %}
+                <li>Nincs rögzített válasz.</li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    {% if question.explanation %}
+        <section class="card">
+            <h2>Magyarázat</h2>
+
+            <div class="question-text">
+                {{ question.explanation }}
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

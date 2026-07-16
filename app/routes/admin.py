@@ -264,3 +264,15 @@ def question_new():
         topics=topic_list,
         source_years=source_year_list,
     )
+
+@admin_bp.get("/questions/<int:question_id>")
+def question_detail(question_id: int):
+    question = db.get_or_404(
+        Question,
+        question_id,
+    )
+
+    return render_template(
+        "admin/question_detail.html",
+        question=question,
+    )

@@ -31,6 +31,7 @@
                     <th>Témakörök</th>
                     <th>Feladat</th>
                     <th>Állapot</th>
+		    <th>Művelet</th>
                 </tr>
             </thead>
 
@@ -78,10 +79,21 @@
                                 Inaktív
                             {% endif %}
                         </td>
+			<td>
+    			    <a
+        			class="table-link"
+        			href="{{ url_for(
+            			    'admin.question_detail',
+            			    question_id=question.id
+        			) }}"
+    			    >
+        			Megnyitás
+    			    </a>
+			</td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="8">
+                        <td colspan="9">
                             Nincs még rögzített feladat.
                         </td>
                     </tr>
