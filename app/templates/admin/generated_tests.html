@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Generált feladatsorok – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Generált feladatsorok</h1>
+
+        <p>
+            A sablonok alapján létrehozott
+            konkrét tesztek.
+        </p>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Név</th>
+                    <th>Sablon</th>
+                    <th>Feladatok</th>
+                    <th>Állapot</th>
+                    <th>Létrehozva</th>
+                    <th>Művelet</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for test in generated_tests %}
+                    <tr>
+                        <td>{{ test.id }}</td>
+
+                        <td>{{ test.name }}</td>
+
+                        <td>
+                            {{ test.test_template.name }}
+                        </td>
+
+                        <td>
+                            {{
+                                test.generated_questions
+                                | length
+                            }}
+                        </td>
+
+                        <td>{{ test.status }}</td>
+
+                        <td>
+                            {{
+                                test.created_at.strftime(
+                                    '%Y-%m-%d %H:%M'
+                                )
+                            }}
+                        </td>
+
+                        <td>
+                            <a
+                                class="table-link"
+                                href="{{ url_for(
+                                    'admin_generated_tests.generated_test_detail',
+                                    generated_test_id=test.id
+                                ) }}"
+                            >
+                                Megnyitás
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">
+                            Nincs még generált
+                            feladatsor.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

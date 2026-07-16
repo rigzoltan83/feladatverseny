@@ -16,12 +16,23 @@
 
         <div class="form-actions">
         {% if template.is_active and enough_questions %}
-            <a
-                class="button"
-                href="#"
+            <form
+                method="post"
+                action="{{ url_for(
+                    'admin_generated_tests.generate_test',
+                    template_id=template.id
+                ) }}"
+                onsubmit="return confirm(
+                    'Létrehozod a feladatsort ebből a sablonból?'
+                );"
             >
-                Feladatsor generálása
-            </a>
+                <button
+                    class="button"
+                    type="submit"
+                >
+                    Feladatsor generálása
+                </button>
+            </form>
         {% endif %}
 
             <a

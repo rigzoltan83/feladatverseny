@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ generated_test.name }} – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>{{ generated_test.name }}</h1>
+
+            <p>
+                Generált feladatsor ellenőrzése.
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin_templates.template_detail',
+                    template_id=generated_test.test_template.id
+                ) }}"
+            >
+                Vissza a sablonhoz
+            </a>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin_generated_tests.generated_test_list'
+                ) }}"
+            >
+                Generált feladatsorok
+            </a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article class="card">
+            <h2>Alapadatok</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Azonosító</dt>
+                    <dd>{{ generated_test.id }}</dd>
+                </div>
+
+                <div>
+                    <dt>Sablon</dt>
+                    <dd>
+                        {{ generated_test.test_template.name }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Állapot</dt>
+                    <dd>{{ generated_test.status }}</dd>
+                </div>
+
+                <div>
+                    <dt>Feladatok száma</dt>
+                    <dd>
+                        {{
+                            generated_test.generated_questions
+                            | length
+                        }}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+    </section>
+
+    {% for generated_question
+        in generated_test.generated_questions
+    %}
+        <section class="card generated-question">
+            <h2>
+                {{ generated_question.display_position }}.
+                feladat
+            </h2>
+
+            <p class="question-meta">
+                Eredeti feladat-ID:
+                {{ generated_question.question.id }}
+
+                · Nehézség:
+                {{ generated_question.question.difficulty }}
+            </p>
+
+            <div class="question-text">
+                {{
+                    generated_question.question.question_text
+                }}
+            </div>
+
+            <ol class="generated-answer-list">
+                {% for generated_answer
+                    in generated_question.generated_answers
+                %}
+                    <li
+                        class="{% if
+                            generated_answer.answer_option.is_correct
+                        %}correct-answer{% endif %}"
+                    >
+                        {{
+                            generated_answer.answer_option.answer_text
+                        }}
+
+                        {% if
+                            generated_answer.answer_option.is_correct
+                        %}
+                            <strong>
+                                Helyes
+                            </strong>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        </section>
+    {% else %}
+        <section class="card">
+            <p>
+                A generált feladatsor nem
+                tartalmaz kérdést.
+            </p>
+        </section>
+    {% endfor %}
+{% endblock %}

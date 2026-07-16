@@ -467,3 +467,35 @@ input[type="file"] {
 .form-actions form {
     margin: 0;
 }
+
+.generated-question {
+    max-width: 900px;
+}
+
+.question-meta {
+    color: #687582;
+    font-size: 14px;
+}
+
+.generated-answer-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    padding-left: 30px;
+}
+
+.generated-answer-list li {
+    padding: 12px 14px;
+    border: 1px solid #d9e0e7;
+    border-radius: 7px;
+}
+
+.generated-answer-list li.correct-answer {
+    background: #d4edda;
+    border-color: #9ed0a8;
+}
+
+.generated-answer-list strong {
+    margin-left: 12px;
+    color: #155724;
+}
