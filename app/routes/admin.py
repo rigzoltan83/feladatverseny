@@ -667,6 +667,17 @@ def question_import():
             in SourceYear.query.all()
         }
 
+        existing_question_keys = {
+            (
+                question.source_year.year_number,
+                question.original_position,
+                question.question_text.strip().casefold(),
+            ): question.id
+            for question in Question.query.all()
+        }
+
+        csv_question_keys = set()
+
         for line_number, row in enumerate(
             reader,
             start=2,
@@ -853,6 +864,46 @@ def question_import():
                 row_errors.append(
                     "A feladat szövege kötelező."
                 )
+
+            if (
+                source_year_number is not None
+                and original_position is not None
+                and normalized_row["feladat"]
+            ):
+                question_key = (
+                    source_year_number,
+                    original_position,
+                    normalized_row[
+                        "feladat"
+                    ].strip().casefold(),
+                )
+
+                existing_question_id = (
+                    existing_question_keys.get(
+                        question_key
+                    )
+                )
+
+                if existing_question_id is not None:
+                    row_errors.append(
+                        (
+                            "A feladat valószínűleg már "
+                            "létezik az adatbázisban. "
+                            f"Feladat ID: {existing_question_id}."
+                        )
+                    )
+
+                if question_key in csv_question_keys:
+                    row_errors.append(
+                        (
+                            "Ugyanez a feladat már korábban "
+                            "szerepelt ebben a CSV-fájlban."
+                        )
+                    )
+                else:
+                    csv_question_keys.add(
+                        question_key
+                    )
 
             answer_texts = [
                 normalized_row[
