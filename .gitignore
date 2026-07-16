@@ -1,16 +1,14 @@
-venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
 
-.env
-
-instance/
-.pytest_cache/
 .coverage
-
+.env
+.gunicorn/
+instance/
 *.log
-
-/srv/feladatverseny/media/
+*.pyc
+__pycache__/
+*.pyd
+*.pyo
+.pytest_cache/
 /srv/feladatverseny/backups/
+/srv/feladatverseny/media/
+venv/

@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Új tesztsablon – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Új tesztsablon</h1>
+
+        <p>
+            A generálandó feladatsor
+            alapbeállításai.
+        </p>
+    </section>
+
+    <form
+        class="card form-card"
+        method="post"
+    >
+        <div class="form-group">
+            <label for="name">
+                Sablon neve
+            </label>
+
+            <input
+                id="name"
+                name="name"
+                type="text"
+                maxlength="200"
+                value="{{ request.form.get(
+                    'name',
+                    ''
+                ) }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="description">
+                Leírás
+                <span class="optional">
+                    – opcionális
+                </span>
+            </label>
+
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+            >{{ request.form.get(
+                'description',
+                ''
+            ) }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="question_count">
+                Feladatok száma
+            </label>
+
+            <input
+                id="question_count"
+                name="question_count"
+                type="number"
+                min="1"
+                max="100"
+                value="{{ request.form.get(
+                    'question_count',
+                    '25'
+                ) }}"
+                required
+            >
+        </div>
+
+        <div class="form-section">
+            <h2>Évfolyamok</h2>
+
+            <div class="checkbox-grid">
+                {% for grade in grades %}
+                    <label class="checkbox-option">
+                        <input
+                            type="checkbox"
+                            name="grade_ids"
+                            value="{{ grade.id }}"
+                            {% if
+                                grade.id|string
+                                in request.form.getlist(
+                                    'grade_ids'
+                                )
+                            %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>{{ grade.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Témakörök</h2>
+
+            <div class="checkbox-grid">
+                {% for topic in topics %}
+                    <label class="checkbox-option">
+                        <input
+                            type="checkbox"
+                            name="topic_ids"
+                            value="{{ topic.id }}"
+                            {% if
+                                topic.id|string
+                                in request.form.getlist(
+                                    'topic_ids'
+                                )
+                            %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>{{ topic.name }}</span>
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h2>Keverési beállítások</h2>
+
+            <div class="checkbox-grid">
+                <label class="checkbox-option">
+                    <input
+                        type="checkbox"
+                        name="shuffle_questions"
+                        {% if
+                            request.method != 'POST'
+                            or request.form.get(
+                                'shuffle_questions'
+                            )
+                        %}
+                            checked
+                        {% endif %}
+                    >
+
+                    <span>
+                        Kérdések sorrendjének keverése
+                    </span>
+                </label>
+
+                <label class="checkbox-option">
+                    <input
+                        type="checkbox"
+                        name="shuffle_answers"
+                        {% if
+                            request.method != 'POST'
+                            or request.form.get(
+                                'shuffle_answers'
+                            )
+                        %}
+                            checked
+                        {% endif %}
+                    >
+
+                    <span>
+                        Válaszok sorrendjének keverése
+                    </span>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Tesztsablon mentése
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin_templates.template_list'
+                ) }}"
+            >
+                Mégse
+            </a>
+        </div>
+    </form>
+{% endblock %}

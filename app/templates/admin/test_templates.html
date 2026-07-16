@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Tesztsablonok – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>Tesztsablonok</h1>
+
+            <p>
+                A generálható feladatsorok
+                beállításai.
+            </p>
+        </div>
+
+        <a
+            class="button"
+            href="{{ url_for(
+                'admin_templates.template_new'
+            ) }}"
+        >
+            + Új tesztsablon
+        </a>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Név</th>
+                    <th>Feladatszám</th>
+                    <th>Évfolyamok</th>
+                    <th>Témakörök</th>
+                    <th>Kérdéskeverés</th>
+                    <th>Válaszkeverés</th>
+                    <th>Állapot</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for template in templates %}
+                    <tr>
+                        <td>{{ template.id }}</td>
+
+                        <td>
+                            <strong>
+                                {{ template.name }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ template.question_count }}
+                        </td>
+
+                        <td>
+                            {% for grade in template.grades %}
+                                {{ grade.grade_number }}.
+                                {% if not loop.last %}, {% endif %}
+                            {% else %}
+                                –
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% for topic in template.topics %}
+                                {{ topic.name }}
+                                {% if not loop.last %}, {% endif %}
+                            {% else %}
+                                –
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% if template.shuffle_questions %}
+                                Igen
+                            {% else %}
+                                Nem
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if template.shuffle_answers %}
+                                Igen
+                            {% else %}
+                                Nem
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if template.is_active %}
+                                <span
+                                    class="status-badge status-active"
+                                >
+                                    Aktív
+                                </span>
+                            {% else %}
+                                <span
+                                    class="status-badge status-inactive"
+                                >
+                                    Inaktív
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">
+                            Nincs még rögzített
+                            tesztsablon.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
