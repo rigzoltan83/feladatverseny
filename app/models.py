@@ -33,6 +33,51 @@ question_topic = db.Table(
     ),
 )
 
+test_template_grade = db.Table(
+    "test_template_grade",
+    db.Column(
+        "test_template_id",
+        db.BigInteger,
+        db.ForeignKey(
+            "test_template.id",
+            ondelete="CASCADE",
+        ),
+        primary_key=True,
+    ),
+    db.Column(
+        "grade_id",
+        db.Integer,
+        db.ForeignKey(
+            "grade.id",
+            ondelete="CASCADE",
+        ),
+        primary_key=True,
+    ),
+)
+
+
+test_template_topic = db.Table(
+    "test_template_topic",
+    db.Column(
+        "test_template_id",
+        db.BigInteger,
+        db.ForeignKey(
+            "test_template.id",
+            ondelete="CASCADE",
+        ),
+        primary_key=True,
+    ),
+    db.Column(
+        "topic_id",
+        db.Integer,
+        db.ForeignKey(
+            "topic.id",
+            ondelete="CASCADE",
+        ),
+        primary_key=True,
+    ),
+)
+
 class Grade(db.Model):
     __tablename__ = "grade"
 
@@ -333,6 +378,24 @@ class TestTemplate(db.Model):
         nullable=False,
         server_default=db.func.now(),
         onupdate=db.func.now(),
+    )
+
+    grades = db.relationship(
+        "Grade",
+        secondary=test_template_grade,
+        backref=db.backref(
+            "test_templates",
+            lazy="dynamic",
+        ),
+    )
+
+    topics = db.relationship(
+        "Topic",
+        secondary=test_template_topic,
+        backref=db.backref(
+            "test_templates",
+            lazy="dynamic",
+        ),
     )
 
     __table_args__ = (
