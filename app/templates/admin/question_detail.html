@@ -111,7 +111,7 @@
             <img
                 class="question-image"
                 src="{{ url_for(
-                    'admin.question_image',
+                    'admin_media.question_image',
                     filename=question.image_filename
                 ) }}"
                 alt="A feladathoz tartozó kép"
@@ -124,7 +124,7 @@
             <form
                 method="post"
                 action="{{ url_for(
-                    'admin.question_image_delete',
+                    'admin_media.question_image_delete',
                     question_id=question.id
                 ) }}"
                 onsubmit="return confirm(
@@ -154,7 +154,7 @@
         <form
             method="post"
             action="{{ url_for(
-                'admin.question_image_upload',
+                'admin_media.question_image_upload',
                 question_id=question.id
             ) }}"
             enctype="multipart/form-data"

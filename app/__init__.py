@@ -29,8 +29,10 @@ def create_app() -> Flask:
 
     from app.routes.admin import admin_bp
     from app.routes.admin_reference import reference_bp
+    from app.routes.admin_media import media_bp
     app.register_blueprint(admin_bp)
     app.register_blueprint(reference_bp)
+    app.register_blueprint(media_bp)
 
     register_routes(app)
 
