@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Forrásévek – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Forrásévek</h1>
+
+        <p>
+            A korábbi feladatsorokhoz tartozó versenyévek.
+        </p>
+    </section>
+
+    <section class="card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Azonosító</th>
+                    <th>Év</th>
+                    <th>Állapot</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for source_year in source_years %}
+                    <tr>
+                        <td>{{ source_year.id }}</td>
+                        <td>{{ source_year.year_number }}</td>
+                        <td>
+                            {% if source_year.is_active %}
+                                Aktív
+                            {% else %}
+                                Inaktív
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">
+                            Nincs még rögzített forrásév.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

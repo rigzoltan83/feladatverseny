@@ -48,3 +48,28 @@ class Topic(db.Model):
 
     def __repr__(self) -> str:
         return f"<Topic {self.name}>"
+
+class SourceYear(db.Model):
+    __tablename__ = "source_year"
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True,
+    )
+
+    year_number = db.Column(
+        db.Integer,
+        nullable=False,
+        unique=True,
+    )
+
+    is_active = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True,
+    )
+
+    def __repr__(self) -> str:
+        return f"<SourceYear {self.year_number}>"
+
+
