@@ -412,3 +412,198 @@ class TestTemplate(db.Model):
         )
 
 
+class GeneratedTest(db.Model):
+    __tablename__ = "generated_test"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    test_template_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "test_template.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    name = db.Column(
+        db.String(250),
+        nullable=False,
+    )
+
+    status = db.Column(
+        db.String(30),
+        nullable=False,
+        default="draft",
+    )
+
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    )
+
+    test_template = db.relationship(
+        "TestTemplate",
+        backref=db.backref(
+            "generated_tests",
+            lazy="dynamic",
+        ),
+    )
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "status IN ('draft', 'active', 'closed')",
+            name="ck_generated_test_status",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<GeneratedTest id={self.id} "
+            f"name={self.name!r}>"
+        )
+
+class GeneratedTestQuestion(db.Model):
+    __tablename__ = "generated_test_question"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    generated_test_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "generated_test.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    question_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "question.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    display_position = db.Column(
+        db.SmallInteger,
+        nullable=False,
+    )
+
+    generated_test = db.relationship(
+        "GeneratedTest",
+        backref=db.backref(
+            "generated_questions",
+            cascade="all, delete-orphan",
+            order_by="GeneratedTestQuestion.display_position",
+        ),
+    )
+
+    question = db.relationship(
+        "Question",
+    )
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "display_position >= 1",
+            name="ck_generated_test_question_position",
+        ),
+        db.UniqueConstraint(
+            "generated_test_id",
+            "display_position",
+            name="uq_generated_test_question_position",
+        ),
+        db.UniqueConstraint(
+            "generated_test_id",
+            "question_id",
+            name="uq_generated_test_question_question",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<GeneratedTestQuestion "
+            f"test={self.generated_test_id} "
+            f"position={self.display_position}>"
+        )
+
+class GeneratedTestAnswer(db.Model):
+    __tablename__ = "generated_test_answer"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    generated_test_question_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "generated_test_question.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    answer_option_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "answer_option.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    display_position = db.Column(
+        db.SmallInteger,
+        nullable=False,
+    )
+
+    generated_test_question = db.relationship(
+        "GeneratedTestQuestion",
+        backref=db.backref(
+            "generated_answers",
+            cascade="all, delete-orphan",
+            order_by="GeneratedTestAnswer.display_position",
+        ),
+    )
+
+    answer_option = db.relationship(
+        "AnswerOption",
+    )
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "display_position BETWEEN 1 AND 5",
+            name="ck_generated_test_answer_position",
+        ),
+        db.UniqueConstraint(
+            "generated_test_question_id",
+            "display_position",
+            name="uq_generated_test_answer_position",
+        ),
+        db.UniqueConstraint(
+            "generated_test_question_id",
+            "answer_option_id",
+            name="uq_generated_test_answer_option",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<GeneratedTestAnswer "
+            f"question={self.generated_test_question_id} "
+            f"position={self.display_position}>"
+        )
