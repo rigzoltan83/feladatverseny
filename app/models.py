@@ -278,3 +278,74 @@ class AnswerOption(db.Model):
             f"<AnswerOption question={self.question_id} "
             f"position={self.original_position}>"
         )
+
+class TestTemplate(db.Model):
+    __tablename__ = "test_template"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    name = db.Column(
+        db.String(200),
+        nullable=False,
+        unique=True,
+    )
+
+    description = db.Column(
+        db.Text,
+        nullable=True,
+    )
+
+    question_count = db.Column(
+        db.SmallInteger,
+        nullable=False,
+        default=25,
+    )
+
+    shuffle_questions = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True,
+    )
+
+    shuffle_answers = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True,
+    )
+
+    is_active = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    )
+
+    updated_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+        onupdate=db.func.now(),
+    )
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "question_count BETWEEN 1 AND 100",
+            name="ck_test_template_question_count",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<TestTemplate id={self.id} "
+            f"name={self.name!r}>"
+        )
+
+
