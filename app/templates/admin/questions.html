@@ -14,9 +14,21 @@
             </p>
         </div>
 
-        <a class="button" href="{{ url_for('admin.question_new') }}">
+    <div class="form-actions">
+        <a
+            class="button"
+            href="{{ url_for('admin.question_new') }}"
+        >
             + Új feladat
         </a>
+
+        <a
+            class="button button-secondary"
+            href="{{ url_for('admin.question_import') }}"
+        >
+            CSV-import
+        </a>
+    </div>
     </section>
 
     <section class="card">

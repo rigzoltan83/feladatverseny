@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+    CSV-import – Feladatverseny
+{% endblock %}
+
+{% block content %}
+    <section class="page-header">
+        <h1>Feladatok importálása CSV-ből</h1>
+
+        <p>
+            UTF-8 kódolású, pontosvesszővel tagolt
+            CSV-fájl ellenőrzése.
+        </p>
+    </section>
+
+    <section class="card">
+        <form
+            method="post"
+            enctype="multipart/form-data"
+        >
+            <div class="form-group">
+                <label for="csv_file">
+                    CSV-fájl
+                </label>
+
+                <input
+                    id="csv_file"
+                    name="csv_file"
+                    type="file"
+                    accept=".csv,text/csv"
+                    required
+                >
+            </div>
+
+            <button
+                class="button"
+                type="submit"
+            >
+                CSV ellenőrzése
+            </button>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Elvárt fejléc</h2>
+
+        <pre class="csv-format">forrasev;sorszam;nehezseg;evfolyamok;temakorok;feladat;valasz1;valasz2;valasz3;valasz4;valasz5;helyes;magyarazat;aktiv</pre>
+
+        <p>
+            Több évfolyam és témakör esetén
+            <strong>|</strong> karaktert használj.
+        </p>
+    </section>
+
+    {% if import_errors %}
+        <section class="card">
+            <h2>Talált hibák</h2>
+
+            <div class="import-error-list">
+                {% for error in import_errors %}
+                    <article class="import-error">
+                        <strong>
+                            {{ error.line }}. sor
+                        </strong>
+
+                        <ul>
+                            {% for message in error.messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
+    {% if preview_rows %}
+        <section class="card import-preview-card">
+            <h2>Import előnézete</h2>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Sor</th>
+                        <th>Állapot</th>
+                        <th>Év</th>
+                        <th>Sorszám</th>
+                        <th>Nehézség</th>
+                        <th>Évfolyamok</th>
+                        <th>Témakörök</th>
+                        <th>Feladat</th>
+                        <th>Helyes</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in preview_rows %}
+                        <tr
+                            class="{% if row.errors %}import-row-error{% endif %}"
+                        >
+                            <td>{{ row.line }}</td>
+
+                            <td>
+                                {% if row.errors %}
+                                    Hibás
+                                {% else %}
+                                    Rendben
+                                {% endif %}
+                            </td>
+
+                            <td>{{ row.source_year or '–' }}</td>
+
+                            <td>
+                                {{ row.original_position or '–' }}
+                            </td>
+
+                            <td>{{ row.difficulty or '–' }}</td>
+
+                            <td>
+                                {{ row.grades|join(', ') }}
+                            </td>
+
+                            <td>
+                                {{ row.topics|join(', ') }}
+                            </td>
+
+                            <td class="question-preview">
+                                {{ row.question_text }}
+                            </td>
+
+                            <td>
+                                {{ row.correct_answer or '–' }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    {% endif %}
+{% endblock %}

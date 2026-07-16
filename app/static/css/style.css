@@ -413,3 +413,35 @@ input[type="file"] {
     border-radius: 7px;
     background: white;
 }
+
+.csv-format {
+    padding: 14px;
+    overflow-x: auto;
+    white-space: pre;
+    background: #eef2f6;
+    border-radius: 7px;
+}
+
+.import-error-list {
+    display: grid;
+    gap: 12px;
+}
+
+.import-error {
+    padding: 14px 16px;
+    color: #721c24;
+    background: #f8d7da;
+    border-radius: 7px;
+}
+
+.import-error ul {
+    margin-bottom: 0;
+}
+
+.import-preview-card {
+    overflow-x: auto;
+}
+
+.import-row-error {
+    background: #fff0f0;
+}

@@ -1,3 +1,6 @@
+import csv
+import io
+
 from flask import (
     Blueprint,
     abort,
@@ -26,6 +29,48 @@ admin_bp = Blueprint(
     __name__,
     url_prefix="/admin",
 )
+
+CSV_FIELDNAMES = [
+    "forrasev",
+    "sorszam",
+    "nehezseg",
+    "evfolyamok",
+    "temakorok",
+    "feladat",
+    "valasz1",
+    "valasz2",
+    "valasz3",
+    "valasz4",
+    "valasz5",
+    "helyes",
+    "magyarazat",
+    "aktiv",
+]
+
+def parse_boolean(value: str) -> bool | None:
+    normalized = value.strip().lower()
+
+    if normalized in {
+        "igen",
+        "true",
+        "1",
+        "yes",
+        "aktív",
+        "aktiv",
+    }:
+        return True
+
+    if normalized in {
+        "nem",
+        "false",
+        "0",
+        "no",
+        "inaktív",
+        "inaktiv",
+    }:
+        return False
+
+    return None
 
 def get_question_image_path(question: Question) -> Path:
     return (
@@ -644,4 +689,347 @@ def question_image_delete(question_id: int):
             "admin.question_detail",
             question_id=question.id,
         )
+    )
+
+@admin_bp.route(
+    "/questions/import",
+    methods=["GET", "POST"],
+)
+def question_import():
+    preview_rows = []
+    import_errors = []
+
+    if request.method == "POST":
+        uploaded_file = request.files.get("csv_file")
+
+        if (
+            uploaded_file is None
+            or not uploaded_file.filename
+        ):
+            flash(
+                "Nem választottál ki CSV-fájlt.",
+                "error",
+            )
+
+            return render_template(
+                "admin/question_import.html",
+                preview_rows=preview_rows,
+                import_errors=import_errors,
+            )
+
+        if not uploaded_file.filename.lower().endswith(".csv"):
+            flash(
+                "Csak CSV-fájl tölthető fel.",
+                "error",
+            )
+
+            return render_template(
+                "admin/question_import.html",
+                preview_rows=preview_rows,
+                import_errors=import_errors,
+            )
+
+        try:
+            file_content = uploaded_file.read().decode(
+                "utf-8-sig"
+            )
+        except UnicodeDecodeError:
+            flash(
+                (
+                    "A CSV nem olvasható UTF-8 "
+                    "kódolással."
+                ),
+                "error",
+            )
+
+            return render_template(
+                "admin/question_import.html",
+                preview_rows=preview_rows,
+                import_errors=import_errors,
+            )
+
+        reader = csv.DictReader(
+            io.StringIO(file_content),
+            delimiter=";",
+        )
+
+        actual_fieldnames = reader.fieldnames or []
+
+        if actual_fieldnames != CSV_FIELDNAMES:
+            flash(
+                "A CSV fejlécének formátuma hibás.",
+                "error",
+            )
+
+            return render_template(
+                "admin/question_import.html",
+                preview_rows=preview_rows,
+                import_errors=[
+                    {
+                        "line": 1,
+                        "messages": [
+                            "Elvárt fejléc: "
+                            + ";".join(CSV_FIELDNAMES)
+                        ],
+                    }
+                ],
+            )
+
+        grade_by_number = {
+            grade.grade_number: grade
+            for grade in Grade.query.all()
+        }
+
+        topic_by_name = {
+            topic.name.casefold(): topic
+            for topic in Topic.query.all()
+        }
+
+        source_year_by_number = {
+            source_year.year_number: source_year
+            for source_year in SourceYear.query.all()
+        }
+
+        for line_number, row in enumerate(
+            reader,
+            start=2,
+        ):
+            row_errors = []
+
+            normalized_row = {
+                key: (
+                    value.strip()
+                    if value is not None
+                    else ""
+                )
+                for key, value in row.items()
+            }
+
+            try:
+                source_year_number = int(
+                    normalized_row["forrasev"]
+                )
+            except ValueError:
+                source_year_number = None
+                row_errors.append(
+                    "A forrásév nem érvényes szám."
+                )
+
+            try:
+                original_position = int(
+                    normalized_row["sorszam"]
+                )
+            except ValueError:
+                original_position = None
+                row_errors.append(
+                    "A sorszám nem érvényes szám."
+                )
+
+            try:
+                difficulty = int(
+                    normalized_row["nehezseg"]
+                )
+            except ValueError:
+                difficulty = None
+                row_errors.append(
+                    "A nehézség nem érvényes szám."
+                )
+
+            try:
+                correct_answer = int(
+                    normalized_row["helyes"]
+                )
+            except ValueError:
+                correct_answer = None
+                row_errors.append(
+                    "A helyes válasz nem érvényes szám."
+                )
+
+            if (
+                source_year_number is not None
+                and source_year_number
+                not in source_year_by_number
+            ):
+                row_errors.append(
+                    (
+                        "A forrásév nincs rögzítve: "
+                        f"{source_year_number}."
+                    )
+                )
+
+            if (
+                original_position is not None
+                and not 1 <= original_position <= 25
+            ):
+                row_errors.append(
+                    "A sorszám 1 és 25 közötti lehet."
+                )
+
+            if (
+                difficulty is not None
+                and not 1 <= difficulty <= 25
+            ):
+                row_errors.append(
+                    "A nehézség 1 és 25 közötti lehet."
+                )
+
+            if (
+                correct_answer is not None
+                and correct_answer not in range(1, 6)
+            ):
+                row_errors.append(
+                    "A helyes válasz 1 és 5 közötti lehet."
+                )
+
+            grade_numbers = []
+
+            for grade_value in normalized_row[
+                "evfolyamok"
+            ].split("|"):
+                grade_value = grade_value.strip()
+
+                if not grade_value:
+                    continue
+
+                try:
+                    grade_number = int(grade_value)
+                except ValueError:
+                    row_errors.append(
+                        (
+                            "Érvénytelen évfolyam: "
+                            f"{grade_value}."
+                        )
+                    )
+                    continue
+
+                if grade_number not in grade_by_number:
+                    row_errors.append(
+                        (
+                            "Nem létező évfolyam: "
+                            f"{grade_number}."
+                        )
+                    )
+                else:
+                    grade_numbers.append(grade_number)
+
+            if not grade_numbers:
+                row_errors.append(
+                    "Legalább egy évfolyam szükséges."
+                )
+
+            topic_names = []
+
+            for topic_value in normalized_row[
+                "temakorok"
+            ].split("|"):
+                topic_value = topic_value.strip()
+
+                if not topic_value:
+                    continue
+
+                topic_key = topic_value.casefold()
+
+                if topic_key not in topic_by_name:
+                    row_errors.append(
+                        (
+                            "Nem létező témakör: "
+                            f"{topic_value}."
+                        )
+                    )
+                else:
+                    topic_names.append(
+                        topic_by_name[topic_key].name
+                    )
+
+            if not topic_names:
+                row_errors.append(
+                    "Legalább egy témakör szükséges."
+                )
+
+            if not normalized_row["feladat"]:
+                row_errors.append(
+                    "A feladat szövege kötelező."
+                )
+
+            answer_texts = [
+                normalized_row[f"valasz{position}"]
+                for position in range(1, 6)
+            ]
+
+            if any(
+                not answer_text
+                for answer_text in answer_texts
+            ):
+                row_errors.append(
+                    (
+                        "Mind az öt válaszlehetőséget "
+                        "ki kell tölteni."
+                    )
+                )
+
+            is_active = parse_boolean(
+                normalized_row["aktiv"]
+            )
+
+            if is_active is None:
+                row_errors.append(
+                    (
+                        "Az aktív mező értéke legyen "
+                        "igen vagy nem."
+                    )
+                )
+
+            preview_row = {
+                "line": line_number,
+                "source_year": source_year_number,
+                "original_position": original_position,
+                "difficulty": difficulty,
+                "grades": grade_numbers,
+                "topics": topic_names,
+                "question_text": normalized_row["feladat"],
+                "answer_texts": answer_texts,
+                "correct_answer": correct_answer,
+                "explanation": normalized_row[
+                    "magyarazat"
+                ],
+                "is_active": is_active,
+                "errors": row_errors,
+            }
+
+            preview_rows.append(preview_row)
+
+            if row_errors:
+                import_errors.append(
+                    {
+                        "line": line_number,
+                        "messages": row_errors,
+                    }
+                )
+
+        if not preview_rows:
+            flash(
+                "A CSV nem tartalmaz adatsort.",
+                "error",
+            )
+        elif import_errors:
+            flash(
+                (
+                    f"{len(import_errors)} hibás "
+                    "CSV-sor található."
+                ),
+                "error",
+            )
+        else:
+            flash(
+                (
+                    f"{len(preview_rows)} sor "
+                    "ellenőrzése sikeres."
+                ),
+                "success",
+            )
+
+    return render_template(
+        "admin/question_import.html",
+        preview_rows=preview_rows,
+        import_errors=import_errors,
     )
