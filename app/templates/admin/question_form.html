@@ -1,13 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Új feladat – Feladatverseny
+    {% if question %}
+        Feladat szerkesztése – Feladatverseny
+    {% else %}
+        Új feladat – Feladatverseny
+    {% endif %}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Új feladat</h1>
-
+	<h1>
+    	    {% if question %}
+                Feladat szerkesztése
+    	    {% else %}
+        	Új feladat
+    	    {% endif %}
+	</h1>
         <p>
             A feladat alapadatainak rögzítése.
         </p>
@@ -33,18 +42,18 @@
                     </option>
 
                     {% for source_year in source_years %}
-                        <option
-                            value="{{ source_year.id }}"
-                            {% if
-                                request.form.get(
-                                    'source_year_id'
-                                ) == source_year.id|string
-                            %}
-                                selected
-                            {% endif %}
-                        >
-                            {{ source_year.year_number }}
-                        </option>
+		    <option
+    			value="{{ source_year.id }}"
+    			{% if request.method == 'POST' %}
+        		    {% if request.form.get('source_year_id') == source_year.id|string %}
+            			selected
+        		    {% endif %}
+    			{% elif question and question.source_year_id == source_year.id %}
+        		    selected
+    			{% endif %}
+		    >
+    			{{ source_year.year_number }}
+		    </option>
                     {% endfor %}
                 </select>
             </div>
@@ -63,7 +72,7 @@
                     value="{{
                         request.form.get(
                             'original_position',
-                            ''
+                            question.original_position if question else ''
                         )
                     }}"
                     required
@@ -84,7 +93,7 @@
                     value="{{
                         request.form.get(
                             'difficulty',
-                            ''
+                            question.difficulty if question else ''
                         )
                     }}"
                     required
@@ -102,7 +111,10 @@
                 name="question_text"
                 rows="6"
                 required
-            >{{ request.form.get('question_text', '') }}</textarea>
+            >{{ request.form.get(
+		'question_text',
+		question.question_text if question else ''
+	    ) }}</textarea>
         </div>
 
         <div class="form-section">
@@ -115,14 +127,13 @@
                             type="checkbox"
                             name="grade_ids"
                             value="{{ grade.id }}"
-                            {% if
-                                grade.id|string
-                                in request.form.getlist(
-                                    'grade_ids'
-                                )
-                            %}
-                                checked
-                            {% endif %}
+			    {% if request.method == 'POST' %}
+        			{% if grade.id|string in request.form.getlist('grade_ids') %}
+            			    checked
+        			{% endif %}
+    			    {% elif grade.id in selected_grade_ids %}
+        			checked
+    			    {% endif %}
                         >
 
                         <span>{{ grade.name }}</span>
@@ -141,14 +152,13 @@
                             type="checkbox"
                             name="topic_ids"
                             value="{{ topic.id }}"
-                            {% if
-                                topic.id|string
-                                in request.form.getlist(
-                                    'topic_ids'
-                                )
-                            %}
-                                checked
-                            {% endif %}
+			    {% if request.method == 'POST' %}
+        			{% if topic.id|string in request.form.getlist('topic_ids') %}
+            			    checked
+        			{% endif %}
+    			    {% elif topic.id in selected_topic_ids %}
+        			checked
+    			    {% endif %}
                         >
 
                         <span>{{ topic.name }}</span>
@@ -165,45 +175,40 @@
             </p>
 
             <div class="answer-list">
-                {% for position in range(1, 6) %}
-                    <div class="answer-row">
-                        <label
-                            class="answer-correct"
-                            title="Helyes válasz"
-                        >
-                            <input
-                                type="radio"
-                                name="correct_answer"
-                                value="{{ position }}"
-                                {% if
-                                    request.form.get(
-                                        'correct_answer'
-                                    ) == position|string
-                                %}
-                                    checked
-                                {% endif %}
-                                required
-                            >
+	    {% for position in range(1, 6) %}
+    		{% set existing_answer = answer_by_position.get(position) %}
 
-                            <span>
-                                {{ position }}.
-                            </span>
-                        </label>
+    		<div class="answer-row">
+        	    <label
+            		class="answer-correct"
+            		title="Helyes válasz"
+        	    >
+            		<input
+                	    type="radio"
+                	    name="correct_answer"
+                	    value="{{ position }}"
+                	    {% if request.method == 'POST' %}
+                    		{% if request.form.get('correct_answer') == position|string %}
+                        	    checked
+                    		{% endif %}
+                	    {% elif existing_answer and existing_answer.is_correct %}
+                    		checked
+                	    {% endif %}
+                	    required
+            		>
 
-                        <input
-                            type="text"
-                            name="answer_{{ position }}"
-                            value="{{
-                                request.form.get(
-                                    'answer_' ~ position,
-                                    ''
-                                )
-                            }}"
-                            placeholder="{{ position }}. válasz"
-                            required
-                        >
-                    </div>
-                {% endfor %}
+            		<span>{{ position }}.</span>
+        	    </label>
+
+        	    <input
+            		type="text"
+            		name="answer_{{ position }}"
+            		value="{% if request.method == 'POST' %}{{ request.form.get('answer_' ~ position, '') }}{% elif existing_answer %}{{ existing_answer.answer_text }}{% endif %}"
+            		placeholder="{{ position }}. válasz"
+            		required
+        	    >
+    		</div>
+	    {% endfor %}
             </div>
         </div>
 
@@ -219,16 +224,19 @@
                 id="explanation"
                 name="explanation"
                 rows="4"
-            >{{ request.form.get('explanation', '') }}</textarea>
+            >{{ request.form.get(
+	        'explanation',
+		question.explanation if question and question.explanation else ''
+	    ) }}</textarea>
         </div>
 
-        <div class="form-actions">
-            <button
-                class="button"
-                type="submit"
-            >
-                Feladat mentése
-            </button>
+	<button class="button" type="submit">
+    	    {% if question %}
+        	Módosítások mentése
+    	    {% else %}
+        	Feladat mentése
+    	    {% endif %}
+	</button>
 
             <a
                 class="button button-secondary"

@@ -14,12 +14,24 @@
             </p>
         </div>
 
-        <a
-            class="button button-secondary"
-            href="{{ url_for('admin.questions') }}"
-        >
-            Vissza a listához
-        </a>
+	<div class="form-actions">
+    	    <a
+        	class="button"
+        	href="{{ url_for(
+            	    'admin.question_edit',
+            	    question_id=question.id
+        	) }}"
+    	    >
+        	Szerkesztés
+    	    </a>
+
+    	    <a
+        	class="button button-secondary"
+        	href="{{ url_for('admin.questions') }}"
+    	    >
+        	Vissza a listához
+    	    </a>
+	</div>
     </section>
 
     <section class="detail-grid">
