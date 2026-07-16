@@ -259,3 +259,40 @@ button.button {
     color: #721c24;
     background: #f8d7da;
 }
+
+.answer-list {
+    display: grid;
+    gap: 12px;
+}
+
+.answer-row {
+    display: grid;
+    grid-template-columns: 75px 1fr;
+    align-items: center;
+    gap: 12px;
+}
+
+.answer-row > input[type="text"] {
+    width: 100%;
+    padding: 11px 12px;
+    font: inherit;
+    border: 1px solid #bdc8d3;
+    border-radius: 7px;
+}
+
+.answer-correct {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.answer-correct input {
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .answer-row {
+        grid-template-columns: 1fr;
+    }
+}

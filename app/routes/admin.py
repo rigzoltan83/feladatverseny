@@ -9,8 +9,13 @@ from flask import (
 
 from app.extensions import db
 
-from app.models import Grade, Question, SourceYear, Topic
-
+from app.models import (
+    AnswerOption,
+    Grade,
+    Question,
+    SourceYear,
+    Topic,
+)
 
 admin_bp = Blueprint(
     "admin",
@@ -127,6 +132,16 @@ def question_new():
             type=int,
         )
 
+        answer_texts = [
+            request.form.get(f"answer_{position}", "").strip()
+            for position in range(1, 6)
+        ]
+
+        correct_answer = request.form.get(
+            "correct_answer",
+            type=int,
+        )
+
         errors = []
 
         source_year = db.session.get(
@@ -192,6 +207,16 @@ def question_new():
                 "A témakörválasztás érvénytelen."
             )
 
+        if any(not answer_text for answer_text in answer_texts):
+            errors.append(
+                "Mind az öt válaszlehetőséget ki kell tölteni."
+            )
+
+        if correct_answer not in range(1, 6):
+            errors.append(
+                "Ki kell választani a helyes választ."
+            )
+
         if errors:
             for error in errors:
                 flash(error, "error")
@@ -209,11 +234,23 @@ def question_new():
             question.grades = selected_grades
             question.topics = selected_topics
 
+            for position, answer_text in enumerate(
+                answer_texts,
+                start=1,
+            ):
+                question.answer_options.append(
+                    AnswerOption(
+                        original_position=position,
+                        answer_text=answer_text,
+                        is_correct=(position == correct_answer),
+                    )
+                )
+
             db.session.add(question)
             db.session.commit()
 
             flash(
-                "A feladat alapadatait elmentettük.",
+                "A feladatot és az öt válaszlehetőséget elmentettük.",
                 "success",
             )
 
