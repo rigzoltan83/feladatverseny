@@ -1,5 +1,10 @@
 from app.extensions import db
 
+from werkzeug.security import (
+    check_password_hash,
+    generate_password_hash,
+)
+
 question_grade = db.Table(
     "question_grade",
     db.Column(
@@ -411,6 +416,77 @@ class TestTemplate(db.Model):
             f"name={self.name!r}>"
         )
 
+class Competitor(db.Model):
+    __tablename__ = "competitor"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    username = db.Column(
+        db.String(80),
+        nullable=False,
+        unique=True,
+        index=True,
+    )
+
+    full_name = db.Column(
+        db.String(200),
+        nullable=False,
+    )
+
+    grade_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            "grade.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    password_hash = db.Column(
+        db.String(255),
+        nullable=False,
+    )
+
+    is_active = db.Column(
+        db.Boolean,
+        nullable=False,
+        default=True,
+    )
+
+    created_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    )
+
+    grade = db.relationship(
+        "Grade",
+        backref=db.backref(
+            "competitors",
+            lazy="dynamic",
+        ),
+    )
+
+    def set_password(self, password: str) -> None:
+        self.password_hash = generate_password_hash(
+            password
+        )
+
+    def check_password(self, password: str) -> bool:
+        return check_password_hash(
+            self.password_hash,
+            password,
+        )
+
+    def __repr__(self) -> str:
+        return (
+            f"<Competitor id={self.id} "
+            f"username={self.username!r}>"
+        )
 
 class GeneratedTest(db.Model):
     __tablename__ = "generated_test"
