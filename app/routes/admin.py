@@ -153,6 +153,126 @@ def results():
         result_rows=result_rows,
     )
 
+@admin_bp.get(
+    "/results/<int:generated_test_id>"
+)
+def result_detail(
+    generated_test_id: int,
+):
+    generated_test = db.get_or_404(
+        GeneratedTest,
+        generated_test_id,
+    )
+
+    if generated_test.status != "closed":
+        abort(404)
+
+    question_count = len(
+        generated_test.generated_questions
+    )
+
+    attempts = (
+        generated_test
+        .competitor_attempts
+        .all()
+    )
+
+    result_rows = []
+
+    for attempt in attempts:
+        score = sum(
+            1
+            for competitor_answer in attempt.answers
+            if (
+                competitor_answer
+                .generated_test_answer
+                .answer_option
+                .is_correct
+            )
+        )
+
+        percentage = (
+            score / question_count * 100
+            if question_count
+            else 0
+        )
+
+        duration_text = None
+
+        if (
+            attempt.submitted_at is not None
+            and attempt.started_at is not None
+        ):
+            duration_seconds = int(
+                (
+                    attempt.submitted_at
+                    - attempt.started_at
+                ).total_seconds()
+            )
+
+            duration_seconds = max(
+                duration_seconds,
+                0,
+            )
+
+            duration_minutes, seconds = divmod(
+                duration_seconds,
+                60,
+            )
+
+            hours, minutes = divmod(
+                duration_minutes,
+                60,
+            )
+
+            if hours:
+                duration_text = (
+                    f"{hours} óra "
+                    f"{minutes} perc "
+                    f"{seconds} mp"
+                )
+            elif minutes:
+                duration_text = (
+                    f"{minutes} perc "
+                    f"{seconds} mp"
+                )
+            else:
+                duration_text = (
+                    f"{seconds} mp"
+                )
+
+        result_rows.append(
+            {
+                "attempt": attempt,
+                "score": score,
+                "percentage": percentage,
+                "duration_text": duration_text,
+            }
+        )
+
+    result_rows.sort(
+        key=lambda row: (
+            row["attempt"].status
+            != "submitted",
+            -row["score"],
+            row["attempt"].competitor.full_name.lower(),
+        )
+    )
+
+    submitted_count = sum(
+        1
+        for row in result_rows
+        if row["attempt"].status == "submitted"
+    )
+
+    return render_template(
+        "admin/result_detail.html",
+        generated_test=generated_test,
+        question_count=question_count,
+        result_rows=result_rows,
+        submitted_count=submitted_count,
+    )
+
 @admin_bp.get("/questions")
 def questions():
     page = request.args.get(

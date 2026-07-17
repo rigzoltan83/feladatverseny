@@ -157,6 +157,21 @@ body {
     color: #26364a;
 }
 
+.result-secondary {
+    margin-top: 4px;
+    color: #687582;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.results-table td {
+    line-height: 1.4;
+}
+
+.results-table .status-badge {
+    white-space: nowrap;
+}
+
 .page-header-row {
     display: flex;
     align-items: center;

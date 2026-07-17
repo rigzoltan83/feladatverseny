@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ generated_test.name }} – Eredmények
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>{{ generated_test.name }}</h1>
+
+            <p>
+                A lezárt forduló részletes eredményei.
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <a
+                class="button button-secondary"
+                href="{{ url_for('admin.results') }}"
+            >
+                Vissza az eredményekhez
+            </a>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin_generated_tests.generated_test_detail',
+                    generated_test_id=generated_test.id
+                ) }}"
+            >
+                Feladatsor megtekintése
+            </a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article class="card">
+            <h2>Forduló adatai</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Feladatok</dt>
+                    <dd>{{ question_count }}</dd>
+                </div>
+
+                <div>
+                    <dt>Résztvevők</dt>
+                    <dd>{{ result_rows | length }}</dd>
+                </div>
+
+                <div>
+                    <dt>Beadta</dt>
+                    <dd>{{ submitted_count }}</dd>
+                </div>
+
+                <div>
+                    <dt>Nem adta be</dt>
+                    <dd>
+                        {{
+                            (result_rows | length)
+                            - submitted_count
+                        }}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+    </section>
+
+    <section class="card">
+        <h2>Versenyzői eredmények</h2>
+
+        {% if result_rows %}
+            <div class="table-wrapper">
+                <table class="data-table results-table">
+                    <thead>
+                        <tr>
+                            <th>Versenyző</th>
+
+                            <th class="table-number">
+                                Évfolyam
+                            </th>
+
+                            <th class="table-number">
+                                Pontszám
+                            </th>
+
+                            <th class="table-number">
+                                Eredmény
+                            </th>
+
+                            <th>
+                                Állapot
+                            </th>
+
+                            <th>
+                                Kezdés
+                            </th>
+
+                            <th>
+                                Beadás
+                            </th>
+
+                            <th>
+                                Kitöltési idő
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for row in result_rows %}
+                            <tr>
+                                <td class="result-test-name">
+                                    {{
+                                        row.attempt
+                                        .competitor
+                                        .full_name
+                                    }}
+
+                                    <div class="result-secondary">
+                                        {{
+                                            row.attempt
+                                            .competitor
+                                            .username
+                                        }}
+                                    </div>
+                                </td>
+
+                                <td class="table-number">
+                                    {{
+                                        row.attempt
+                                        .competitor
+                                        .grade
+                                        .grade_number
+                                    }}
+                                </td>
+
+                                <td class="table-number">
+                                    <strong>
+                                        {{ row.score }}
+                                        /
+                                        {{ question_count }}
+                                    </strong>
+                                </td>
+
+                                <td class="table-number">
+                                    {{
+                                        "%.1f"
+                                        | format(
+                                            row.percentage
+                                        )
+                                    }}
+                                    %
+                                </td>
+
+                                <td>
+                                    {% if
+                                        row.attempt.status
+                                        == "submitted"
+                                    %}
+                                        <span
+                                            class="
+                                                status-badge
+                                                status-active
+                                            "
+                                        >
+                                            Beadva
+                                        </span>
+                                    {% else %}
+                                        <span
+                                            class="
+                                                status-badge
+                                                status-inactive
+                                            "
+                                        >
+                                            Nem adta be
+                                        </span>
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{
+                                        row.attempt
+                                        .started_at
+                                        .strftime(
+                                            "%Y.%m.%d. %H:%M"
+                                        )
+                                    }}
+                                </td>
+
+                                <td>
+                                    {% if
+                                        row.attempt.submitted_at
+                                    %}
+                                        {{
+                                            row.attempt
+                                            .submitted_at
+                                            .strftime(
+                                                "%Y.%m.%d. %H:%M"
+                                            )
+                                        }}
+                                    {% else %}
+                                        –
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{
+                                        row.duration_text
+                                        or "–"
+                                    }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>
+                Ehhez a fordulóhoz nem tartozik
+                egyetlen kitöltés sem.
+            </p>
+        {% endif %}
+    </section>
+{% endblock %}
