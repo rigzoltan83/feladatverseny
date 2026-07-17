@@ -88,6 +88,10 @@
                         <th>Forduló</th>
 
                         <th class="table-number">
+                            Helyezés
+                        </th>
+
+                        <th class="table-number">
                             Feladatok
                         </th>
 
@@ -118,6 +122,14 @@
                                     .generated_test
                                     .name
                                 }}
+                            </td>
+
+                            <td class="table-number result-rank">
+                                {% if row.rank is not none %}
+                                    {{ row.rank }}.
+                                {% else %}
+                                    –
+                                {% endif %}
                             </td>
 
                             <td class="table-number">

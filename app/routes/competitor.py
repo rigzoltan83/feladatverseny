@@ -200,12 +200,72 @@ def dashboard():
             else 0
         )
 
+        rank = None
+
+        if attempt.status == "submitted":
+            submitted_scores = []
+
+            for other_attempt in (
+                attempt.generated_test
+                .competitor_attempts
+                .all()
+            ):
+                if other_attempt.status != "submitted":
+                    continue
+
+                other_score = sum(
+                    1
+                    for competitor_answer
+                    in other_attempt.answers
+                    if (
+                        competitor_answer
+                        .generated_test_answer
+                        .answer_option
+                        .is_correct
+                    )
+                )
+
+                submitted_scores.append(
+                    {
+                        "attempt_id":
+                            other_attempt.id,
+                        "score":
+                            other_score,
+                    }
+                )
+
+            submitted_scores.sort(
+                key=lambda item: -item["score"]
+            )
+
+            current_rank = 0
+            previous_score = None
+
+            for row_number, score_row in enumerate(
+                submitted_scores,
+                start=1,
+            ):
+                if (
+                    score_row["score"]
+                    != previous_score
+                ):
+                    current_rank = row_number
+                    previous_score = score_row["score"]
+
+                if (
+                    score_row["attempt_id"]
+                    == attempt.id
+                ):
+                    rank = current_rank
+                    break
+
         result_rows.append(
             {
                 "attempt": attempt,
                 "question_count": question_count,
                 "score": score,
                 "percentage": percentage,
+                "rank": rank,
             }
         )
 
