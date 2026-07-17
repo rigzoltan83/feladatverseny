@@ -405,6 +405,36 @@ def test_view(test_id):
         for answer in attempt.answers
     }
 
+    correct_answer_count = 0
+    total_question_count = len(
+        test_questions
+    )
+
+    if results_visible:
+        for generated_question in test_questions:
+            selected_answer_id = saved_answers.get(
+                generated_question.id
+            )
+
+            if selected_answer_id is None:
+                continue
+
+            selected_answer = next(
+                (
+                    answer
+                    for answer
+                    in generated_question.generated_answers
+                    if answer.id == selected_answer_id
+                ),
+                None,
+            )
+
+            if (
+                selected_answer is not None
+                and selected_answer.answer_option.is_correct
+            ):
+                correct_answer_count += 1
+
     completion_seconds = None
 
     if (
@@ -446,5 +476,7 @@ def test_view(test_id):
         saved_answers=saved_answers,
         completion_time=completion_time,
         results_visible=results_visible,
+        correct_answer_count=correct_answer_count,
+        total_question_count=total_question_count,
     )
 
