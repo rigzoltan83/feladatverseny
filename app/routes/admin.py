@@ -81,20 +81,46 @@ def index():
 
 @admin_bp.get("/questions")
 def questions():
-    question_list = (
-        Question.query
+    page = request.args.get(
+        "page",
+        default=1,
+        type=int,
+    )
+
+    search_text = request.args.get(
+        "q",
+        default="",
+        type=str,
+    ).strip()
+
+    question_query = Question.query
+
+    if search_text:
+        question_query = question_query.filter(
+            Question.question_text.ilike(
+                f"%{search_text}%"
+            )
+        )
+
+    pagination = (
+        question_query
         .order_by(
             Question.source_year_id.desc(),
             Question.original_position.asc(),
         )
-        .all()
+        .paginate(
+            page=page,
+            per_page=50,
+            error_out=False,
+        )
     )
 
     return render_template(
         "admin/questions.html",
-        questions=question_list,
+        questions=pagination.items,
+        pagination=pagination,
+        search_text=search_text,
     )
-
 
 @admin_bp.route("/questions/new", methods=["GET", "POST"])
 def question_new():

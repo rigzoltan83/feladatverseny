@@ -504,3 +504,63 @@ input[type="file"] {
     color: #664d03;
     background: #fff3cd;
 }
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.list-summary {
+    margin-bottom: 16px;
+    color: #52606d;
+}
+
+.data-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.question-text-cell {
+    width: 40%;
+    max-width: 420px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.question-filter-card {
+    margin-bottom: 20px;
+}
+
+.question-search-form {
+    display: flex;
+    align-items: end;
+    gap: 14px;
+}
+
+.question-search-field {
+    flex: 1;
+    margin: 0;
+}
+
+.question-search-field input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.question-search-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media (max-width: 700px) {
+    .question-search-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

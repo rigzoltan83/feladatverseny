@@ -32,6 +32,66 @@
     </section>
 
     <section class="card">
+
+<section class="card question-filter-card">
+    <form
+        method="get"
+        action="{{ url_for('admin.questions') }}"
+        class="question-search-form"
+    >
+        <div class="form-group question-search-field">
+            <label for="q">
+                Keresés a feladatok szövegében
+            </label>
+
+            <input
+                id="q"
+                name="q"
+                type="search"
+                value="{{ search_text }}"
+                placeholder="Írj be egy szót vagy kifejezést..."
+            >
+        </div>
+
+        <div class="question-search-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Keresés
+            </button>
+
+            {% if search_text %}
+                <a
+                    class="button button-secondary"
+                    href="{{ url_for('admin.questions') }}"
+                >
+                    Keresés törlése
+                </a>
+            {% endif %}
+        </div>
+    </form>
+</section>
+
+<p class="list-summary">
+    {% if search_text %}
+        A(z)
+        <strong>{{ search_text }}</strong>
+        keresésre
+        <strong>{{ pagination.total }}</strong>
+        találat érkezett.
+    {% else %}
+        Összesen
+        <strong>{{ pagination.total }}</strong>
+        feladat.
+    {% endif %}
+
+    {% if pagination.total %}
+        Ezen az oldalon:
+        {{ pagination.first }}–{{ pagination.last }}.
+    {% endif %}
+</p>
+
         <table class="data-table">
             <thead>
                 <tr>
@@ -80,7 +140,7 @@
                             {% endfor %}
                         </td>
 
-                        <td class="question-preview">
+                        <td class="question-text-cell">
                             {{ question.question_text }}
                         </td>
 
@@ -112,5 +172,40 @@
                 {% endfor %}
             </tbody>
         </table>
+
+{% if pagination.pages > 1 %}
+    <nav class="pagination">
+        {% if pagination.has_prev %}
+            <a
+                class="button button-secondary"
+href="{{ url_for(
+    'admin.questions',
+    page=pagination.prev_num,
+    q=search_text
+) }}"
+            >
+                Előző
+            </a>
+        {% endif %}
+
+        <span>
+            {{ pagination.page }} / {{ pagination.pages }} oldal
+        </span>
+
+        {% if pagination.has_next %}
+            <a
+                class="button button-secondary"
+href="{{ url_for(
+    'admin.questions',
+    page=pagination.next_num,
+    q=search_text
+) }}"
+            >
+                Következő
+            </a>
+        {% endif %}
+    </nav>
+{% endif %}
+
     </section>
 {% endblock %}
