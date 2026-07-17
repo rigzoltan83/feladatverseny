@@ -16,6 +16,7 @@ from app.extensions import db
 from app.models import (
     Competitor,
     AnswerOption,
+    GeneratedTest,
     Grade,
     Question,
     SourceYear,
@@ -74,11 +75,26 @@ def parse_boolean(value: str) -> bool | None:
 
     return None
 
-
-
 @admin_bp.get("/")
 def index():
-    return render_template("admin/index.html")
+    return render_template(
+        "admin/index.html"
+    )
+
+
+@admin_bp.get("/results")
+def results():
+    closed_tests = (
+        GeneratedTest.query
+        .filter_by(status="closed")
+        .order_by(GeneratedTest.id.desc())
+        .all()
+    )
+
+    return render_template(
+        "admin/results.html",
+        closed_tests=closed_tests,
+    )
 
 @admin_bp.get("/questions")
 def questions():

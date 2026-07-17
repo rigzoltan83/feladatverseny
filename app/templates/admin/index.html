@@ -6,14 +6,26 @@
 
 {% block content %}
     <section class="page-header">
-        <h1>Adminisztráció</h1>
+        <div class="page-header-row">
+            <div>
+                <h1>Adminisztráció</h1>
 
-        <p>
-            A Feladatverseny adatainak és működésének kezelése.
-        </p>
+                <p>
+                    A Feladatverseny adatainak és működésének kezelése.
+                </p>
+            </div>
+
+            <a
+                href="{{ url_for('competitor.dashboard') }}"
+                class="button"
+            >
+                ← Versenyzői oldal
+            </a>
+        </div>
     </section>
 
-    <section class="admin-grid">
+
+<div class="admin-grid">
         <a class="admin-card" href="{{ url_for('admin_reference.grades') }}">
             <h2>Évfolyamok</h2>
             <p>Évfolyamok kezelése.</p>
@@ -58,9 +70,17 @@
     </p>
 </a>
 
-        <a class="admin-card" href="#">
-            <h2>Eredmények</h2>
-            <p>Kitöltések és pontszámok megtekintése.</p>
-        </a>
+<a
+    class="admin-card"
+    href="{{ url_for('admin.results') }}"
+>
+    <h2>Eredmények</h2>
+
+    <p>
+        Lezárt fordulók,
+        kitöltések és pontszámok.
+    </p>
+</a>
     </section>
+
 {% endblock %}
