@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Versenyzői belépés
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Versenyzői belépés</h1>
+        <p>
+            Jelentkezz be a kapott felhasználónévvel és jelszóval.
+        </p>
+    </div>
+</div>
+
+<section class="card login-card">
+    <form
+        method="post"
+        action="{{ url_for('competitor.login') }}"
+        class="admin-form"
+    >
+        <div class="form-group">
+            <label for="username">
+                Felhasználónév
+            </label>
+
+            <input
+                id="username"
+                name="username"
+                type="text"
+                maxlength="80"
+                autocomplete="username"
+                required
+                autofocus
+                value="{{ request.form.get('username', '') }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                Jelszó
+            </label>
+
+            <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+            >
+        </div>
+
+        <div class="form-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Belépés
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}

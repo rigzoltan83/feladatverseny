@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Versenyzői kezdőlap
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>
+            Üdvözlünk, {{ competitor.full_name }}!
+        </h1>
+
+        <p>
+            {{ competitor.grade.grade_number }}.
+            évfolyam
+        </p>
+    </div>
+
+    <div>
+        <a
+            class="button button-secondary"
+            href="{{ url_for('competitor.logout') }}"
+        >
+            Kijelentkezés
+        </a>
+    </div>
+</div>
+
+<section class="card">
+    <h2>Aktív feladatsorok</h2>
+
+    <p>
+        Az aktív feladatsorok hamarosan itt jelennek meg.
+    </p>
+</section>
+{% endblock %}

@@ -28,6 +28,7 @@ def create_app() -> Flask:
     from app import models
 
     from app.routes.admin import admin_bp
+    from app.routes.competitor import competitor_bp
     from app.routes.admin_reference import reference_bp
     from app.routes.admin_media import media_bp
     from app.routes.admin_templates import template_bp
@@ -35,6 +36,7 @@ def create_app() -> Flask:
         generated_test_bp,
     )
     app.register_blueprint(admin_bp)
+    app.register_blueprint(competitor_bp)
     app.register_blueprint(reference_bp)
     app.register_blueprint(media_bp)
     app.register_blueprint(template_bp)
