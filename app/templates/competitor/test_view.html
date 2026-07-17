@@ -31,8 +31,10 @@
     </div>
 </div>
 
-<div class="competitor-test-form">
-
+<form
+    class="competitor-test-form"
+    method="post"
+>
     {% for generated_question in test_questions %}
 
         <section class="card question-card">
@@ -52,12 +54,19 @@
 
 <label class="answer-option">
 
-    <input
-        class="answer-radio"
-        type="radio"
-        name="question_{{ generated_question.id }}"
-        value="{{ generated_answer.id }}"
-    >
+<input
+    class="answer-radio"
+    type="radio"
+    name="question_{{ generated_question.id }}"
+    value="{{ generated_answer.id }}"
+    {% if saved_answers.get(generated_question.id)
+        == generated_answer.id %}
+        checked
+    {% endif %}
+    {% if attempt.status == "submitted" %}
+        disabled
+    {% endif %}
+>
 
     <span class="answer-marker">
         {% if generated_answer.display_position == 1 %}
@@ -93,6 +102,24 @@
 
     {% endfor %}
 
-</div>
+    {% if attempt.status == "in_progress" %}
+        <div class="test-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Válaszok mentése
+            </button>
+        </div>
+    {% else %}
+        <section class="card">
+            <p>
+                Ez a feladatsor már le van zárva,
+                ezért a válaszok nem módosíthatók.
+            </p>
+        </section>
+    {% endif %}
+
+</form>
 
 {% endblock %}

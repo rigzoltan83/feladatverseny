@@ -10,8 +10,10 @@ from flask import (
 
 from app.models import (
     Competitor,
+    CompetitorAnswer,
     CompetitorAttempt,
     GeneratedTest,
+    GeneratedTestAnswer,
     Grade,
     TestTemplate,
 )
@@ -154,7 +156,10 @@ def dashboard():
         active_tests=active_tests,
     )
 
-@competitor_bp.get("/feladatsor/<int:test_id>")
+@competitor_bp.route(
+    "/feladatsor/<int:test_id>",
+    methods=["GET", "POST"],
+)
 def test_view(test_id):
     competitor_id = session.get(
         "competitor_id"
@@ -231,12 +236,119 @@ def test_view(test_id):
         db.session.add(attempt)
         db.session.commit()
 
+    if request.method == "POST":
+        if attempt.status == "submitted":
+            flash(
+                "A feladatsor már le van zárva, ezért nem módosítható.",
+                "error",
+            )
+
+            return redirect(
+                url_for(
+                    "competitor.test_view",
+                    test_id=generated_test.id,
+                )
+            )
+
+        valid_question_ids = {
+            question.id
+            for question in test_questions
+        }
+
+        valid_answers = {
+            answer.id: answer
+            for question in test_questions
+            for answer in question.generated_answers
+        }
+
+        for generated_question in test_questions:
+            field_name = (
+                f"question_{generated_question.id}"
+            )
+
+            selected_answer_id = request.form.get(
+                field_name
+            )
+
+            if not selected_answer_id:
+                continue
+
+            try:
+                selected_answer_id = int(
+                    selected_answer_id
+                )
+            except ValueError:
+                continue
+
+            selected_answer = valid_answers.get(
+                selected_answer_id
+            )
+
+            if (
+                selected_answer is None
+                or selected_answer.generated_test_question_id
+                not in valid_question_ids
+                or selected_answer.generated_test_question_id
+                != generated_question.id
+            ):
+                continue
+
+            competitor_answer = (
+                CompetitorAnswer.query
+                .filter_by(
+                    attempt_id=attempt.id,
+                    generated_test_question_id=(
+                        generated_question.id
+                    ),
+                )
+                .first()
+            )
+
+            if competitor_answer is None:
+                competitor_answer = CompetitorAnswer(
+                    attempt_id=attempt.id,
+                    generated_test_question_id=(
+                        generated_question.id
+                    ),
+                    generated_test_answer_id=(
+                        selected_answer.id
+                    ),
+                )
+
+                db.session.add(
+                    competitor_answer
+                )
+            else:
+                competitor_answer.generated_test_answer_id = (
+                    selected_answer.id
+                )
+
+        db.session.commit()
+
+        flash(
+            "A válaszok mentése sikerült.",
+            "success",
+        )
+
+        return redirect(
+            url_for(
+                "competitor.test_view",
+                test_id=generated_test.id,
+            )
+        )
+
+    saved_answers = {
+        answer.generated_test_question_id:
+            answer.generated_test_answer_id
+        for answer in attempt.answers
+    }
+
     return render_template(
         "competitor/test_view.html",
         competitor=competitor,
         generated_test=generated_test,
         test_questions=test_questions,
         attempt=attempt,
+        saved_answers=saved_answers,
     )
-
 
