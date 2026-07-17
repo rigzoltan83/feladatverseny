@@ -37,7 +37,7 @@
     <form
         method="get"
         action="{{ url_for('admin.questions') }}"
-        class="question-search-form"
+        class="question-filter-form"
     >
         <div class="form-group question-search-field">
             <label for="q">
@@ -49,8 +49,61 @@
                 name="q"
                 type="search"
                 value="{{ search_text }}"
-                placeholder="Írj be egy szót vagy kifejezést..."
+                placeholder="Szó vagy kifejezés..."
             >
+        </div>
+
+        <div class="form-group">
+            <label for="grade_id">
+                Évfolyam
+            </label>
+
+            <select
+                id="grade_id"
+                name="grade_id"
+            >
+                <option value="0">
+                    Minden évfolyam
+                </option>
+
+                {% for grade in grades %}
+                    <option
+                        value="{{ grade.id }}"
+                        {% if selected_grade_id == grade.id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ grade.grade_number }}.
+                        évfolyam
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="topic_id">
+                Témakör
+            </label>
+
+            <select
+                id="topic_id"
+                name="topic_id"
+            >
+                <option value="0">
+                    Minden témakör
+                </option>
+
+                {% for topic in topics %}
+                    <option
+                        value="{{ topic.id }}"
+                        {% if selected_topic_id == topic.id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ topic.name }}
+                    </option>
+                {% endfor %}
+            </select>
         </div>
 
         <div class="question-search-actions">
@@ -58,15 +111,19 @@
                 class="button"
                 type="submit"
             >
-                Keresés
+                Szűrés
             </button>
 
-            {% if search_text %}
+            {% if
+                search_text
+                or selected_grade_id
+                or selected_topic_id
+            %}
                 <a
                     class="button button-secondary"
                     href="{{ url_for('admin.questions') }}"
                 >
-                    Keresés törlése
+                    Szűrők törlése
                 </a>
             {% endif %}
         </div>
@@ -74,20 +131,11 @@
 </section>
 
 <p class="list-summary">
-    {% if search_text %}
-        A(z)
-        <strong>{{ search_text }}</strong>
-        keresésre
-        <strong>{{ pagination.total }}</strong>
-        találat érkezett.
-    {% else %}
-        Összesen
-        <strong>{{ pagination.total }}</strong>
-        feladat.
-    {% endif %}
+    <strong>{{ pagination.total }}</strong>
+    megfelelő feladat található.
 
     {% if pagination.total %}
-        Ezen az oldalon:
+        Megjelenítve:
         {{ pagination.first }}–{{ pagination.last }}.
     {% endif %}
 </p>
@@ -181,7 +229,9 @@
 href="{{ url_for(
     'admin.questions',
     page=pagination.prev_num,
-    q=search_text
+    q=search_text,
+    grade_id=selected_grade_id,
+    topic_id=selected_topic_id
 ) }}"
             >
                 Előző
@@ -198,7 +248,9 @@ href="{{ url_for(
 href="{{ url_for(
     'admin.questions',
     page=pagination.next_num,
-    q=search_text
+    q=search_text,
+    grade_id=selected_grade_id,
+    topic_id=selected_topic_id
 ) }}"
             >
                 Következő

@@ -93,12 +93,38 @@ def questions():
         type=str,
     ).strip()
 
+    grade_id = request.args.get(
+        "grade_id",
+        default=0,
+        type=int,
+    )
+
+    topic_id = request.args.get(
+        "topic_id",
+        default=0,
+        type=int,
+    )
+
     question_query = Question.query
 
     if search_text:
         question_query = question_query.filter(
             Question.question_text.ilike(
                 f"%{search_text}%"
+            )
+        )
+
+    if grade_id:
+        question_query = question_query.filter(
+            Question.grades.any(
+                Grade.id == grade_id
+            )
+        )
+
+    if topic_id:
+        question_query = question_query.filter(
+            Question.topics.any(
+                Topic.id == topic_id
             )
         )
 
@@ -115,11 +141,31 @@ def questions():
         )
     )
 
+    grades = (
+        Grade.query
+        .order_by(
+            Grade.grade_number.asc()
+        )
+        .all()
+    )
+
+    topics = (
+        Topic.query
+        .order_by(
+            Topic.name.asc()
+        )
+        .all()
+    )
+
     return render_template(
         "admin/questions.html",
         questions=pagination.items,
         pagination=pagination,
         search_text=search_text,
+        grades=grades,
+        topics=topics,
+        selected_grade_id=grade_id,
+        selected_topic_id=topic_id,
     )
 
 @admin_bp.route("/questions/new", methods=["GET", "POST"])
