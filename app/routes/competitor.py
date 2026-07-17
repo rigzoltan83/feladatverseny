@@ -250,6 +250,11 @@ def test_view(test_id):
                 )
             )
 
+        action = request.form.get(
+            "action",
+            "save",
+        )
+
         valid_question_ids = {
             question.id
             for question in test_questions
@@ -323,12 +328,23 @@ def test_view(test_id):
                     selected_answer.id
                 )
 
-        db.session.commit()
+        if action == "submit":
+            attempt.status = "submitted"
+            attempt.submitted_at = db.func.now()
 
-        flash(
-            "A válaszok mentése sikerült.",
-            "success",
-        )
+            db.session.commit()
+
+            flash(
+                "A feladatsor végleges beküldése sikerült.",
+                "success",
+            )
+        else:
+            db.session.commit()
+
+            flash(
+                "A válaszok mentése sikerült.",
+                "success",
+            )
 
         return redirect(
             url_for(

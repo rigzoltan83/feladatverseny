@@ -104,12 +104,28 @@
 
     {% if attempt.status == "in_progress" %}
         <div class="test-actions">
+
             <button
-                class="button"
+                class="button button-secondary"
                 type="submit"
+                name="action"
+                value="save"
             >
                 Válaszok mentése
             </button>
+
+            <button
+                class="button"
+                type="submit"
+                name="action"
+                value="submit"
+                onclick="return confirm(
+                    'Biztosan véglegesen beküldöd a feladatsort? A beküldés után a válaszok már nem módosíthatók.'
+                );"
+            >
+                Feladatsor végleges beküldése
+            </button>
+
         </div>
     {% else %}
         <section class="card">
