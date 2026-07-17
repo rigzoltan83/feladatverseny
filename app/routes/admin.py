@@ -559,6 +559,154 @@ def competitor_create():
     )
 
 @admin_bp.route(
+    "/competitors/<int:competitor_id>/edit",
+    methods=["GET", "POST"],
+)
+def competitor_edit(competitor_id):
+    competitor = db.get_or_404(
+        Competitor,
+        competitor_id,
+    )
+
+    grades = (
+        Grade.query
+        .order_by(
+            Grade.grade_number.asc()
+        )
+        .all()
+    )
+
+    if request.method == "POST":
+        full_name = request.form.get(
+            "full_name",
+            "",
+        ).strip()
+
+        username = request.form.get(
+            "username",
+            "",
+        ).strip()
+
+        grade_id = request.form.get(
+            "grade_id",
+            type=int,
+        )
+
+        is_active = (
+            request.form.get("is_active")
+            == "on"
+        )
+
+        password = request.form.get(
+            "password",
+            "",
+        )
+
+        password_confirm = request.form.get(
+            "password_confirm",
+            "",
+        )
+
+        has_error = False
+
+        if not full_name:
+            flash(
+                "A teljes név megadása kötelező.",
+                "error",
+            )
+            has_error = True
+
+        if len(full_name) > 200:
+            flash(
+                "A teljes név legfeljebb 200 karakter lehet.",
+                "error",
+            )
+            has_error = True
+
+        if not username:
+            flash(
+                "A felhasználónév megadása kötelező.",
+                "error",
+            )
+            has_error = True
+
+        if len(username) > 80:
+            flash(
+                "A felhasználónév legfeljebb 80 karakter lehet.",
+                "error",
+            )
+            has_error = True
+
+        existing_competitor = (
+            Competitor.query
+            .filter(
+                Competitor.username.ilike(username),
+                Competitor.id != competitor.id,
+            )
+            .first()
+        )
+
+        if existing_competitor:
+            flash(
+                "Ez a felhasználónév már foglalt.",
+                "error",
+            )
+            has_error = True
+
+        grade = db.session.get(
+            Grade,
+            grade_id,
+        )
+
+        if not grade:
+            flash(
+                "Érvényes évfolyam kiválasztása kötelező.",
+                "error",
+            )
+            has_error = True
+
+        if password:
+            if len(password) < 6:
+                flash(
+                    "Az új jelszónak legalább 6 karakteresnek kell lennie.",
+                    "error",
+                )
+                has_error = True
+
+            if password != password_confirm:
+                flash(
+                    "A két új jelszó nem egyezik.",
+                    "error",
+                )
+                has_error = True
+
+        if not has_error:
+            competitor.full_name = full_name
+            competitor.username = username
+            competitor.grade_id = grade.id
+            competitor.is_active = is_active
+
+            if password:
+                competitor.set_password(password)
+
+            db.session.commit()
+
+            flash(
+                "A versenyző adatai sikeresen módosultak.",
+                "success",
+            )
+
+            return redirect(
+                url_for("admin.competitors")
+            )
+
+    return render_template(
+        "admin/competitor_edit.html",
+        competitor=competitor,
+        grades=grades,
+    )
+
+@admin_bp.route(
     "/questions/<int:question_id>/edit",
     methods=["GET", "POST"],
 )

@@ -83,6 +83,7 @@
                 <th>Évfolyam</th>
                 <th>Állapot</th>
                 <th>Létrehozva</th>
+                <th>Műveletek</th>
             </tr>
         </thead>
 
@@ -123,11 +124,23 @@
                             "%Y-%m-%d %H:%M"
                         ) }}
                     </td>
+
+                    <td>
+                        <a
+                            class="button button-secondary"
+                            href="{{ url_for(
+                                'admin.competitor_edit',
+                                competitor_id=competitor.id
+                            ) }}"
+                        >
+                            Szerkesztés
+                        </a>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
                     <td
-                        colspan="6"
+                        colspan="7"
                         class="empty-table-cell"
                     >
                         Nincs megjeleníthető versenyző.

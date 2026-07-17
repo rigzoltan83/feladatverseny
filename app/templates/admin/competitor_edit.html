@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Versenyző szerkesztése
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Versenyző szerkesztése</h1>
+
+        <p>
+            {{ competitor.full_name }}
+        </p>
+    </div>
+</div>
+
+<section class="card">
+    <form
+        method="post"
+        action="{{ url_for(
+            'admin.competitor_edit',
+            competitor_id=competitor.id
+        ) }}"
+        class="admin-form"
+    >
+        <div class="form-group">
+            <label for="full_name">
+                Teljes név
+            </label>
+
+            <input
+                id="full_name"
+                name="full_name"
+                type="text"
+                maxlength="200"
+                required
+                value="{{ request.form.get(
+                    'full_name',
+                    competitor.full_name
+                ) }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="username">
+                Felhasználónév
+            </label>
+
+            <input
+                id="username"
+                name="username"
+                type="text"
+                maxlength="80"
+                autocomplete="username"
+                required
+                value="{{ request.form.get(
+                    'username',
+                    competitor.username
+                ) }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="grade_id">
+                Évfolyam
+            </label>
+
+            {% set selected_grade_id = request.form.get(
+                'grade_id',
+                competitor.grade_id,
+                type=int
+            ) %}
+
+            <select
+                id="grade_id"
+                name="grade_id"
+                required
+            >
+                {% for grade in grades %}
+                    <option
+                        value="{{ grade.id }}"
+                        {% if selected_grade_id == grade.id %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ grade.grade_number }}.
+                        évfolyam – {{ grade.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="checkbox-label">
+                <input
+                    name="is_active"
+                    type="checkbox"
+                    {% if request.method == 'GET'
+                          and competitor.is_active %}
+                        checked
+                    {% elif request.method == 'POST'
+                              and request.form.get('is_active') %}
+                        checked
+                    {% endif %}
+                >
+
+                A versenyző aktív
+            </label>
+
+            <small>
+                Az inaktív versenyző később nem tud belépni.
+            </small>
+        </div>
+
+        <hr>
+
+        <h2>Jelszó módosítása</h2>
+
+        <p>
+            Hagyd üresen, ha a jelenlegi jelszót nem szeretnéd
+            megváltoztatni.
+        </p>
+
+        <div class="form-group">
+            <label for="password">
+                Új jelszó
+            </label>
+
+            <input
+                id="password"
+                name="password"
+                type="password"
+                minlength="6"
+                autocomplete="new-password"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirm">
+                Új jelszó újra
+            </label>
+
+            <input
+                id="password_confirm"
+                name="password_confirm"
+                type="password"
+                minlength="6"
+                autocomplete="new-password"
+            >
+        </div>
+
+        <div class="form-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Módosítások mentése
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for('admin.competitors') }}"
+            >
+                Mégse
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
