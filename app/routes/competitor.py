@@ -208,11 +208,36 @@ def test_view(test_id):
         test_id,
     )
 
-    is_allowed = (
+    has_correct_grade = any(
+        grade.id == competitor.grade_id
+        for grade in generated_test.test_template.grades
+    )
+
+    attempt = (
+        CompetitorAttempt.query
+        .filter_by(
+            competitor_id=competitor.id,
+            generated_test_id=generated_test.id,
+        )
+        .first()
+    )
+
+    is_active = (
         generated_test.status == "active"
-        and any(
-            grade.id == competitor.grade_id
-            for grade in generated_test.test_template.grades
+    )
+
+    is_closed = (
+        generated_test.status == "closed"
+    )
+
+    is_allowed = (
+        has_correct_grade
+        and (
+            is_active
+            or (
+                is_closed
+                and attempt is not None
+            )
         )
     )
 
@@ -226,15 +251,8 @@ def test_view(test_id):
             url_for("competitor.dashboard")
         )
 
-    test_questions = generated_test.generated_questions
-
-    attempt = (
-        CompetitorAttempt.query
-        .filter_by(
-            competitor_id=competitor.id,
-            generated_test_id=generated_test.id,
-        )
-        .first()
+    test_questions = (
+        generated_test.generated_questions
     )
 
     if attempt is None:
@@ -246,6 +264,8 @@ def test_view(test_id):
 
         db.session.add(attempt)
         db.session.commit()
+
+    results_visible = is_closed
 
     if request.method == "POST":
         if attempt.status == "submitted":
@@ -410,5 +430,6 @@ def test_view(test_id):
         attempt=attempt,
         saved_answers=saved_answers,
         completion_time=completion_time,
+        results_visible=results_visible,
     )
 
