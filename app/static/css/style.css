@@ -172,6 +172,13 @@ body {
     white-space: nowrap;
 }
 
+.result-rank {
+    width: 90px;
+    color: #2766a3;
+    font-size: 17px;
+    font-weight: bold;
+}
+
 .page-header-row {
     display: flex;
     align-items: center;

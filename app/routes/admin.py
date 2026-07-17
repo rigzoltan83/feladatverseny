@@ -260,11 +260,28 @@ def result_detail(
         )
     )
 
-    submitted_count = sum(
-        1
-        for row in result_rows
-        if row["attempt"].status == "submitted"
-    )
+    current_rank = 0
+    previous_score = None
+
+    for row_number, row in enumerate(
+        result_rows,
+        start=1,
+    ):
+        if row["attempt"].status != "submitted":
+            row["rank"] = None
+            continue
+
+        if row["score"] != previous_score:
+            current_rank = row_number
+            previous_score = row["score"]
+
+        row["rank"] = current_rank
+
+        submitted_count = sum(
+            1
+            for row in result_rows
+            if row["attempt"].status == "submitted"
+        )
 
     return render_template(
         "admin/result_detail.html",

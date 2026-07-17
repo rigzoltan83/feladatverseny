@@ -75,6 +75,9 @@
                 <table class="data-table results-table">
                     <thead>
                         <tr>
+                            <th class="table-number">
+                                Helyezés
+                            </th>
                             <th>Versenyző</th>
 
                             <th class="table-number">
@@ -113,6 +116,13 @@
                     <tbody>
                         {% for row in result_rows %}
                             <tr>
+                                <td class="table-number result-rank">
+                                    {% if row.rank is not none %}
+                                        {{ row.rank }}.
+                                    {% else %}
+                                        –
+                                    {% endif %}
+                                </td>
                                 <td class="result-test-name">
                                     {{
                                         row.attempt
