@@ -121,7 +121,14 @@
         {% endif %}
     </span>
 
-    <span class="answer-content">{{ generated_answer.answer_option.answer_text or "" }}</span>
+<span class="answer-content">
+    {{ generated_answer.answer_option.answer_text or "" }}
+
+    {% if results_visible
+          and generated_answer.answer_option.is_correct %}
+        <strong> ✓ Helyes válasz</strong>
+    {% endif %}
+</span>
 
 </label>
 
