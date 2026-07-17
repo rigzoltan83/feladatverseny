@@ -28,10 +28,46 @@
 </div>
 
 <section class="card">
-    <h2>Aktív feladatsorok</h2>
+    <h2>Elérhető feladatsorok</h2>
 
-    <p>
-        Az aktív feladatsorok hamarosan itt jelennek meg.
-    </p>
+    {% if active_tests %}
+        <div class="test-card-list">
+            {% for generated_test in active_tests %}
+                <article class="test-card">
+                    <div class="test-card-content">
+                        <h3>
+                            {{ generated_test.name }}
+                        </h3>
+
+                        <p>
+                            Feladatok száma:
+                            <strong>
+                                {{ generated_test.generated_questions
+                                   | length }}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Létrehozva:
+                            {{ generated_test.created_at.strftime(
+                                "%Y-%m-%d %H:%M"
+                            ) }}
+                        </p>
+                    </div>
+
+                    <div class="test-card-actions">
+                        <span class="status-badge status-active">
+                            Aktív
+                        </span>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>
+            Jelenleg nincs az évfolyamodhoz elérhető
+            aktív feladatsor.
+        </p>
+    {% endif %}
 </section>
 {% endblock %}

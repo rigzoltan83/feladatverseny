@@ -8,7 +8,13 @@ from flask import (
     url_for,
 )
 
-from app.models import Competitor
+from app.models import (
+    Competitor,
+    GeneratedTest,
+    Grade,
+    TestTemplate,
+)
+
 from app.extensions import db
 
 competitor_bp = Blueprint(
@@ -106,8 +112,9 @@ def dashboard():
             url_for("competitor.login")
         )
 
-    competitor = Competitor.query.get(
-        competitor_id
+    competitor = db.session.get(
+        Competitor,
+        competitor_id,
     )
 
     if not competitor or not competitor.is_active:
@@ -122,8 +129,28 @@ def dashboard():
             url_for("competitor.login")
         )
 
+    active_tests = (
+        GeneratedTest.query
+        .join(GeneratedTest.test_template)
+        .filter(
+            GeneratedTest.status == "active",
+            GeneratedTest.test_template.has(
+                TestTemplate.grades.any(
+                    Grade.id == competitor.grade_id
+                )
+            ),
+        )
+        .order_by(
+            GeneratedTest.created_at.desc(),
+            GeneratedTest.id.desc(),
+        )
+        .all()
+    )
+
     return render_template(
         "competitor/dashboard.html",
         competitor=competitor,
+        active_tests=active_tests,
     )
+
 

@@ -607,3 +607,38 @@ input[type="file"] {
         grid-column: auto;
     }
 }
+
+.test-card-list {
+    display: grid;
+    gap: 16px;
+}
+
+.test-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+
+.test-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.test-card p {
+    margin: 5px 0;
+}
+
+.test-card-actions {
+    flex-shrink: 0;
+}
+
+@media (max-width: 650px) {
+    .test-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
