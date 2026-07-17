@@ -359,6 +359,38 @@ def test_view(test_id):
         for answer in attempt.answers
     }
 
+    completion_seconds = None
+
+    if (
+        attempt.started_at is not None
+        and attempt.submitted_at is not None
+    ):
+        completion_seconds = int(
+            (
+                attempt.submitted_at
+                - attempt.started_at
+            ).total_seconds()
+        )
+
+    completion_time = None
+
+    if completion_seconds is not None:
+        hours, remainder = divmod(
+            completion_seconds,
+            3600,
+        )
+
+        minutes, seconds = divmod(
+            remainder,
+            60,
+        )
+
+        completion_time = (
+            f"{hours:02d}:"
+            f"{minutes:02d}:"
+            f"{seconds:02d}"
+        )
+
     return render_template(
         "competitor/test_view.html",
         competitor=competitor,
@@ -366,5 +398,6 @@ def test_view(test_id):
         test_questions=test_questions,
         attempt=attempt,
         saved_answers=saved_answers,
+        completion_time=completion_time,
     )
 

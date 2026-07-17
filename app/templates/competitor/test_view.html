@@ -19,6 +19,37 @@
             Feladatok száma:
             <strong>{{ test_questions | length }}</strong>
         </p>
+        {% if attempt.started_at %}
+            <p>
+                Megkezdve:
+                <strong>
+                    {{ attempt.started_at.strftime(
+                        "%Y.%m.%d. %H:%M:%S"
+                    ) }}
+                </strong>
+            </p>
+        {% endif %}
+
+        {% if attempt.status == "submitted" %}
+            {% if attempt.submitted_at %}
+                <p>
+                    Befejezve:
+                    <strong>
+                        {{ attempt.submitted_at.strftime(
+                            "%Y.%m.%d. %H:%M:%S"
+                        ) }}
+                    </strong>
+                </p>
+            {% endif %}
+
+            {% if completion_time %}
+                <p>
+                    Kitöltési idő:
+                    <strong>{{ completion_time }}</strong>
+                </p>
+            {% endif %}
+        {% endif %}
+
     </div>
 
     <div>
