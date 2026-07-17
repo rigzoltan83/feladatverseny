@@ -683,3 +683,160 @@ class GeneratedTestAnswer(db.Model):
             f"question={self.generated_test_question_id} "
             f"position={self.display_position}>"
         )
+
+class CompetitorAttempt(db.Model):
+    __tablename__ = "competitor_attempt"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    competitor_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "competitor.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    generated_test_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "generated_test.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    status = db.Column(
+        db.String(30),
+        nullable=False,
+        default="in_progress",
+    )
+
+    started_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+    )
+
+    submitted_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=True,
+    )
+
+    competitor = db.relationship(
+        "Competitor",
+        backref=db.backref(
+            "attempts",
+            lazy="dynamic",
+        ),
+    )
+
+    generated_test = db.relationship(
+        "GeneratedTest",
+        backref=db.backref(
+            "competitor_attempts",
+            lazy="dynamic",
+        ),
+    )
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "status IN ('in_progress', 'submitted')",
+            name="ck_competitor_attempt_status",
+        ),
+        db.UniqueConstraint(
+            "competitor_id",
+            "generated_test_id",
+            name="uq_competitor_attempt_test",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<CompetitorAttempt id={self.id} "
+            f"competitor={self.competitor_id} "
+            f"test={self.generated_test_id}>"
+        )
+
+
+class CompetitorAnswer(db.Model):
+    __tablename__ = "competitor_answer"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    attempt_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "competitor_attempt.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    generated_test_question_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "generated_test_question.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    generated_test_answer_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "generated_test_answer.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    saved_at = db.Column(
+        db.DateTime(timezone=True),
+        nullable=False,
+        server_default=db.func.now(),
+        onupdate=db.func.now(),
+    )
+
+    attempt = db.relationship(
+        "CompetitorAttempt",
+        backref=db.backref(
+            "answers",
+            cascade="all, delete-orphan",
+        ),
+    )
+
+    generated_test_question = db.relationship(
+        "GeneratedTestQuestion",
+    )
+
+    generated_test_answer = db.relationship(
+        "GeneratedTestAnswer",
+    )
+
+    __table_args__ = (
+        db.UniqueConstraint(
+            "attempt_id",
+            "generated_test_question_id",
+            name="uq_competitor_answer_question",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<CompetitorAnswer id={self.id} "
+            f"attempt={self.attempt_id} "
+            f"question={self.generated_test_question_id}>"
+        )

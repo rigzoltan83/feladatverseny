@@ -10,6 +10,7 @@ from flask import (
 
 from app.models import (
     Competitor,
+    CompetitorAttempt,
     GeneratedTest,
     Grade,
     TestTemplate,
@@ -211,11 +212,31 @@ def test_view(test_id):
 
     test_questions = generated_test.generated_questions
 
+    attempt = (
+        CompetitorAttempt.query
+        .filter_by(
+            competitor_id=competitor.id,
+            generated_test_id=generated_test.id,
+        )
+        .first()
+    )
+
+    if attempt is None:
+        attempt = CompetitorAttempt(
+            competitor_id=competitor.id,
+            generated_test_id=generated_test.id,
+            status="in_progress",
+        )
+
+        db.session.add(attempt)
+        db.session.commit()
+
     return render_template(
         "competitor/test_view.html",
         competitor=competitor,
         generated_test=generated_test,
         test_questions=test_questions,
+        attempt=attempt,
     )
 
 
