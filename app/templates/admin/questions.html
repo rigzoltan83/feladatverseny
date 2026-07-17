@@ -106,6 +106,73 @@
             </select>
         </div>
 
+<div class="form-group">
+    <label for="source_year_id">
+        Forrásév
+    </label>
+
+    <select
+        id="source_year_id"
+        name="source_year_id"
+    >
+        <option value="0">
+            Minden forrásév
+        </option>
+
+        {% for source_year in source_years %}
+            <option
+                value="{{ source_year.id }}"
+                {% if
+                    selected_source_year_id
+                    == source_year.id
+                %}
+                    selected
+                {% endif %}
+            >
+                {{ source_year.year_number }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="status">
+        Állapot
+    </label>
+
+    <select
+        id="status"
+        name="status"
+    >
+        <option
+            value="all"
+            {% if selected_status == 'all' %}
+                selected
+            {% endif %}
+        >
+            Minden állapot
+        </option>
+
+        <option
+            value="active"
+            {% if selected_status == 'active' %}
+                selected
+            {% endif %}
+        >
+            Aktív
+        </option>
+
+        <option
+            value="inactive"
+            {% if selected_status == 'inactive' %}
+                selected
+            {% endif %}
+        >
+            Inaktív
+        </option>
+    </select>
+</div>
+
         <div class="question-search-actions">
             <button
                 class="button"
@@ -118,6 +185,8 @@
                 search_text
                 or selected_grade_id
                 or selected_topic_id
+                or selected_source_year_id
+                or selected_status != 'all'
             %}
                 <a
                     class="button button-secondary"
@@ -231,7 +300,9 @@ href="{{ url_for(
     page=pagination.prev_num,
     q=search_text,
     grade_id=selected_grade_id,
-    topic_id=selected_topic_id
+    topic_id=selected_topic_id,
+    source_year_id=selected_source_year_id,
+    status=selected_status
 ) }}"
             >
                 Előző
@@ -250,7 +321,9 @@ href="{{ url_for(
     page=pagination.next_num,
     q=search_text,
     grade_id=selected_grade_id,
-    topic_id=selected_topic_id
+    topic_id=selected_topic_id,
+    source_year_id=selected_source_year_id,
+    status=selected_status
 ) }}"
             >
                 Következő

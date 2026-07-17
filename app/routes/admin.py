@@ -105,6 +105,18 @@ def questions():
         type=int,
     )
 
+    source_year_id = request.args.get(
+        "source_year_id",
+        default=0,
+        type=int,
+    )
+
+    status = request.args.get(
+        "status",
+        default="all",
+        type=str,
+    )
+
     question_query = Question.query
 
     if search_text:
@@ -126,6 +138,22 @@ def questions():
             Question.topics.any(
                 Topic.id == topic_id
             )
+        )
+
+    if source_year_id:
+        question_query = question_query.filter(
+            Question.source_year_id
+            == source_year_id
+        )
+
+    if status == "active":
+        question_query = question_query.filter(
+            Question.is_active.is_(True)
+        )
+
+    elif status == "inactive":
+        question_query = question_query.filter(
+            Question.is_active.is_(False)
         )
 
     pagination = (
@@ -157,6 +185,14 @@ def questions():
         .all()
     )
 
+    source_years = (
+        SourceYear.query
+        .order_by(
+            SourceYear.year_number.desc()
+        )
+        .all()
+    )
+
     return render_template(
         "admin/questions.html",
         questions=pagination.items,
@@ -164,8 +200,11 @@ def questions():
         search_text=search_text,
         grades=grades,
         topics=topics,
+        source_years=source_years,
         selected_grade_id=grade_id,
         selected_topic_id=topic_id,
+        selected_source_year_id=source_year_id,
+        selected_status=status,
     )
 
 @admin_bp.route("/questions/new", methods=["GET", "POST"])
