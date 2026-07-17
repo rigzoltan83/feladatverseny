@@ -268,6 +268,21 @@ def test_view(test_id):
     results_visible = is_closed
 
     if request.method == "POST":
+
+        if is_closed:
+            flash(
+                "A forduló lezárult, ezért a válaszok "
+                "már nem módosíthatók.",
+                "error",
+            )
+
+            return redirect(
+                url_for(
+                    "competitor.test_view",
+                    test_id=generated_test.id,
+                )
+            )
+
         if attempt.status == "submitted":
             flash(
                 "A feladatsor már le van zárva, ezért nem módosítható.",
