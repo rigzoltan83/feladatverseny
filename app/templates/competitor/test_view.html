@@ -124,9 +124,30 @@
 <span class="answer-content">
     {{ generated_answer.answer_option.answer_text or "" }}
 
-    {% if results_visible
-          and generated_answer.answer_option.is_correct %}
-        <strong> ✓ Helyes válasz</strong>
+    {% if results_visible %}
+
+        {% set is_selected =
+            saved_answers.get(generated_question.id)
+            == generated_answer.id
+        %}
+
+        {% if is_selected
+              and generated_answer.answer_option.is_correct %}
+            <strong>
+                ✓ Jó válasz
+            </strong>
+
+        {% elif is_selected %}
+            <strong>
+                ✗ Ezt jelölted
+            </strong>
+
+        {% elif generated_answer.answer_option.is_correct %}
+            <strong>
+                ✓ Helyes válasz
+            </strong>
+        {% endif %}
+
     {% endif %}
 </span>
 
