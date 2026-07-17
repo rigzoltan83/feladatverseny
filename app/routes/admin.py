@@ -15,6 +15,7 @@ from flask import (
 from app.extensions import db
 from app.models import (
     Competitor,
+    CompetitorAttempt,
     AnswerOption,
     GeneratedTest,
     Grade,
@@ -271,6 +272,132 @@ def result_detail(
         question_count=question_count,
         result_rows=result_rows,
         submitted_count=submitted_count,
+    )
+
+@admin_bp.get(
+    "/results/attempt/<int:attempt_id>"
+)
+def attempt_result_detail(
+    attempt_id: int,
+):
+    attempt = db.get_or_404(
+        CompetitorAttempt,
+        attempt_id,
+    )
+
+    generated_test = attempt.generated_test
+
+    if generated_test.status != "closed":
+        abort(404)
+
+    generated_questions = sorted(
+        generated_test.generated_questions,
+        key=lambda question: question.display_position,
+    )
+
+    saved_answers = {
+        competitor_answer.generated_test_question_id:
+            competitor_answer.generated_test_answer_id
+        for competitor_answer in attempt.answers
+    }
+
+    correct_answer_count = 0
+    question_results = []
+
+    for generated_question in generated_questions:
+        selected_answer_id = saved_answers.get(
+            generated_question.id
+        )
+
+        selected_answer = next(
+            (
+                generated_answer
+                for generated_answer
+                in generated_question.generated_answers
+                if generated_answer.id
+                == selected_answer_id
+            ),
+            None,
+        )
+
+        is_correct = (
+            selected_answer is not None
+            and selected_answer.answer_option.is_correct
+        )
+
+        if is_correct:
+            correct_answer_count += 1
+
+        question_results.append(
+            {
+                "generated_question":
+                    generated_question,
+                "selected_answer_id":
+                    selected_answer_id,
+                "is_correct":
+                    is_correct,
+            }
+        )
+
+    question_count = len(generated_questions)
+
+    percentage = (
+        correct_answer_count
+        / question_count
+        * 100
+        if question_count
+        else 0
+    )
+
+    duration_text = None
+
+    if (
+        attempt.started_at is not None
+        and attempt.submitted_at is not None
+    ):
+        duration_seconds = max(
+            int(
+                (
+                    attempt.submitted_at
+                    - attempt.started_at
+                ).total_seconds()
+            ),
+            0,
+        )
+
+        duration_minutes, seconds = divmod(
+            duration_seconds,
+            60,
+        )
+
+        hours, minutes = divmod(
+            duration_minutes,
+            60,
+        )
+
+        if hours:
+            duration_text = (
+                f"{hours} óra "
+                f"{minutes} perc "
+                f"{seconds} mp"
+            )
+        elif minutes:
+            duration_text = (
+                f"{minutes} perc "
+                f"{seconds} mp"
+            )
+        else:
+            duration_text = f"{seconds} mp"
+
+    return render_template(
+        "admin/attempt_result_detail.html",
+        attempt=attempt,
+        generated_test=generated_test,
+        question_results=question_results,
+        question_count=question_count,
+        correct_answer_count=correct_answer_count,
+        percentage=percentage,
+        duration_text=duration_text,
     )
 
 @admin_bp.get("/questions")

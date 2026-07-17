@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ attempt.competitor.full_name }}
+    – {{ generated_test.name }}
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>
+                {{ attempt.competitor.full_name }}
+            </h1>
+
+            <p>
+                {{ generated_test.name }}
+                – részletes kitöltés
+            </p>
+        </div>
+
+        <a
+            class="button button-secondary"
+            href="{{ url_for(
+                'admin.result_detail',
+                generated_test_id=generated_test.id
+            ) }}"
+        >
+            Vissza a forduló eredményeihez
+        </a>
+    </section>
+
+    <section class="detail-grid">
+        <article class="card">
+            <h2>Versenyző</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Név</dt>
+                    <dd>
+                        {{ attempt.competitor.full_name }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Felhasználónév</dt>
+                    <dd>
+                        {{ attempt.competitor.username }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Évfolyam</dt>
+                    <dd>
+                        {{
+                            attempt.competitor
+                            .grade.grade_number
+                        }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Állapot</dt>
+                    <dd>
+                        {% if
+                            attempt.status == "submitted"
+                        %}
+                            <span
+                                class="
+                                    status-badge
+                                    status-active
+                                "
+                            >
+                                Beadva
+                            </span>
+                        {% else %}
+                            <span
+                                class="
+                                    status-badge
+                                    status-inactive
+                                "
+                            >
+                                Nem adta be
+                            </span>
+                        {% endif %}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+
+        <article class="card">
+            <h2>Eredmény</h2>
+
+            <dl class="detail-list">
+                <div>
+                    <dt>Pontszám</dt>
+                    <dd>
+                        <strong>
+                            {{ correct_answer_count }}
+                            /
+                            {{ question_count }}
+                        </strong>
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Százalék</dt>
+                    <dd>
+                        {{
+                            "%.1f"
+                            | format(percentage)
+                        }}
+                        %
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Kezdés</dt>
+                    <dd>
+                        {{
+                            attempt.started_at.strftime(
+                                "%Y.%m.%d. %H:%M"
+                            )
+                        }}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Beadás</dt>
+                    <dd>
+                        {% if attempt.submitted_at %}
+                            {{
+                                attempt.submitted_at.strftime(
+                                    "%Y.%m.%d. %H:%M"
+                                )
+                            }}
+                        {% else %}
+                            –
+                        {% endif %}
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Kitöltési idő</dt>
+                    <dd>
+                        {{ duration_text or "–" }}
+                    </dd>
+                </div>
+            </dl>
+        </article>
+    </section>
+
+    {% for question_result in question_results %}
+        {% set generated_question =
+            question_result.generated_question
+        %}
+
+        <section class="card generated-question">
+            <div class="question-result-header">
+                <h2>
+                    {{
+                        generated_question
+                        .display_position
+                    }}. feladat
+                </h2>
+
+                {% if
+                    question_result
+                    .selected_answer_id
+                    is none
+                %}
+                    <span
+                        class="
+                            status-badge
+                            status-inactive
+                        "
+                    >
+                        Nem válaszolt
+                    </span>
+
+                {% elif question_result.is_correct %}
+                    <span
+                        class="
+                            status-badge
+                            status-active
+                        "
+                    >
+                        Helyes
+                    </span>
+
+                {% else %}
+                    <span
+                        class="
+                            status-badge
+                            status-error
+                        "
+                    >
+                        Hibás
+                    </span>
+                {% endif %}
+            </div>
+
+            <div class="question-text">
+                {{
+                    generated_question
+                    .question
+                    .question_text
+                }}
+            </div>
+
+            <ol class="attempt-answer-list">
+                {% for generated_answer
+                    in generated_question
+                    .generated_answers
+                %}
+                    {% set is_selected =
+                        question_result
+                        .selected_answer_id
+                        == generated_answer.id
+                    %}
+
+                    {% set is_correct =
+                        generated_answer
+                        .answer_option
+                        .is_correct
+                    %}
+
+                    <li
+                        class="
+                            attempt-answer
+                            {% if
+                                is_selected
+                                and is_correct
+                            %}
+                                attempt-answer-selected-correct
+                            {% elif is_selected %}
+                                attempt-answer-selected-wrong
+                            {% elif is_correct %}
+                                attempt-answer-correct
+                            {% endif %}
+                        "
+                    >
+                        <span>
+                            {{
+                                generated_answer
+                                .answer_option
+                                .answer_text
+                            }}
+                        </span>
+
+                        <span class="answer-result-label">
+                            {% if
+                                is_selected
+                                and is_correct
+                            %}
+                                ✓ Ezt jelölte – helyes
+
+                            {% elif is_selected %}
+                                ✗ Ezt jelölte
+
+                            {% elif is_correct %}
+                                ✓ Helyes válasz
+                            {% endif %}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ol>
+        </section>
+    {% else %}
+        <section class="card">
+            <p>
+                A feladatsor nem tartalmaz kérdést.
+            </p>
+        </section>
+    {% endfor %}
+{% endblock %}

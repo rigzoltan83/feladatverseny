@@ -104,6 +104,9 @@
                             <th>
                                 Kitöltési idő
                             </th>
+                            <th class="table-actions">
+                                Művelet
+                            </th>
                         </tr>
                     </thead>
 
@@ -210,6 +213,17 @@
                                         or "–"
                                     }}
                                 </td>
+<td class="table-actions">
+    <a
+        class="button button-secondary"
+        href="{{ url_for(
+            'admin.attempt_result_detail',
+            attempt_id=row.attempt.id
+        ) }}"
+    >
+        Kitöltés
+    </a>
+</td>
                             </tr>
                         {% endfor %}
                     </tbody>
