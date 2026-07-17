@@ -33,6 +33,11 @@ competitor_bp = Blueprint(
 )
 def login():
     if session.get("competitor_id"):
+        if session.get("is_admin"):
+            return redirect(
+                url_for("admin.index")
+            )
+
         return redirect(
             url_for("competitor.dashboard")
         )
@@ -65,11 +70,17 @@ def login():
 
             session["competitor_id"] = competitor.id
             session["competitor_name"] = competitor.full_name
+            session["is_admin"] = competitor.is_admin
 
             flash(
                 "Sikeres bejelentkezés.",
                 "success",
             )
+
+            if competitor.is_admin:
+                return redirect(
+                    url_for("admin.index")
+                )
 
             return redirect(
                 url_for("competitor.dashboard")
