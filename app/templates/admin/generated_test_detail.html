@@ -15,6 +15,74 @@
         </div>
 
         <div class="form-actions">
+{% if generated_test.status == 'draft' %}
+    <form
+        method="post"
+        action="{{ url_for(
+            'admin_generated_tests.generated_test_activate',
+            generated_test_id=generated_test.id
+        ) }}"
+    >
+        <button
+            class="button"
+            type="submit"
+        >
+            Aktiválás
+        </button>
+    </form>
+
+    <form
+        method="post"
+        action="{{ url_for(
+            'admin_generated_tests.generated_test_close',
+            generated_test_id=generated_test.id
+        ) }}"
+        onsubmit="return confirm(
+            'Biztosan végleg lezárod ezt a feladatsort?'
+        );"
+    >
+        <button
+            class="button button-danger"
+            type="submit"
+        >
+            Lezárás
+        </button>
+    </form>
+{% elif generated_test.status == 'active' %}
+    <form
+        method="post"
+        action="{{ url_for(
+            'admin_generated_tests.generated_test_return_to_draft',
+            generated_test_id=generated_test.id
+        ) }}"
+    >
+        <button
+            class="button button-secondary"
+            type="submit"
+        >
+            Vissza piszkozatba
+        </button>
+    </form>
+
+    <form
+        method="post"
+        action="{{ url_for(
+            'admin_generated_tests.generated_test_close',
+            generated_test_id=generated_test.id
+        ) }}"
+        onsubmit="return confirm(
+            'Biztosan végleg lezárod ezt a feladatsort?'
+        );"
+    >
+        <button
+            class="button button-danger"
+            type="submit"
+        >
+            Lezárás
+        </button>
+    </form>
+{% endif %}
+
             <a
                 class="button button-secondary"
                 href="{{ url_for(
@@ -55,7 +123,23 @@
 
                 <div>
                     <dt>Állapot</dt>
-                    <dd>{{ generated_test.status }}</dd>
+<dd>
+    {% if generated_test.status == 'draft' %}
+        <span class="status-badge status-draft">
+            Piszkozat
+        </span>
+    {% elif generated_test.status == 'active' %}
+        <span class="status-badge status-active">
+            Aktív
+        </span>
+    {% elif generated_test.status == 'closed' %}
+        <span class="status-badge status-inactive">
+            Lezárt
+        </span>
+    {% else %}
+        {{ generated_test.status }}
+    {% endif %}
+</dd>
                 </div>
 
                 <div>

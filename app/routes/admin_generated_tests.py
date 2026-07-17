@@ -262,3 +262,127 @@ def generated_test_detail(
         "admin/generated_test_detail.html",
         generated_test=generated_test,
     )
+
+@generated_test_bp.post(
+    "/<int:generated_test_id>/activate"
+)
+def generated_test_activate(
+    generated_test_id: int,
+):
+    generated_test = db.get_or_404(
+        GeneratedTest,
+        generated_test_id,
+    )
+
+    if generated_test.status == "closed":
+        flash(
+            (
+                "Lezárt feladatsor nem "
+                "aktiválható újra."
+            ),
+            "error",
+        )
+
+    elif generated_test.status == "active":
+        flash(
+            "A feladatsor már aktív.",
+            "error",
+        )
+
+    else:
+        generated_test.status = "active"
+        db.session.commit()
+
+        flash(
+            "A feladatsort aktiváltuk.",
+            "success",
+        )
+
+    return redirect(
+        url_for(
+            "admin_generated_tests.generated_test_detail",
+            generated_test_id=generated_test.id,
+        )
+    )
+
+
+@generated_test_bp.post(
+    "/<int:generated_test_id>/close"
+)
+def generated_test_close(
+    generated_test_id: int,
+):
+    generated_test = db.get_or_404(
+        GeneratedTest,
+        generated_test_id,
+    )
+
+    if generated_test.status == "closed":
+        flash(
+            "A feladatsor már le van zárva.",
+            "error",
+        )
+
+    else:
+        generated_test.status = "closed"
+        db.session.commit()
+
+        flash(
+            "A feladatsort lezártuk.",
+            "success",
+        )
+
+    return redirect(
+        url_for(
+            "admin_generated_tests.generated_test_detail",
+            generated_test_id=generated_test.id,
+        )
+    )
+
+
+@generated_test_bp.post(
+    "/<int:generated_test_id>/return-to-draft"
+)
+def generated_test_return_to_draft(
+    generated_test_id: int,
+):
+    generated_test = db.get_or_404(
+        GeneratedTest,
+        generated_test_id,
+    )
+
+    if generated_test.status == "closed":
+        flash(
+            (
+                "Lezárt feladatsor nem "
+                "állítható vissza piszkozatba."
+            ),
+            "error",
+        )
+
+    elif generated_test.status == "draft":
+        flash(
+            "A feladatsor már piszkozat.",
+            "error",
+        )
+
+    else:
+        generated_test.status = "draft"
+        db.session.commit()
+
+        flash(
+            (
+                "A feladatsort visszaállítottuk "
+                "piszkozat állapotba."
+            ),
+            "success",
+        )
+
+    return redirect(
+        url_for(
+            "admin_generated_tests.generated_test_detail",
+            generated_test_id=generated_test.id,
+        )
+    )
+
+

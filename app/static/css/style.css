@@ -499,3 +499,8 @@ input[type="file"] {
     margin-left: 12px;
     color: #155724;
 }
+
+.status-draft {
+    color: #664d03;
+    background: #fff3cd;
+}

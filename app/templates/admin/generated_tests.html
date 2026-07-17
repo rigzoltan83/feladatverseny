@@ -46,7 +46,23 @@
                             }}
                         </td>
 
-                        <td>{{ test.status }}</td>
+<td>
+    {% if test.status == 'draft' %}
+        <span class="status-badge status-draft">
+            Piszkozat
+        </span>
+    {% elif test.status == 'active' %}
+        <span class="status-badge status-active">
+            Aktív
+        </span>
+    {% elif test.status == 'closed' %}
+        <span class="status-badge status-inactive">
+            Lezárt
+        </span>
+    {% else %}
+        {{ test.status }}
+    {% endif %}
+</td>
 
                         <td>
                             {{
