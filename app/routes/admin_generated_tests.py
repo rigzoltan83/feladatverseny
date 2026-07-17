@@ -84,8 +84,12 @@ def get_candidate_questions(
                 question
             )
 
-    return valid_candidates
+    unique_candidates = {
+        question.id: question
+        for question in valid_candidates
+    }
 
+    return list(unique_candidates.values())
 
 @generated_test_bp.get("/")
 def generated_test_list():
@@ -159,6 +163,29 @@ def generate_test(template_id: int):
         selected_questions = candidates[
             :template.question_count
         ]
+
+    selected_question_ids = [
+        question.id
+        for question in selected_questions
+    ]
+
+    if len(selected_question_ids) != len(
+        set(selected_question_ids)
+    ):
+        flash(
+            (
+                "A generálás megszakadt, mert "
+                "ismétlődő feladat került a listába."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
 
     generated_name = (
         f"{template.name} – "
