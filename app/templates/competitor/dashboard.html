@@ -25,6 +25,7 @@
             Kijelentkezés
         </a>
     </div>
+
 </div>
 
 <section class="card">
@@ -73,6 +74,113 @@
         <p>
             Jelenleg nincs az évfolyamodhoz elérhető
             aktív feladatsor.
+        </p>
+    {% endif %}
+</section>
+<section class="card">
+    <h2>Korábbi eredményeim</h2>
+
+    {% if result_rows %}
+        <div class="table-wrapper">
+            <table class="data-table results-table">
+                <thead>
+                    <tr>
+                        <th>Forduló</th>
+
+                        <th class="table-number">
+                            Feladatok
+                        </th>
+
+                        <th class="table-number">
+                            Pontszám
+                        </th>
+
+                        <th class="table-number">
+                            Eredmény
+                        </th>
+
+                        <th>
+                            Beadás
+                        </th>
+
+                        <th class="table-actions">
+                            Művelet
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in result_rows %}
+                        <tr>
+                            <td class="result-test-name">
+                                {{
+                                    row.attempt
+                                    .generated_test
+                                    .name
+                                }}
+                            </td>
+
+                            <td class="table-number">
+                                {{ row.question_count }}
+                            </td>
+
+                            <td class="table-number">
+                                <strong>
+                                    {{ row.score }}
+                                    /
+                                    {{ row.question_count }}
+                                </strong>
+                            </td>
+
+                            <td class="table-number">
+                                {{
+                                    "%.1f"
+                                    | format(row.percentage)
+                                }}
+                                %
+                            </td>
+
+                            <td>
+                                {% if row.attempt.submitted_at %}
+                                    {{
+                                        row.attempt
+                                        .submitted_at
+                                        .strftime(
+                                            "%Y.%m.%d. %H:%M"
+                                        )
+                                    }}
+                                {% else %}
+                                    <span
+                                        class="
+                                            status-badge
+                                            status-inactive
+                                        "
+                                    >
+                                        Nem adta be
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td class="table-actions">
+                                <a
+                                    class="button button-secondary"
+                                    href="{{ url_for(
+                                        'competitor.test_view',
+                                        test_id=row.attempt.generated_test.id
+                                    ) }}"
+                                >
+                                    Feladatlap megtekintése
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>
+            Még nincs lezárt forduló,
+            amelyben részt vettél.
         </p>
     {% endif %}
 </section>
