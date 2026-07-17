@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Versenyzők
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Versenyzők</h1>
+        <p>
+            Regisztrált versenyzők kezelése.
+        </p>
+    </div>
+
+    <div>
+        <a
+            class="button"
+            href="{{ url_for('admin.competitor_create') }}"
+        >
+            Új versenyző
+        </a>
+    </div>
+</div>
+
+<section class="card question-filter-card">
+    <form
+        method="get"
+        action="{{ url_for('admin.competitors') }}"
+        class="question-search-form"
+    >
+        <div class="form-group question-search-field">
+            <label for="q">
+                Keresés
+            </label>
+
+            <input
+                id="q"
+                name="q"
+                type="search"
+                value="{{ search_text }}"
+                placeholder="Név vagy felhasználónév..."
+            >
+        </div>
+
+        <div class="question-search-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Keresés
+            </button>
+
+            {% if search_text %}
+                <a
+                    class="button button-secondary"
+                    href="{{ url_for('admin.competitors') }}"
+                >
+                    Keresés törlése
+                </a>
+            {% endif %}
+        </div>
+    </form>
+</section>
+
+<p class="list-summary">
+    <strong>{{ pagination.total }}</strong>
+    versenyző található.
+
+    {% if pagination.total %}
+        Megjelenítve:
+        {{ pagination.first }}–{{ pagination.last }}.
+    {% endif %}
+</p>
+
+<div class="table-wrapper">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Teljes név</th>
+                <th>Felhasználónév</th>
+                <th>Évfolyam</th>
+                <th>Állapot</th>
+                <th>Létrehozva</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for competitor in competitors %}
+                <tr>
+                    <td>
+                        {{ competitor.id }}
+                    </td>
+
+                    <td>
+                        {{ competitor.full_name }}
+                    </td>
+
+                    <td>
+                        {{ competitor.username }}
+                    </td>
+
+                    <td>
+                        {{ competitor.grade.grade_number }}.
+                        évfolyam
+                    </td>
+
+                    <td>
+                        {% if competitor.is_active %}
+                            <span class="status-badge status-active">
+                                Aktív
+                            </span>
+                        {% else %}
+                            <span class="status-badge status-inactive">
+                                Inaktív
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {{ competitor.created_at.strftime(
+                            "%Y-%m-%d %H:%M"
+                        ) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td
+                        colspan="6"
+                        class="empty-table-cell"
+                    >
+                        Nincs megjeleníthető versenyző.
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if pagination.pages > 1 %}
+    <nav class="pagination">
+        {% if pagination.has_prev %}
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin.competitors',
+                    page=pagination.prev_num,
+                    q=search_text
+                ) }}"
+            >
+                Előző
+            </a>
+        {% endif %}
+
+        <span class="pagination-info">
+            {{ pagination.page }} /
+            {{ pagination.pages }}. oldal
+        </span>
+
+        {% if pagination.has_next %}
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin.competitors',
+                    page=pagination.next_num,
+                    q=search_text
+                ) }}"
+            >
+                Következő
+            </a>
+        {% endif %}
+    </nav>
+{% endif %}
+{% endblock %}

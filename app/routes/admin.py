@@ -14,6 +14,7 @@ from flask import (
 
 from app.extensions import db
 from app.models import (
+    Competitor,
     AnswerOption,
     Grade,
     Question,
@@ -425,6 +426,136 @@ def question_detail(question_id: int):
         "admin/question_detail.html",
         question=question,
         image_exists=image_path.is_file(),
+    )
+
+@admin_bp.route(
+    "/competitors/new",
+    methods=["GET", "POST"],
+)
+def competitor_create():
+    grades = (
+        Grade.query
+        .order_by(
+            Grade.grade_number.asc()
+        )
+        .all()
+    )
+
+    if request.method == "POST":
+        full_name = request.form.get(
+            "full_name",
+            "",
+        ).strip()
+
+        username = request.form.get(
+            "username",
+            "",
+        ).strip()
+
+        grade_id = request.form.get(
+            "grade_id",
+            type=int,
+        )
+
+        password = request.form.get(
+            "password",
+            "",
+        )
+
+        password_confirm = request.form.get(
+            "password_confirm",
+            "",
+        )
+
+        has_error = False
+
+        if not full_name:
+            flash(
+                "A teljes név megadása kötelező.",
+                "error",
+            )
+            has_error = True
+
+        if not username:
+            flash(
+                "A felhasználónév megadása kötelező.",
+                "error",
+            )
+            has_error = True
+
+        if len(username) > 80:
+            flash(
+                "A felhasználónév legfeljebb 80 karakter lehet.",
+                "error",
+            )
+            has_error = True
+
+        existing_competitor = (
+            Competitor.query
+            .filter(
+                Competitor.username.ilike(username)
+            )
+            .first()
+        )
+
+        if existing_competitor:
+            flash(
+                "Ez a felhasználónév már foglalt.",
+                "error",
+            )
+            has_error = True
+
+        grade = db.session.get(
+            Grade,
+            grade_id,
+        )
+
+        if not grade:
+            flash(
+                "Érvényes évfolyam kiválasztása kötelező.",
+                "error",
+            )
+            has_error = True
+
+        if len(password) < 6:
+            flash(
+                "A jelszónak legalább 6 karakteresnek kell lennie.",
+                "error",
+            )
+            has_error = True
+
+        if password != password_confirm:
+            flash(
+                "A két jelszó nem egyezik.",
+                "error",
+            )
+            has_error = True
+
+        if not has_error:
+            competitor = Competitor(
+                full_name=full_name,
+                username=username,
+                grade_id=grade.id,
+                is_active=True,
+            )
+
+            competitor.set_password(password)
+
+            db.session.add(competitor)
+            db.session.commit()
+
+            flash(
+                "A versenyző sikeresen létrejött.",
+                "success",
+            )
+
+            return redirect(
+                url_for("admin.competitors")
+            )
+
+    return render_template(
+        "admin/competitor_form.html",
+        grades=grades,
     )
 
 @admin_bp.route(
@@ -1282,4 +1413,52 @@ def question_toggle_active(question_id: int):
             "admin.question_detail",
             question_id=question.id,
         )
+    )
+
+@admin_bp.get("/competitors")
+def competitors():
+    page = request.args.get(
+        "page",
+        default=1,
+        type=int,
+    )
+
+    search_text = request.args.get(
+        "q",
+        default="",
+        type=str,
+    ).strip()
+
+    competitor_query = Competitor.query
+
+    if search_text:
+        competitor_query = competitor_query.filter(
+            db.or_(
+                Competitor.username.ilike(
+                    f"%{search_text}%"
+                ),
+                Competitor.full_name.ilike(
+                    f"%{search_text}%"
+                ),
+            )
+        )
+
+    pagination = (
+        competitor_query
+        .order_by(
+            Competitor.full_name.asc(),
+            Competitor.id.asc(),
+        )
+        .paginate(
+            page=page,
+            per_page=50,
+            error_out=False,
+        )
+    )
+
+    return render_template(
+        "admin/competitors.html",
+        competitors=pagination.items,
+        pagination=pagination,
+        search_text=search_text,
     )

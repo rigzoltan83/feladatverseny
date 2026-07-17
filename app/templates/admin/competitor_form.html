@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Új versenyző
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Új versenyző</h1>
+        <p>
+            Új versenyzői belépés létrehozása.
+        </p>
+    </div>
+</div>
+
+<section class="card">
+    <form
+        method="post"
+        action="{{ url_for('admin.competitor_create') }}"
+        class="admin-form"
+    >
+        <div class="form-group">
+            <label for="full_name">
+                Teljes név
+            </label>
+
+            <input
+                id="full_name"
+                name="full_name"
+                type="text"
+                maxlength="200"
+                required
+                value="{{ request.form.get('full_name', '') }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="username">
+                Felhasználónév
+            </label>
+
+            <input
+                id="username"
+                name="username"
+                type="text"
+                maxlength="80"
+                autocomplete="username"
+                required
+                value="{{ request.form.get('username', '') }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="grade_id">
+                Évfolyam
+            </label>
+
+            <select
+                id="grade_id"
+                name="grade_id"
+                required
+            >
+                <option value="">
+                    Válassz évfolyamot
+                </option>
+
+                {% for grade in grades %}
+                    <option
+                        value="{{ grade.id }}"
+                        {% if
+                            request.form.get(
+                                'grade_id',
+                                type=int
+                            ) == grade.id
+                        %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ grade.grade_number }}.
+                        évfolyam
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                Jelszó
+            </label>
+
+            <input
+                id="password"
+                name="password"
+                type="password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+
+            <small>
+                Legalább 6 karakter.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="password_confirm">
+                Jelszó újra
+            </label>
+
+            <input
+                id="password_confirm"
+                name="password_confirm"
+                type="password"
+                minlength="6"
+                autocomplete="new-password"
+                required
+            >
+        </div>
+
+        <div class="form-actions">
+            <button
+                class="button"
+                type="submit"
+            >
+                Versenyző mentése
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{ url_for('admin.competitors') }}"
+            >
+                Mégse
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
