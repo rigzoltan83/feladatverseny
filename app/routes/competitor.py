@@ -161,10 +161,59 @@ def dashboard():
         .all()
     )
 
+    closed_attempts = (
+        CompetitorAttempt.query
+        .join(CompetitorAttempt.generated_test)
+        .filter(
+            CompetitorAttempt.competitor_id
+            == competitor.id,
+            GeneratedTest.status == "closed",
+        )
+        .order_by(
+            GeneratedTest.created_at.desc(),
+            GeneratedTest.id.desc(),
+        )
+        .all()
+    )
+
+    result_rows = []
+
+    for attempt in closed_attempts:
+        question_count = len(
+            attempt.generated_test.generated_questions
+        )
+
+        score = sum(
+            1
+            for competitor_answer in attempt.answers
+            if (
+                competitor_answer
+                .generated_test_answer
+                .answer_option
+                .is_correct
+            )
+        )
+
+        percentage = (
+            score / question_count * 100
+            if question_count
+            else 0
+        )
+
+        result_rows.append(
+            {
+                "attempt": attempt,
+                "question_count": question_count,
+                "score": score,
+                "percentage": percentage,
+            }
+        )
+
     return render_template(
         "competitor/dashboard.html",
         competitor=competitor,
         active_tests=active_tests,
+        result_rows=result_rows,
     )
 
 @competitor_bp.route(
