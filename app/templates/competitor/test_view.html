@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ generated_test.name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <h1>{{ generated_test.name }}</h1>
+
+        <p>
+            Versenyző:
+            <strong>{{ competitor.full_name }}</strong>
+        </p>
+
+        <p>
+            Feladatok száma:
+            <strong>{{ test_questions | length }}</strong>
+        </p>
+    </div>
+
+    <div>
+        <a
+            class="button button-secondary"
+            href="{{ url_for('competitor.dashboard') }}"
+        >
+            Vissza
+        </a>
+    </div>
+</div>
+
+<div class="competitor-test-form">
+
+    {% for generated_question in test_questions %}
+
+        <section class="card question-card">
+
+            <div class="question-number">
+                {{ generated_question.display_position }}. feladat
+            </div>
+
+            <div class="question-text">
+                {{ generated_question.question.question_text }}
+            </div>
+
+            <div class="answer-options">
+
+                {% for generated_answer
+                    in generated_question.generated_answers %}
+
+<label class="answer-option">
+
+    <input
+        class="answer-radio"
+        type="radio"
+        name="question_{{ generated_question.id }}"
+        value="{{ generated_answer.id }}"
+    >
+
+    <span class="answer-marker">
+        {% if generated_answer.display_position == 1 %}
+            A
+        {% elif generated_answer.display_position == 2 %}
+            B
+        {% elif generated_answer.display_position == 3 %}
+            C
+        {% elif generated_answer.display_position == 4 %}
+            D
+        {% elif generated_answer.display_position == 5 %}
+            E
+        {% endif %}
+    </span>
+
+    <span class="answer-content">{{ generated_answer.answer_option.answer_text or "" }}</span>
+
+</label>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    {% else %}
+
+        <section class="card">
+            <p>
+                Ebben a feladatsorban nincs kérdés.
+            </p>
+        </section>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

@@ -153,4 +153,69 @@ def dashboard():
         active_tests=active_tests,
     )
 
+@competitor_bp.get("/feladatsor/<int:test_id>")
+def test_view(test_id):
+    competitor_id = session.get(
+        "competitor_id"
+    )
+
+    if not competitor_id:
+        flash(
+            "A feladatsor megtekintéséhez jelentkezz be.",
+            "error",
+        )
+
+        return redirect(
+            url_for("competitor.login")
+        )
+
+    competitor = db.session.get(
+        Competitor,
+        competitor_id,
+    )
+
+    if not competitor or not competitor.is_active:
+        session.clear()
+
+        flash(
+            "A felhasználói fiók nem érhető el.",
+            "error",
+        )
+
+        return redirect(
+            url_for("competitor.login")
+        )
+
+    generated_test = db.get_or_404(
+        GeneratedTest,
+        test_id,
+    )
+
+    is_allowed = (
+        generated_test.status == "active"
+        and any(
+            grade.id == competitor.grade_id
+            for grade in generated_test.test_template.grades
+        )
+    )
+
+    if not is_allowed:
+        flash(
+            "Ez a feladatsor számodra nem érhető el.",
+            "error",
+        )
+
+        return redirect(
+            url_for("competitor.dashboard")
+        )
+
+    test_questions = generated_test.generated_questions
+
+    return render_template(
+        "competitor/test_view.html",
+        competitor=competitor,
+        generated_test=generated_test,
+        test_questions=test_questions,
+    )
+
 

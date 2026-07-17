@@ -55,11 +55,17 @@
                         </p>
                     </div>
 
-                    <div class="test-card-actions">
-                        <span class="status-badge status-active">
-                            Aktív
-                        </span>
-                    </div>
+<div class="test-card-actions">
+    <a
+        class="button"
+        href="{{ url_for(
+            'competitor.test_view',
+            test_id=generated_test.id
+        ) }}"
+    >
+        Feladatsor megnyitása
+    </a>
+</div>
                 </article>
             {% endfor %}
         </div>
