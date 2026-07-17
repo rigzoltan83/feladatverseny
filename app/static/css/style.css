@@ -110,6 +110,53 @@ body {
     background: #f7f9fb;
 }
 
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background: #fafbfd;
+}
+
+.data-table tbody tr:nth-child(even):hover,
+.data-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+.data-table td {
+    vertical-align: middle;
+}
+
+.table-number {
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+.table-actions {
+    width: 1%;
+    text-align: right !important;
+    white-space: nowrap;
+}
+
+.results-table {
+    min-width: 780px;
+}
+
+.results-table thead th {
+    border-bottom: 2px solid #c8d2dc;
+}
+
+.results-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.result-test-name {
+    min-width: 220px;
+    font-weight: bold;
+    color: #26364a;
+}
+
 .page-header-row {
     display: flex;
     align-items: center;
