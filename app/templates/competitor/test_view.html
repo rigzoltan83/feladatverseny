@@ -50,6 +50,14 @@
             {% endif %}
         {% endif %}
 
+{% if results_visible %}
+    <p>
+        <strong>
+            A forduló lezárult. A válaszok már nem módosíthatók.
+        </strong>
+    </p>
+{% endif %}
+
     </div>
 
     <div>
@@ -94,7 +102,7 @@
         == generated_answer.id %}
         checked
     {% endif %}
-    {% if attempt.status == "submitted" %}
+    {% if attempt.status == "submitted" or results_visible %}
         disabled
     {% endif %}
 >
@@ -133,7 +141,7 @@
 
     {% endfor %}
 
-    {% if attempt.status == "in_progress" %}
+    {% if attempt.status == "in_progress" and not results_visible %}
         <div class="test-actions">
 
             <button
