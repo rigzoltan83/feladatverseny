@@ -1,8 +1,15 @@
 import os
 
 from dotenv import load_dotenv
-from flask import Flask
-
+from flask import (
+    Flask,
+    abort,
+    flash,
+    redirect,
+    request,
+    session,
+    url_for,
+)
 
 def create_app() -> Flask:
     """A Flask alkalmazás létrehozása."""
@@ -41,6 +48,53 @@ def create_app() -> Flask:
     app.register_blueprint(media_bp)
     app.register_blueprint(template_bp)
     app.register_blueprint(generated_test_bp)
+
+    @app.before_request
+    def protect_admin_routes():
+        if not request.path.startswith("/admin"):
+            return None
+
+        competitor_id = session.get(
+            "competitor_id"
+        )
+
+        if not competitor_id:
+            flash(
+                "Az adminisztráció használatához "
+                "jelentkezz be.",
+                "error",
+            )
+
+            return redirect(
+                url_for("competitor.login")
+            )
+
+        competitor = db.session.get(
+            models.Competitor,
+            competitor_id,
+        )
+
+        if (
+            competitor is None
+            or not competitor.is_active
+        ):
+            session.clear()
+
+            flash(
+                "A felhasználói fiók nem érhető el.",
+                "error",
+            )
+
+            return redirect(
+                url_for("competitor.login")
+            )
+
+        if not competitor.is_admin:
+            abort(403)
+
+        session["is_admin"] = True
+
+        return None
 
     register_routes(app)
 
