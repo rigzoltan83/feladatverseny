@@ -22,62 +22,86 @@
         </a>
     </section>
 
-    <section class="card">
-        {% if closed_tests %}
-            <div class="table-wrapper">
-                <table>
-                    <thead>
+<section class="card">
+    {% if result_rows %}
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Forduló</th>
+                        <th>Feladatok</th>
+                        <th>Résztvevők</th>
+                        <th>Beadta</th>
+                        <th>Átlag</th>
+                        <th>Legjobb</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in result_rows %}
                         <tr>
-                            <th>Forduló</th>
-                            <th>Feladatok</th>
-                            <th>Kitöltések</th>
-                            <th></th>
+                            <td>
+                                {{ row.generated_test.name }}
+                            </td>
+
+                            <td>
+                                {{ row.question_count }}
+                            </td>
+
+                            <td>
+                                {{ row.attempt_count }}
+                            </td>
+
+                            <td>
+                                {{ row.submitted_count }}
+                            </td>
+
+                            <td>
+                                {% if row.average_score is not none %}
+                                    {{
+                                        "%.1f"
+                                        | format(
+                                            row.average_score
+                                        )
+                                    }}
+                                    /
+                                    {{ row.question_count }}
+                                {% else %}
+                                    –
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if row.best_score is not none %}
+                                    {{ row.best_score }}
+                                    /
+                                    {{ row.question_count }}
+                                {% else %}
+                                    –
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <a
+                                    class="button button-secondary"
+                                    href="{{ url_for(
+                                        'admin_generated_tests.generated_test_detail',
+                                        generated_test_id=row.generated_test.id
+                                    ) }}"
+                                >
+                                    Megnyitás
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for generated_test in closed_tests %}
-                            <tr>
-                                <td>
-                                    {{ generated_test.name }}
-                                </td>
-
-                                <td>
-                                    {{
-                                        generated_test
-                                        .generated_questions
-                                        | length
-                                    }}
-                                </td>
-
-                                <td>
-                                    {{
-                                        generated_test
-                                        .competitor_attempts
-                                        .count()
-                                    }}
-                                </td>
-
-                                <td>
-                                    <a
-                                        class="button button-secondary"
-                                        href="{{ url_for(
-                                            'admin_generated_tests.generated_test_detail',
-                                            generated_test_id=generated_test.id
-                                        ) }}"
-                                    >
-                                        Megnyitás
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <p>
-                Még nincs lezárt forduló.
-            </p>
-        {% endif %}
-    </section>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>
+            Még nincs lezárt forduló.
+        </p>
+    {% endif %}
+</section>
 {% endblock %}

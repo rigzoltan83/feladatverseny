@@ -81,7 +81,6 @@ def index():
         "admin/index.html"
     )
 
-
 @admin_bp.get("/results")
 def results():
     closed_tests = (
@@ -91,9 +90,67 @@ def results():
         .all()
     )
 
+    result_rows = []
+
+    for generated_test in closed_tests:
+        attempts = (
+            generated_test
+            .competitor_attempts
+            .all()
+        )
+
+        submitted_attempts = [
+            attempt
+            for attempt in attempts
+            if attempt.status == "submitted"
+        ]
+
+        scores = []
+
+        for attempt in submitted_attempts:
+            score = sum(
+                1
+                for competitor_answer in attempt.answers
+                if (
+                    competitor_answer
+                    .generated_test_answer
+                    .answer_option
+                    .is_correct
+                )
+            )
+
+            scores.append(score)
+
+        average_score = (
+            sum(scores) / len(scores)
+            if scores
+            else None
+        )
+
+        best_score = (
+            max(scores)
+            if scores
+            else None
+        )
+
+        result_rows.append(
+            {
+                "generated_test": generated_test,
+                "question_count": len(
+                    generated_test.generated_questions
+                ),
+                "attempt_count": len(attempts),
+                "submitted_count": len(
+                    submitted_attempts
+                ),
+                "average_score": average_score,
+                "best_score": best_score,
+            }
+        )
+
     return render_template(
         "admin/results.html",
-        closed_tests=closed_tests,
+        result_rows=result_rows,
     )
 
 @admin_bp.get("/questions")
