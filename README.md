@@ -25,7 +25,7 @@ The installer creates:
 - `feladatweb` system user
 - `feladat` system group
 - `/srv/feladatverseny/media`
-- `/srv/feladatverseny/backups`
+- `/backup/feladatverseny`
 - Python virtual environment
 - systemd service
 - `.env` from `.env.example`
@@ -94,6 +94,10 @@ Use the port configured in `APP_BIND`.
 Application source:
 
     /opt/feladatverseny
+
+Backups:
+
+    /backup/feladatverseny
 
 Persistent media:
 

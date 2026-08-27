@@ -1,0 +1,8 @@
+[Unit]
+Description=Feladatverseny backup
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/feladatverseny/deploy/backup.sh
