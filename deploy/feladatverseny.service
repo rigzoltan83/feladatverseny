@@ -1,0 +1,37 @@
+[Unit]
+Description=Feladatverseny Gunicorn application
+After=network-online.target postgresql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+
+User=feladatweb
+Group=feladat
+
+WorkingDirectory=/opt/feladatverseny
+
+Environment="HOME=/srv/feladatverseny"
+Environment="PYTHONUNBUFFERED=1"
+EnvironmentFile=/opt/feladatverseny/.env
+
+RuntimeDirectory=feladatverseny
+RuntimeDirectoryMode=0750
+
+ExecStart=/opt/feladatverseny/venv/bin/gunicorn \
+    --workers 2 \
+    --bind ${APP_BIND} \
+    --access-logfile - \
+    --error-logfile - \
+    --capture-output \
+    --chdir /opt/feladatverseny \
+    run:app
+
+Restart=on-failure
+RestartSec=3
+
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

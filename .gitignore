@@ -12,3 +12,6 @@ __pycache__/
 /srv/feladatverseny/backups/
 /srv/feladatverseny/media/
 venv/
+.python_history
+*.bak-*
+.cache/

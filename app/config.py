@@ -14,9 +14,15 @@ def required_env(name: str) -> str:
 
     return value
 
-
 class Config:
     SECRET_KEY = required_env("SECRET_KEY")
+
+    SESSION_COOKIE_NAME = (
+        "feladatverseny_session"
+    )
+
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
 
     SQLALCHEMY_DATABASE_URI = URL.create(
         drivername="postgresql+psycopg",
