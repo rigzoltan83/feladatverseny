@@ -209,24 +209,26 @@ if [ "$ROLE_EXISTS" = "1" ]; then
     sudo -u postgres \
     psql \
         --set=ON_ERROR_STOP=1 \
+        --set=db_user="$DB_USER" \
         --set=db_password="$DB_PASSWORD" \
-        -c "
-ALTER ROLE $DB_USER
+        <<'SQL'
+ALTER ROLE :"db_user"
 WITH
     LOGIN
     PASSWORD :'db_password';
-"
+SQL
 else
     sudo -u postgres \
     psql \
         --set=ON_ERROR_STOP=1 \
+        --set=db_user="$DB_USER" \
         --set=db_password="$DB_PASSWORD" \
-        -c "
-CREATE ROLE $DB_USER
+        <<'SQL'
+CREATE ROLE :"db_user"
 WITH
     LOGIN
     PASSWORD :'db_password';
-"
+SQL
 fi
 
 echo
