@@ -138,7 +138,9 @@ def register_routes(app: Flask) -> None:
 
     @app.get("/")
     def index():
-        return "A Feladatverseny alkalmazás működik."
+        return redirect(
+            url_for("competitor.login")
+        )
 
     @app.get("/health")
     def health():
