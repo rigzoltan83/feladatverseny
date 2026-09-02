@@ -12,7 +12,12 @@ SERVICE_NAME="feladatverseny"
 DB_NAME="feladatverseny"
 DB_USER="feladatverseny_user"
 DB_HOST="127.0.0.1"
-DB_PORT="5432"
+
+DB_PORT="${DB_PORT:-$(
+    sudo -u postgres \
+    psql -Atqc \
+    "SHOW port;"
+)}"
 
 APP_PORT="${APP_PORT:-8000}"
 APP_BIND="127.0.0.1:${APP_PORT}"
@@ -57,6 +62,7 @@ echo "========================================"
 echo
 echo "Project:  $PROJECT_DIR"
 echo "Database: $DB_NAME"
+echo "DB port:  $DB_PORT"
 echo "Bind:     $APP_BIND"
 echo "Prefix:   ${APPLICATION_PREFIX:-/}"
 echo "Backup:   $BACKUP_DIR"
