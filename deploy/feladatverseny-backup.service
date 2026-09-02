@@ -1,8 +1,11 @@
 [Unit]
 Description=Feladatverseny backup
-After=network-online.target
-Wants=network-online.target
+After=postgresql.service
+Wants=postgresql.service
 
 [Service]
 Type=oneshot
-ExecStart=/opt/feladatverseny/deploy/backup.sh
+User=root
+Group=root
+ExecStart=/opt/feladatverseny/backup.sh
+

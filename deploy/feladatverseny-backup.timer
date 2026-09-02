@@ -2,9 +2,10 @@
 Description=Daily Feladatverseny backup
 
 [Timer]
-OnCalendar=*-*-* 00:00:00
+OnCalendar=*-*-* 00:10:00
 Persistent=true
-RandomizedDelaySec=10m
+Unit=feladatverseny-backup.service
 
 [Install]
 WantedBy=timers.target
+

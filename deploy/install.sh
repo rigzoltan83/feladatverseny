@@ -684,7 +684,7 @@ done
 echo
 echo "===== 20. FIRST BACKUP ====="
 
-"$PROJECT_DIR/deploy/backup.sh"
+"$PROJECT_DIR/backup.sh"
 
 echo
 echo "========================================"
