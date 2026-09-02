@@ -578,7 +578,7 @@ psql \
     --set=admin_full_name="$ADMIN_FULL_NAME" \
     --set=admin_hash="$ADMIN_HASH" \
     --set=grade_id="$FIRST_GRADE_ID" \
-    -c "
+    <<'SQL'
 INSERT INTO competitor (
     username,
     full_name,
@@ -595,7 +595,7 @@ VALUES (
     TRUE,
     TRUE
 );
-"
+SQL
 
 unset ADMIN_PASSWORD
 unset ADMIN_PASSWORD_CONFIRM
