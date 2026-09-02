@@ -17,12 +17,31 @@ def required_env(name: str) -> str:
 class Config:
     SECRET_KEY = required_env("SECRET_KEY")
 
+    APPLICATION_PREFIX = (
+        os.getenv(
+            "APPLICATION_PREFIX",
+            "",
+        )
+        .strip()
+        .rstrip("/")
+    )
+
+    APPLICATION_ROOT = (
+        APPLICATION_PREFIX
+        or "/"
+    )
+
     SESSION_COOKIE_NAME = (
         "feladatverseny_session"
     )
 
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
+
+    SESSION_COOKIE_PATH = (
+        APPLICATION_PREFIX
+        or "/"
+    )
 
     SQLALCHEMY_DATABASE_URI = URL.create(
         drivername="postgresql+psycopg",

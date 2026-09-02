@@ -29,28 +29,11 @@ def create_app() -> Flask:
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    application_prefix = (
-        os.getenv(
-            "APPLICATION_PREFIX",
-            "",
-        )
-        .strip()
-        .rstrip("/")
-    )
+    application_prefix = app.config[
+        "APPLICATION_PREFIX"
+    ]
 
     if application_prefix:
-        app.config[
-            "APPLICATION_ROOT"
-        ] = application_prefix
-
-        app.config[
-            "SESSION_COOKIE_NAME"
-        ] = "feladatverseny_session"
-
-        app.config[
-            "SESSION_COOKIE_PATH"
-        ] = application_prefix
-
         original_wsgi_app = app.wsgi_app
 
         def prefixed_wsgi_app(
