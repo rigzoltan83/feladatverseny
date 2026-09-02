@@ -209,26 +209,22 @@ if [ "$ROLE_EXISTS" = "1" ]; then
     sudo -u postgres \
     psql \
         --set=ON_ERROR_STOP=1 \
-        --set=db_user="$DB_USER" \
-        --set=db_password="$DB_PASSWORD" \
-        <<'SQL'
-ALTER ROLE :"db_user"
+        -c "
+ALTER ROLE \"$DB_USER\"
 WITH
     LOGIN
-    PASSWORD :'db_password';
-SQL
+    PASSWORD '$DB_PASSWORD';
+"
 else
     sudo -u postgres \
     psql \
         --set=ON_ERROR_STOP=1 \
-        --set=db_user="$DB_USER" \
-        --set=db_password="$DB_PASSWORD" \
-        <<'SQL'
-CREATE ROLE :"db_user"
+        -c "
+CREATE ROLE \"$DB_USER\"
 WITH
     LOGIN
-    PASSWORD :'db_password';
-SQL
+    PASSWORD '$DB_PASSWORD';
+"
 fi
 
 echo
@@ -238,6 +234,21 @@ sudo -u postgres \
 createdb \
     --owner="$DB_USER" \
     "$DB_NAME"
+
+echo
+echo "===== 8A. DATABASE CONNECTION TEST ====="
+
+PGPASSWORD="$DB_PASSWORD" \
+psql \
+    -h "$DB_HOST" \
+    -p "$DB_PORT" \
+    -U "$DB_USER" \
+    -d "$DB_NAME" \
+    --set=ON_ERROR_STOP=1 \
+    -c "SELECT 1;" \
+    >/dev/null
+
+echo "Database authentication works."
 
 echo
 echo "===== 9. ENVIRONMENT FILE ====="
