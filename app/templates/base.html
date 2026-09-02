@@ -21,12 +21,13 @@
 <body>
     <header class="site-header">
         <div class="container header-content">
-            <a class="site-title" href="/">
+<a class="site-title" href="{{ url_for('index') }}">
                 Feladatverseny
             </a>
 
             <nav>
-                <a href="/admin/">Adminisztráció</a>
+
+<a href="{{ url_for('admin.index') }}">Adminisztráció</a>
             </nav>
         </div>
     </header>
