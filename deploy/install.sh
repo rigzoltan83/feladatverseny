@@ -497,17 +497,13 @@ read -r -p \
     "Admin username [admin]: " \
     ADMIN_USERNAME
 
-ADMIN_USERNAME="${
-    ADMIN_USERNAME:-admin
-}"
+ADMIN_USERNAME="${ADMIN_USERNAME:-admin}"
 
 read -r -p \
     "Admin full name [Administrator]: " \
     ADMIN_FULL_NAME
 
-ADMIN_FULL_NAME="${
-    ADMIN_FULL_NAME:-Administrator
-}"
+ADMIN_FULL_NAME="${ADMIN_FULL_NAME:-Administrator}"
 
 while true; do
 
