@@ -26,10 +26,7 @@ fi
 
 ENV_FILE="$PROJECT_DIR/.env"
 
-SEED_FILE=(
-    "$PROJECT_DIR/deploy/seed/"
-    "initial-data.sql.gz"
-)
+SEED_FILE="$PROJECT_DIR/deploy/seed/initial-data.sql.gz"
 
 if [ "$(id -u)" -ne 0 ]; then
     echo "Run this installer as root."
