@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Feladatok – Feladatverseny
+    {{ _("Feladatok – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header page-header-row">
         <div>
-            <h1>Feladatok</h1>
+            <h1>{{ _("Feladatok") }}</h1>
 
             <p>
-                Az adatbázisban tárolt feladatok listája.
+                {{ _("Az adatbázisban tárolt feladatok listája.") }}
             </p>
         </div>
 
@@ -19,14 +19,14 @@
             class="button"
             href="{{ url_for('admin.question_new') }}"
         >
-            + Új feladat
+            {{ _("+ Új feladat") }}
         </a>
 
         <a
             class="button button-secondary"
             href="{{ url_for('admin.question_import') }}"
         >
-            CSV-import
+            {{ _("CSV-import") }}
         </a>
     </div>
     </section>
@@ -41,7 +41,7 @@
     >
         <div class="form-group question-search-field">
             <label for="q">
-                Keresés a feladatok szövegében
+                {{ _("Keresés a feladatok szövegében") }}
             </label>
 
             <input
@@ -49,13 +49,13 @@
                 name="q"
                 type="search"
                 value="{{ search_text }}"
-                placeholder="Szó vagy kifejezés..."
+                placeholder="{{ _('Szó vagy kifejezés...') }}"
             >
         </div>
 
         <div class="form-group">
             <label for="grade_id">
-                Évfolyam
+                {{ _("Évfolyam") }}
             </label>
 
             <select
@@ -63,7 +63,7 @@
                 name="grade_id"
             >
                 <option value="0">
-                    Minden évfolyam
+                    {{ _("Minden évfolyam") }}
                 </option>
 
                 {% for grade in grades %}
@@ -74,7 +74,7 @@
                         {% endif %}
                     >
                         {{ grade.grade_number }}.
-                        évfolyam
+                        {{ _("évfolyam") }}
                     </option>
                 {% endfor %}
             </select>
@@ -82,7 +82,7 @@
 
         <div class="form-group">
             <label for="topic_id">
-                Témakör
+                {{ _("Témakör") }}
             </label>
 
             <select
@@ -90,7 +90,7 @@
                 name="topic_id"
             >
                 <option value="0">
-                    Minden témakör
+                    {{ _("Minden témakör") }}
                 </option>
 
                 {% for topic in topics %}
@@ -108,7 +108,7 @@
 
 <div class="form-group">
     <label for="source_year_id">
-        Forrásév
+        {{ _("Forrásév") }}
     </label>
 
     <select
@@ -116,7 +116,7 @@
         name="source_year_id"
     >
         <option value="0">
-            Minden forrásév
+            {{ _("Minden forrásév") }}
         </option>
 
         {% for source_year in source_years %}
@@ -137,7 +137,7 @@
 
 <div class="form-group">
     <label for="status">
-        Állapot
+        {{ _("Állapot") }}
     </label>
 
     <select
@@ -150,7 +150,7 @@
                 selected
             {% endif %}
         >
-            Minden állapot
+            {{ _("Minden állapot") }}
         </option>
 
         <option
@@ -159,7 +159,7 @@
                 selected
             {% endif %}
         >
-            Aktív
+            {{ _("Aktív") }}
         </option>
 
         <option
@@ -168,7 +168,7 @@
                 selected
             {% endif %}
         >
-            Inaktív
+            {{ _("Inaktív") }}
         </option>
     </select>
 </div>
@@ -178,7 +178,7 @@
                 class="button"
                 type="submit"
             >
-                Szűrés
+                {{ _("Szűrés") }}
             </button>
 
             {% if
@@ -192,7 +192,7 @@
                     class="button button-secondary"
                     href="{{ url_for('admin.questions') }}"
                 >
-                    Szűrők törlése
+                    {{ _("Szűrők törlése") }}
                 </a>
             {% endif %}
         </div>
@@ -201,10 +201,10 @@
 
 <p class="list-summary">
     <strong>{{ pagination.total }}</strong>
-    megfelelő feladat található.
+    {{ _("megfelelő feladat található.") }}
 
     {% if pagination.total %}
-        Megjelenítve:
+        {{ _("Megjelenítve:") }}
         {{ pagination.first }}–{{ pagination.last }}.
     {% endif %}
 </p>
@@ -213,14 +213,14 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Forrásév</th>
-                    <th>Sorszám</th>
-                    <th>Nehézség</th>
-                    <th>Évfolyamok</th>
-                    <th>Témakörök</th>
-                    <th>Feladat</th>
-                    <th>Állapot</th>
-		    <th>Művelet</th>
+                    <th>{{ _("Forrásév") }}</th>
+                    <th>{{ _("Sorszám") }}</th>
+                    <th>{{ _("Nehézség") }}</th>
+                    <th>{{ _("Évfolyamok") }}</th>
+                    <th>{{ _("Témakörök") }}</th>
+                    <th>{{ _("Feladat") }}</th>
+                    <th>{{ _("Állapot") }}</th>
+            <th>{{ _("Művelet") }}</th>
                 </tr>
             </thead>
 
@@ -263,27 +263,27 @@
 
                         <td>
                             {% if question.is_active %}
-                                Aktív
+                                {{ _("Aktív") }}
                             {% else %}
-                                Inaktív
+                                {{ _("Inaktív") }}
                             {% endif %}
                         </td>
-			<td>
-    			    <a
-        			class="table-link"
-        			href="{{ url_for(
-            			    'admin.question_detail',
-            			    question_id=question.id
-        			) }}"
-    			    >
-        			Megnyitás
-    			    </a>
-			</td>
+            <td>
+                    <a
+                    class="table-link"
+                    href="{{ url_for(
+                            'admin.question_detail',
+                            question_id=question.id
+                    ) }}"
+                    >
+                    {{ _("Megnyitás") }}
+                    </a>
+            </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td colspan="9">
-                            Nincs még rögzített feladat.
+                            {{ _("Nincs még rögzített feladat.") }}
                         </td>
                     </tr>
                 {% endfor %}
@@ -305,12 +305,18 @@ href="{{ url_for(
     status=selected_status
 ) }}"
             >
-                Előző
+                {{ _("Előző") }}
             </a>
         {% endif %}
 
         <span>
-            {{ pagination.page }} / {{ pagination.pages }} oldal
+            {{
+                _(
+                    "%(page)s / %(pages)s oldal",
+                    page=pagination.page,
+                    pages=pagination.pages
+                )
+            }}
         </span>
 
         {% if pagination.has_next %}
@@ -326,7 +332,7 @@ href="{{ url_for(
     status=selected_status
 ) }}"
             >
-                Következő
+                {{ _("Következő") }}
             </a>
         {% endif %}
     </nav>

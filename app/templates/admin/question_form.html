@@ -2,23 +2,23 @@
 
 {% block title %}
     {% if question %}
-        Feladat szerkesztése – Feladatverseny
+        {{ _("Feladat szerkesztése – Feladatverseny") }}
     {% else %}
-        Új feladat – Feladatverseny
+        {{ _("Új feladat – Feladatverseny") }}
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-	<h1>
-    	    {% if question %}
-                Feladat szerkesztése
-    	    {% else %}
-        	Új feladat
-    	    {% endif %}
-	</h1>
+    <h1>
+            {% if question %}
+                {{ _("Feladat szerkesztése") }}
+            {% else %}
+            {{ _("Új feladat") }}
+            {% endif %}
+    </h1>
         <p>
-            A feladat alapadatainak rögzítése.
+            {{ _("A feladat alapadatainak rögzítése.") }}
         </p>
     </section>
 
@@ -29,7 +29,7 @@
         <div class="form-grid">
             <div class="form-group">
                 <label for="source_year_id">
-                    Forrásév
+                    {{ _("Forrásév") }}
                 </label>
 
                 <select
@@ -38,29 +38,29 @@
                     required
                 >
                     <option value="">
-                        Válassz forrásévet
+                        {{ _("Válassz forrásévet") }}
                     </option>
 
                     {% for source_year in source_years %}
-		    <option
-    			value="{{ source_year.id }}"
-    			{% if request.method == 'POST' %}
-        		    {% if request.form.get('source_year_id') == source_year.id|string %}
-            			selected
-        		    {% endif %}
-    			{% elif question and question.source_year_id == source_year.id %}
-        		    selected
-    			{% endif %}
-		    >
-    			{{ source_year.year_number }}
-		    </option>
+            <option
+                value="{{ source_year.id }}"
+                {% if request.method == 'POST' %}
+                    {% if request.form.get('source_year_id') == source_year.id|string %}
+                        selected
+                    {% endif %}
+                {% elif question and question.source_year_id == source_year.id %}
+                    selected
+                {% endif %}
+            >
+                {{ source_year.year_number }}
+            </option>
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="original_position">
-                    Eredeti sorszám
+                    {{ _("Eredeti sorszám") }}
                 </label>
 
                 <input
@@ -81,7 +81,7 @@
 
             <div class="form-group">
                 <label for="difficulty">
-                    Nehézség
+                    {{ _("Nehézség") }}
                 </label>
 
                 <input
@@ -103,7 +103,7 @@
 
         <div class="form-group">
             <label for="question_text">
-                Feladat szövege
+                {{ _("Feladat szövege") }}
             </label>
 
             <textarea
@@ -112,13 +112,13 @@
                 rows="6"
                 required
             >{{ request.form.get(
-		'question_text',
-		question.question_text if question else ''
-	    ) }}</textarea>
+        'question_text',
+        question.question_text if question else ''
+        ) }}</textarea>
         </div>
 
         <div class="form-section">
-            <h2>Évfolyamok</h2>
+            <h2>{{ _("Évfolyamok") }}</h2>
 
             <div class="checkbox-grid">
                 {% for grade in grades %}
@@ -127,13 +127,13 @@
                             type="checkbox"
                             name="grade_ids"
                             value="{{ grade.id }}"
-			    {% if request.method == 'POST' %}
-        			{% if grade.id|string in request.form.getlist('grade_ids') %}
-            			    checked
-        			{% endif %}
-    			    {% elif grade.id in selected_grade_ids %}
-        			checked
-    			    {% endif %}
+                {% if request.method == 'POST' %}
+                    {% if grade.id|string in request.form.getlist('grade_ids') %}
+                            checked
+                    {% endif %}
+                    {% elif grade.id in selected_grade_ids %}
+                    checked
+                    {% endif %}
                         >
 
                         <span>{{ grade.name }}</span>
@@ -143,7 +143,7 @@
         </div>
 
         <div class="form-section">
-            <h2>Témakörök</h2>
+            <h2>{{ _("Témakörök") }}</h2>
 
             <div class="checkbox-grid">
                 {% for topic in topics %}
@@ -152,13 +152,13 @@
                             type="checkbox"
                             name="topic_ids"
                             value="{{ topic.id }}"
-			    {% if request.method == 'POST' %}
-        			{% if topic.id|string in request.form.getlist('topic_ids') %}
-            			    checked
-        			{% endif %}
-    			    {% elif topic.id in selected_topic_ids %}
-        			checked
-    			    {% endif %}
+                {% if request.method == 'POST' %}
+                    {% if topic.id|string in request.form.getlist('topic_ids') %}
+                            checked
+                    {% endif %}
+                    {% elif topic.id in selected_topic_ids %}
+                    checked
+                    {% endif %}
                         >
 
                         <span>{{ topic.name }}</span>
@@ -167,56 +167,61 @@
             </div>
         </div>
 
-	<div class="form-section">
-    	    <h2>Válaszlehetőségek</h2>
+    <div class="form-section">
+            <h2>{{ _("Válaszlehetőségek") }}</h2>
 
-    	    <p>
-                Töltsd ki mind az öt választ, majd jelöld meg a helyeset.
+            <p>
+                {{ _("Töltsd ki mind az öt választ, majd jelöld meg a helyeset.") }}
             </p>
 
             <div class="answer-list">
-	    {% for position in range(1, 6) %}
-    		{% set existing_answer = answer_by_position.get(position) %}
+        {% for position in range(1, 6) %}
+            {% set existing_answer = answer_by_position.get(position) %}
 
-    		<div class="answer-row">
-        	    <label
-            		class="answer-correct"
-            		title="Helyes válasz"
-        	    >
-            		<input
-                	    type="radio"
-                	    name="correct_answer"
-                	    value="{{ position }}"
-                	    {% if request.method == 'POST' %}
-                    		{% if request.form.get('correct_answer') == position|string %}
-                        	    checked
-                    		{% endif %}
-                	    {% elif existing_answer and existing_answer.is_correct %}
-                    		checked
-                	    {% endif %}
-                	    required
-            		>
+            <div class="answer-row">
+                <label
+                    class="answer-correct"
+                    title="{{ _('Helyes válasz') }}"
+                >
+                    <input
+                        type="radio"
+                        name="correct_answer"
+                        value="{{ position }}"
+                        {% if request.method == 'POST' %}
+                            {% if request.form.get('correct_answer') == position|string %}
+                                checked
+                            {% endif %}
+                        {% elif existing_answer and existing_answer.is_correct %}
+                            checked
+                        {% endif %}
+                        required
+                    >
 
-            		<span>{{ position }}.</span>
-        	    </label>
+                    <span>{{ position }}.</span>
+                </label>
 
-        	    <input
-            		type="text"
-            		name="answer_{{ position }}"
-            		value="{% if request.method == 'POST' %}{{ request.form.get('answer_' ~ position, '') }}{% elif existing_answer %}{{ existing_answer.answer_text }}{% endif %}"
-            		placeholder="{{ position }}. válasz"
-            		required
-        	    >
-    		</div>
-	    {% endfor %}
+                <input
+                    type="text"
+                    name="answer_{{ position }}"
+                    value="{% if request.method == 'POST' %}{{ request.form.get('answer_' ~ position, '') }}{% elif existing_answer %}{{ existing_answer.answer_text }}{% endif %}"
+                    placeholder="{{
+                            _(
+                                "%(position)s. válasz",
+                                position=position
+                            )
+                        }}"
+                    required
+                >
+            </div>
+        {% endfor %}
             </div>
         </div>
 
         <div class="form-group">
             <label for="explanation">
-                Magyarázat
+                {{ _("Magyarázat") }}
                 <span class="optional">
-                    – opcionális
+                    {{ _("– opcionális") }}
                 </span>
             </label>
 
@@ -225,24 +230,24 @@
                 name="explanation"
                 rows="4"
             >{{ request.form.get(
-	        'explanation',
-		question.explanation if question and question.explanation else ''
-	    ) }}</textarea>
+            'explanation',
+        question.explanation if question and question.explanation else ''
+        ) }}</textarea>
         </div>
 
-	<button class="button" type="submit">
-    	    {% if question %}
-        	Módosítások mentése
-    	    {% else %}
-        	Feladat mentése
-    	    {% endif %}
-	</button>
+    <button class="button" type="submit">
+            {% if question %}
+            {{ _("Módosítások mentése") }}
+            {% else %}
+            {{ _("Feladat mentése") }}
+            {% endif %}
+    </button>
 
             <a
                 class="button button-secondary"
                 href="{{ url_for('admin.questions') }}"
             >
-                Mégse
+                {{ _("Mégse") }}
             </a>
         </div>
     </form>

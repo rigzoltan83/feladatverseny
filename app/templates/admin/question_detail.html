@@ -1,16 +1,28 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Feladat #{{ question.id }} – Feladatverseny
+    {{
+        _(
+            "Feladat #%(id)s – Feladatverseny",
+            id=question.id
+        )
+    }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header page-header-row">
         <div>
-            <h1>Feladat #{{ question.id }}</h1>
+            <h1>
+                {{
+                    _(
+                        "Feladat #%(id)s",
+                        id=question.id
+                    )
+                }}
+            </h1>
 
             <p>
-                A feladat részletes adatai és válaszlehetőségei.
+                {{ _("A feladat részletes adatai és válaszlehetőségei.") }}
             </p>
         </div>
 
@@ -22,7 +34,7 @@
                     question_id=question.id
                 ) }}"
             >
-                Szerkesztés
+                {{ _("Szerkesztés") }}
             </a>
 
             <form
@@ -40,9 +52,9 @@
                     type="submit"
                 >
                     {% if question.is_active %}
-                        Inaktiválás
+                        {{ _("Inaktiválás") }}
                     {% else %}
-                        Aktiválás
+                        {{ _("Aktiválás") }}
                     {% endif %}
                 </button>
             </form>
@@ -51,7 +63,7 @@
                 class="button button-secondary"
                 href="{{ url_for('admin.questions') }}"
             >
-                Vissza a listához
+                {{ _("Vissza a listához") }}
             </a>
         </div>
 
@@ -59,31 +71,31 @@
 
     <section class="detail-grid">
         <article class="card">
-            <h2>Alapadatok</h2>
+            <h2>{{ _("Alapadatok") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Forrásév</dt>
+                    <dt>{{ _("Forrásév") }}</dt>
                     <dd>{{ question.source_year.year_number }}</dd>
                 </div>
 
                 <div>
-                    <dt>Eredeti sorszám</dt>
+                    <dt>{{ _("Eredeti sorszám") }}</dt>
                     <dd>{{ question.original_position }}</dd>
                 </div>
 
                 <div>
-                    <dt>Nehézség</dt>
+                    <dt>{{ _("Nehézség") }}</dt>
                     <dd>{{ question.difficulty }}</dd>
                 </div>
 
                 <div>
-                    <dt>Állapot</dt>
+                    <dt>{{ _("Állapot") }}</dt>
                     <dd>
                         {% if question.is_active %}
-                            Aktív
+                            {{ _("Aktív") }}
                         {% else %}
-                            Inaktív
+                            {{ _("Inaktív") }}
                         {% endif %}
                     </dd>
                 </div>
@@ -91,7 +103,7 @@
         </article>
 
         <article class="card">
-            <h2>Évfolyamok</h2>
+            <h2>{{ _("Évfolyamok") }}</h2>
 
             <div class="tag-list">
                 {% for grade in question.grades %}
@@ -105,7 +117,7 @@
         </article>
 
         <article class="card">
-            <h2>Témakörök</h2>
+            <h2>{{ _("Témakörök") }}</h2>
 
             <div class="tag-list">
                 {% for topic in question.topics %}
@@ -120,7 +132,7 @@
     </section>
 
     <section class="card">
-        <h2>Feladat szövege</h2>
+        <h2>{{ _("Feladat szövege") }}</h2>
 
         <div class="question-text">
             {{ question.question_text }}
@@ -128,7 +140,7 @@
     </section>
 
     <section class="card">
-        <h2>Feladat képe</h2>
+        <h2>{{ _("Feladat képe") }}</h2>
 
         {% if image_exists %}
             <img
@@ -137,7 +149,7 @@
                     'admin_media.question_image',
                     filename=question.image_filename
                 ) }}"
-                alt="A feladathoz tartozó kép"
+                alt="{{ _('A feladathoz tartozó kép') }}"
             >
 
             <p class="image-filename">
@@ -150,24 +162,25 @@
                     'admin_media.question_image_delete',
                     question_id=question.id
                 ) }}"
-                onsubmit="return confirm(
-                    'Biztosan törlöd a képet?'
-                );"
+                onsubmit='return confirm({{
+                    _("Biztosan törlöd a képet?")
+                    | tojson
+                }});'
             >
                 <button
                     class="button button-danger"
                     type="submit"
                 >
-                    Kép törlése
+                    {{ _("Kép törlése") }}
                 </button>
             </form>
         {% else %}
             <p>
-                Ehhez a feladathoz még nincs kép feltöltve.
+                {{ _("Ehhez a feladathoz még nincs kép feltöltve.") }}
             </p>
 
             <p>
-                Várt fájlnév:
+                {{ _("Várt fájlnév:") }}
                 <strong>{{ question.image_filename }}</strong>
             </p>
         {% endif %}
@@ -185,9 +198,9 @@
             <div class="form-group">
                 <label for="image">
                     {% if image_exists %}
-                        Kép lecserélése
+                        {{ _("Kép lecserélése") }}
                     {% else %}
-                        JPG-kép feltöltése
+                        {{ _("JPG-kép feltöltése") }}
                     {% endif %}
                 </label>
 
@@ -205,16 +218,16 @@
                 type="submit"
             >
                 {% if image_exists %}
-                    Új kép feltöltése
+                    {{ _("Új kép feltöltése") }}
                 {% else %}
-                    Kép feltöltése
+                    {{ _("Kép feltöltése") }}
                 {% endif %}
             </button>
         </form>
     </section>
 
     <section class="card">
-        <h2>Válaszlehetőségek</h2>
+        <h2>{{ _("Válaszlehetőségek") }}</h2>
 
         <ol class="answer-detail-list">
             {% for answer in question.answer_options %}
@@ -224,18 +237,18 @@
                     <span>{{ answer.answer_text }}</span>
 
                     {% if answer.is_correct %}
-                        <strong>Helyes válasz</strong>
+                        <strong>{{ _("Helyes válasz") }}</strong>
                     {% endif %}
                 </li>
             {% else %}
-                <li>Nincs rögzített válasz.</li>
+                <li>{{ _("Nincs rögzített válasz.") }}</li>
             {% endfor %}
         </ol>
     </section>
 
     {% if question.explanation %}
         <section class="card">
-            <h2>Magyarázat</h2>
+            <h2>{{ _("Magyarázat") }}</h2>
 
             <div class="question-text">
                 {{ question.explanation }}

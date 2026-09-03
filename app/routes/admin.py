@@ -625,7 +625,7 @@ def question_new():
 
         if source_year is None:
             errors.append(
-                "Érvényes forrásévet kell választani."
+                _("Érvényes forrásévet kell választani.")
             )
 
         if (
@@ -633,7 +633,7 @@ def question_new():
             or not 1 <= original_position <= 25
         ):
             errors.append(
-                "A feladat sorszáma 1 és 25 közötti lehet."
+                _("A feladat sorszáma 1 és 25 közötti lehet.")
             )
 
         if (
@@ -641,22 +641,22 @@ def question_new():
             or not 1 <= difficulty <= 25
         ):
             errors.append(
-                "A nehézség 1 és 25 közötti lehet."
+                _("A nehézség 1 és 25 közötti lehet.")
             )
 
         if not question_text:
             errors.append(
-                "A feladat szövege kötelező."
+                _("A feladat szövege kötelező.")
             )
 
         if not selected_grade_ids:
             errors.append(
-                "Legalább egy évfolyamot ki kell választani."
+                _("Legalább egy évfolyamot ki kell választani.")
             )
 
         if not selected_topic_ids:
             errors.append(
-                "Legalább egy témakört ki kell választani."
+                _("Legalább egy témakört ki kell választani.")
             )
 
         if any(
@@ -664,12 +664,12 @@ def question_new():
             for answer_text in answer_texts
         ):
             errors.append(
-                "Mind az öt válaszlehetőséget ki kell tölteni."
+                _("Mind az öt válaszlehetőséget ki kell tölteni.")
             )
 
         if correct_answer not in range(1, 6):
             errors.append(
-                "Ki kell választani a helyes választ."
+                _("Ki kell választani a helyes választ.")
             )
 
         selected_grades = Grade.query.filter(
@@ -684,14 +684,14 @@ def question_new():
             set(selected_grade_ids)
         ):
             errors.append(
-                "Az évfolyamválasztás érvénytelen."
+                _("Az évfolyamválasztás érvénytelen.")
             )
 
         if len(selected_topics) != len(
             set(selected_topic_ids)
         ):
             errors.append(
-                "A témakörválasztás érvénytelen."
+                _("A témakörválasztás érvénytelen.")
             )
 
         if errors:
@@ -730,8 +730,10 @@ def question_new():
 
             flash(
                 (
+                    _(
                     "A feladatot és az öt "
                     "válaszlehetőséget elmentettük."
+                )
                 ),
                 "success",
             )
@@ -1177,7 +1179,7 @@ def question_edit(question_id: int):
 
         if source_year is None:
             errors.append(
-                "Érvényes forrásévet kell választani."
+                _("Érvényes forrásévet kell választani.")
             )
 
         if (
@@ -1185,7 +1187,7 @@ def question_edit(question_id: int):
             or not 1 <= original_position <= 25
         ):
             errors.append(
-                "A feladat sorszáma 1 és 25 közötti lehet."
+                _("A feladat sorszáma 1 és 25 közötti lehet.")
             )
 
         if (
@@ -1193,22 +1195,22 @@ def question_edit(question_id: int):
             or not 1 <= difficulty <= 25
         ):
             errors.append(
-                "A nehézség 1 és 25 közötti lehet."
+                _("A nehézség 1 és 25 közötti lehet.")
             )
 
         if not question_text:
             errors.append(
-                "A feladat szövege kötelező."
+                _("A feladat szövege kötelező.")
             )
 
         if not posted_grade_ids:
             errors.append(
-                "Legalább egy évfolyamot ki kell választani."
+                _("Legalább egy évfolyamot ki kell választani.")
             )
 
         if not posted_topic_ids:
             errors.append(
-                "Legalább egy témakört ki kell választani."
+                _("Legalább egy témakört ki kell választani.")
             )
 
         if any(
@@ -1216,12 +1218,12 @@ def question_edit(question_id: int):
             for answer_text in answer_texts
         ):
             errors.append(
-                "Mind az öt válaszlehetőséget ki kell tölteni."
+                _("Mind az öt válaszlehetőséget ki kell tölteni.")
             )
 
         if correct_answer not in range(1, 6):
             errors.append(
-                "Ki kell választani a helyes választ."
+                _("Ki kell választani a helyes választ.")
             )
 
         selected_grades = Grade.query.filter(
@@ -1236,14 +1238,14 @@ def question_edit(question_id: int):
             set(posted_grade_ids)
         ):
             errors.append(
-                "Az évfolyamválasztás érvénytelen."
+                _("Az évfolyamválasztás érvénytelen.")
             )
 
         if len(selected_topics) != len(
             set(posted_topic_ids)
         ):
             errors.append(
-                "A témakörválasztás érvénytelen."
+                _("A témakörválasztás érvénytelen.")
             )
 
         if errors:
@@ -1286,7 +1288,7 @@ def question_edit(question_id: int):
             db.session.commit()
 
             flash(
-                "A feladat módosításait elmentettük.",
+                _("A feladat módosításait elmentettük."),
                 "success",
             )
 
@@ -1617,7 +1619,7 @@ def question_import():
 
             if not normalized_row["feladat"]:
                 row_errors.append(
-                    "A feladat szövege kötelező."
+                    _("A feladat szövege kötelező.")
                 )
 
             if (
@@ -1912,9 +1914,9 @@ def question_toggle_active(question_id: int):
     db.session.commit()
 
     if question.is_active:
-        message = "A feladatot aktiváltuk."
+        message = _("A feladatot aktiváltuk.")
     else:
-        message = "A feladatot inaktiváltuk."
+        message = _("A feladatot inaktiváltuk.")
 
     flash(
         message,
