@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-    CSV-import – Feladatverseny
+    {{ _("CSV-import – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Feladatok importálása CSV-ből</h1>
+        <h1>{{ _("Feladatok importálása CSV-ből") }}</h1>
 
         <p>
-            UTF-8 kódolású, pontosvesszővel tagolt
-            CSV-fájl ellenőrzése.
+            {{ _("UTF-8 kódolású, pontosvesszővel tagolt CSV-fájl ellenőrzése.") }}
         </p>
     </section>
 
@@ -21,7 +20,7 @@
         >
             <div class="form-group">
                 <label for="csv_file">
-                    CSV-fájl
+                    {{ _("CSV-fájl") }}
                 </label>
 
                 <input
@@ -40,7 +39,7 @@
                     name="action"
                     value="preview"
                 >
-                    CSV ellenőrzése
+                    {{ _("CSV ellenőrzése") }}
                 </button>
 
                 <button
@@ -49,32 +48,38 @@
                     name="action"
                     value="import"
                 >
-                    Ellenőrzés és importálás
+                    {{ _("Ellenőrzés és importálás") }}
                 </button>
             </div>
         </form>
     </section>
 
     <section class="card">
-        <h2>Elvárt fejléc</h2>
+        <h2>{{ _("Elvárt fejléc") }}</h2>
 
         <pre class="csv-format">forrasev;sorszam;nehezseg;evfolyamok;temakorok;feladat;valasz1;valasz2;valasz3;valasz4;valasz5;helyes;magyarazat;aktiv</pre>
 
         <p>
-            Több évfolyam és témakör esetén
-            <strong>|</strong> karaktert használj.
+            {{ _("Több évfolyam és témakör esetén") }}
+            <strong>|</strong>
+            {{ _("karaktert használj.") }}
         </p>
     </section>
 
     {% if import_errors %}
         <section class="card">
-            <h2>Talált hibák</h2>
+            <h2>{{ _("Talált hibák") }}</h2>
 
             <div class="import-error-list">
                 {% for error in import_errors %}
                     <article class="import-error">
                         <strong>
-                            {{ error.line }}. sor
+                            {{
+                                _(
+                                    "%(line)s. sor",
+                                    line=error.line
+                                )
+                            }}
                         </strong>
 
                         <ul>
@@ -90,20 +95,20 @@
 
     {% if preview_rows %}
         <section class="card import-preview-card">
-            <h2>Import előnézete</h2>
+            <h2>{{ _("Import előnézete") }}</h2>
 
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Sor</th>
-                        <th>Állapot</th>
-                        <th>Év</th>
-                        <th>Sorszám</th>
-                        <th>Nehézség</th>
-                        <th>Évfolyamok</th>
-                        <th>Témakörök</th>
-                        <th>Feladat</th>
-                        <th>Helyes</th>
+                        <th>{{ _("Sor") }}</th>
+                        <th>{{ _("Állapot") }}</th>
+                        <th>{{ _("Év") }}</th>
+                        <th>{{ _("Sorszám") }}</th>
+                        <th>{{ _("Nehézség") }}</th>
+                        <th>{{ _("Évfolyamok") }}</th>
+                        <th>{{ _("Témakörök") }}</th>
+                        <th>{{ _("Feladat") }}</th>
+                        <th>{{ _("Helyes") }}</th>
                     </tr>
                 </thead>
 
@@ -116,9 +121,9 @@
 
                             <td>
                                 {% if row.errors %}
-                                    Hibás
+                                    {{ _("Hibás") }}
                                 {% else %}
-                                    Rendben
+                                    {{ _("Rendben") }}
                                 {% endif %}
                             </td>
 

@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 
 {% block title %}
-    CSV-import eredménye – Feladatverseny
+    {{ _("CSV-import eredménye – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header page-header-row">
         <div>
-            <h1>CSV-import sikeres</h1>
+            <h1>{{ _("CSV-import sikeres") }}</h1>
 
             <p>
-                {{ imported_summary|length }}
-                feladatot importáltunk.
+                {{
+                    _(
+                        "%(count)s feladatot importáltunk.",
+                        count=imported_summary|length
+                    )
+                }}
             </p>
         </div>
 
@@ -20,7 +24,7 @@
                 class="button"
                 href="{{ url_for('admin.questions') }}"
             >
-                Feladatok megnyitása
+                {{ _("Feladatok megnyitása") }}
             </a>
 
             <a
@@ -29,7 +33,7 @@
                     'admin.question_import'
                 ) }}"
             >
-                Újabb CSV importálása
+                {{ _("Újabb CSV importálása") }}
             </a>
         </div>
     </section>
@@ -38,10 +42,10 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>CSV-sor</th>
-                    <th>Feladat ID</th>
-                    <th>Várt képfájlnév</th>
-                    <th>Művelet</th>
+                    <th>{{ _("CSV-sor") }}</th>
+                    <th>{{ _("Feladat ID") }}</th>
+                    <th>{{ _("Várt képfájlnév") }}</th>
+                    <th>{{ _("Művelet") }}</th>
                 </tr>
             </thead>
 
@@ -66,7 +70,7 @@
                                     question_id=item.question_id
                                 ) }}"
                             >
-                                Megnyitás
+                                {{ _("Megnyitás") }}
                             </a>
                         </td>
                     </tr>

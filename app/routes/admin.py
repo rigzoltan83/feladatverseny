@@ -1333,7 +1333,7 @@ def question_import():
             or not uploaded_file.filename
         ):
             flash(
-                "Nem választottál ki CSV-fájlt.",
+                _("Nem választottál ki CSV-fájlt."),
                 "error",
             )
 
@@ -1347,7 +1347,7 @@ def question_import():
             ".csv"
         ):
             flash(
-                "Csak CSV-fájl tölthető fel.",
+                _("Csak CSV-fájl tölthető fel."),
                 "error",
             )
 
@@ -1365,8 +1365,10 @@ def question_import():
         except UnicodeDecodeError:
             flash(
                 (
+                    _(
                     "A CSV nem olvasható "
                     "UTF-8 kódolással."
+                )
                 ),
                 "error",
             )
@@ -1386,7 +1388,7 @@ def question_import():
 
         if actual_fieldnames != CSV_FIELDNAMES:
             flash(
-                "A CSV fejlécének formátuma hibás.",
+                _("A CSV fejlécének formátuma hibás."),
                 "error",
             )
 
@@ -1398,10 +1400,12 @@ def question_import():
                         "line": 1,
                         "messages": [
                             (
-                                "Elvárt fejléc: "
-                                + ";".join(
+                                _(
+                                "Elvárt fejléc: %(header)s",
+                                header=";".join(
                                     CSV_FIELDNAMES
-                                )
+                                ),
+                            )
                             )
                         ],
                     }
@@ -1457,7 +1461,7 @@ def question_import():
             except ValueError:
                 source_year_number = None
                 row_errors.append(
-                    "A forrásév nem érvényes szám."
+                    _("A forrásév nem érvényes szám.")
                 )
 
             try:
@@ -1467,7 +1471,7 @@ def question_import():
             except ValueError:
                 original_position = None
                 row_errors.append(
-                    "A sorszám nem érvényes szám."
+                    _("A sorszám nem érvényes szám.")
                 )
 
             try:
@@ -1477,7 +1481,7 @@ def question_import():
             except ValueError:
                 difficulty = None
                 row_errors.append(
-                    "A nehézség nem érvényes szám."
+                    _("A nehézség nem érvényes szám.")
                 )
 
             try:
@@ -1488,8 +1492,10 @@ def question_import():
                 correct_answer = None
                 row_errors.append(
                     (
+                        _(
                         "A helyes válasz "
                         "nem érvényes szám."
+                    )
                     )
                 )
 
@@ -1500,8 +1506,11 @@ def question_import():
             ):
                 row_errors.append(
                     (
+                        _(
                         "A forrásév nincs rögzítve: "
-                        f"{source_year_number}."
+                        "%(year)s.",
+                        year=source_year_number,
+                    )
                     )
                 )
 
@@ -1511,8 +1520,10 @@ def question_import():
             ):
                 row_errors.append(
                     (
+                        _(
                         "A sorszám 1 és 25 "
                         "közötti lehet."
+                    )
                     )
                 )
 
@@ -1522,8 +1533,10 @@ def question_import():
             ):
                 row_errors.append(
                     (
+                        _(
                         "A nehézség 1 és 25 "
                         "közötti lehet."
+                    )
                     )
                 )
 
@@ -1534,8 +1547,10 @@ def question_import():
             ):
                 row_errors.append(
                     (
+                        _(
                         "A helyes válasz 1 és 5 "
                         "közötti lehet."
+                    )
                     )
                 )
 
@@ -1557,8 +1572,11 @@ def question_import():
                 except ValueError:
                     row_errors.append(
                         (
+                            _(
                             "Érvénytelen évfolyam: "
-                            f"{grade_value}."
+                            "%(grade)s.",
+                            grade=grade_value,
+                        )
                         )
                     )
                     continue
@@ -1566,8 +1584,11 @@ def question_import():
                 if grade_number not in grade_by_number:
                     row_errors.append(
                         (
+                            _(
                             "Nem létező évfolyam: "
-                            f"{grade_number}."
+                            "%(grade)s.",
+                            grade=grade_number,
+                        )
                         )
                     )
                 else:
@@ -1578,8 +1599,10 @@ def question_import():
             if not grade_numbers:
                 row_errors.append(
                     (
+                        _(
                         "Legalább egy évfolyam "
                         "szükséges."
+                    )
                     )
                 )
 
@@ -1598,8 +1621,11 @@ def question_import():
                 if topic_key not in topic_by_name:
                     row_errors.append(
                         (
+                            _(
                             "Nem létező témakör: "
-                            f"{topic_value}."
+                            "%(topic)s.",
+                            topic=topic_value,
+                        )
                         )
                     )
                 else:
@@ -1612,8 +1638,10 @@ def question_import():
             if not topic_names:
                 row_errors.append(
                     (
+                        _(
                         "Legalább egy témakör "
                         "szükséges."
+                    )
                     )
                 )
 
@@ -1644,17 +1672,22 @@ def question_import():
                 if existing_question_id is not None:
                     row_errors.append(
                         (
+                            _(
                             "A feladat valószínűleg már "
                             "létezik az adatbázisban. "
-                            f"Feladat ID: {existing_question_id}."
+                            "Feladat ID: %(question_id)s.",
+                            question_id=existing_question_id,
+                        )
                         )
                     )
 
                 if question_key in csv_question_keys:
                     row_errors.append(
                         (
+                            _(
                             "Ugyanez a feladat már korábban "
                             "szerepelt ebben a CSV-fájlban."
+                        )
                         )
                     )
                 else:
@@ -1675,9 +1708,11 @@ def question_import():
             ):
                 row_errors.append(
                     (
+                        _(
                         "Mind az öt "
                         "válaszlehetőséget "
                         "ki kell tölteni."
+                    )
                     )
                 )
 
@@ -1688,8 +1723,10 @@ def question_import():
             if is_active is None:
                 row_errors.append(
                     (
+                        _(
                         "Az aktív mező értéke "
                         "legyen igen vagy nem."
+                    )
                     )
                 )
 
@@ -1752,16 +1789,18 @@ def question_import():
         # Fontos: ez már a for cikluson kívül van.
         if not preview_rows:
             flash(
-                "A CSV nem tartalmaz adatsort.",
+                _("A CSV nem tartalmaz adatsort."),
                 "error",
             )
 
         elif import_errors:
             flash(
                 (
-                    f"{len(import_errors)} hibás "
-                    "CSV-sor található. "
-                    "Az import nem történt meg."
+                    _(
+                    "%(count)s hibás CSV-sor található. "
+                    "Az import nem történt meg.",
+                    count=len(import_errors),
+                )
                 ),
                 "error",
             )
@@ -1858,16 +1897,17 @@ def question_import():
 
                 current_app.logger.exception(
                     (
-                        "Hiba történt a "
-                        "CSV-import során."
+                        "CSV import failed."
                     )
                 )
 
                 flash(
                     (
+                        _(
                         "Az importálás közben "
                         "hiba történt. Egyetlen "
                         "rekordot sem mentettünk el."
+                    )
                     ),
                     "error",
                 )
@@ -1886,10 +1926,12 @@ def question_import():
         else:
             flash(
                 (
-                    f"{len(preview_rows)} sor "
-                    "ellenőrzése sikeres. "
+                    _(
+                    "%(count)s sor ellenőrzése sikeres. "
                     "Az adatok még nem kerültek "
-                    "az adatbázisba."
+                    "az adatbázisba.",
+                    count=len(preview_rows),
+                )
                 ),
                 "success",
             )

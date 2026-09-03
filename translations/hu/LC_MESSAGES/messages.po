@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 12:45+0200\n"
+"POT-Creation-Date: 2026-09-03 12:51+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: hu\n"
@@ -40,12 +40,13 @@ msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:644
 #: /opt/feladatverseny/app/routes/admin.py:1198
+#: /opt/feladatverseny/app/routes/admin.py:1537
 msgid "A nehézség 1 és 25 közötti lehet."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:649
 #: /opt/feladatverseny/app/routes/admin.py:1203
-#: /opt/feladatverseny/app/routes/admin.py:1622
+#: /opt/feladatverseny/app/routes/admin.py:1650
 msgid "A feladat szövege kötelező."
 msgstr ""
 
@@ -61,6 +62,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:667
 #: /opt/feladatverseny/app/routes/admin.py:1221
+#: /opt/feladatverseny/app/routes/admin.py:1712
 msgid "Mind az öt válaszlehetőséget ki kell tölteni."
 msgstr ""
 
@@ -145,11 +147,119 @@ msgstr ""
 msgid "A feladat módosításait elmentettük."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1917
+#: /opt/feladatverseny/app/routes/admin.py:1336
+msgid "Nem választottál ki CSV-fájlt."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1350
+msgid "Csak CSV-fájl tölthető fel."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1369
+msgid "A CSV nem olvasható UTF-8 kódolással."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1391
+msgid "A CSV fejlécének formátuma hibás."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1404
+#, python-format
+msgid "Elvárt fejléc: %(header)s"
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1464
+msgid "A forrásév nem érvényes szám."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1474
+msgid "A sorszám nem érvényes szám."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1484
+msgid "A nehézség nem érvényes szám."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1496
+msgid "A helyes válasz nem érvényes szám."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1510
+#, python-format
+msgid "A forrásév nincs rögzítve: %(year)s."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1524
+msgid "A sorszám 1 és 25 közötti lehet."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1551
+msgid "A helyes válasz 1 és 5 közötti lehet."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1576
+#, python-format
+msgid "Érvénytelen évfolyam: %(grade)s."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1588
+#, python-format
+msgid "Nem létező évfolyam: %(grade)s."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1603
+msgid "Legalább egy évfolyam szükséges."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1625
+#, python-format
+msgid "Nem létező témakör: %(topic)s."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1642
+msgid "Legalább egy témakör szükséges."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1676
+#, python-format
+msgid ""
+"A feladat valószínűleg már létezik az adatbázisban. Feladat ID: "
+"%(question_id)s."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1688
+msgid "Ugyanez a feladat már korábban szerepelt ebben a CSV-fájlban."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1727
+msgid "Az aktív mező értéke legyen igen vagy nem."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1792
+msgid "A CSV nem tartalmaz adatsort."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1800
+#, python-format
+msgid "%(count)s hibás CSV-sor található. Az import nem történt meg."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1907
+msgid "Az importálás közben hiba történt. Egyetlen rekordot sem mentettünk el."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1930
+#, python-format
+msgid ""
+"%(count)s sor ellenőrzése sikeres. Az adatok még nem kerültek az "
+"adatbázisba."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1959
 msgid "A feladatot aktiváltuk."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1919
+#: /opt/feladatverseny/app/routes/admin.py:1961
 msgid "A feladatot inaktiváltuk."
 msgstr ""
 
@@ -342,6 +452,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:87
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:93
+#: /opt/feladatverseny/app/templates/admin/question_import.html:104
 #: /opt/feladatverseny/app/templates/admin/questions.html:140
 #: /opt/feladatverseny/app/templates/admin/questions.html:222
 #: /opt/feladatverseny/app/templates/admin/source_years.html:27
@@ -407,6 +518,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/index.html:37
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:106
 #: /opt/feladatverseny/app/templates/admin/question_form.html:121
+#: /opt/feladatverseny/app/templates/admin/question_import.html:108
 #: /opt/feladatverseny/app/templates/admin/questions.html:219
 msgid "Évfolyamok"
 msgstr ""
@@ -449,6 +561,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/index.html:45
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:120
 #: /opt/feladatverseny/app/templates/admin/question_form.html:146
+#: /opt/feladatverseny/app/templates/admin/question_import.html:109
 #: /opt/feladatverseny/app/templates/admin/questions.html:220
 #: /opt/feladatverseny/app/templates/admin/topics.html:9
 msgid "Témakörök"
@@ -549,6 +662,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:88
 #: /opt/feladatverseny/app/templates/admin/question_form.html:84
+#: /opt/feladatverseny/app/templates/admin/question_import.html:107
 #: /opt/feladatverseny/app/templates/admin/questions.html:218
 msgid "Nehézség"
 msgstr ""
@@ -658,6 +772,130 @@ msgstr ""
 msgid "Feladat mentése"
 msgstr ""
 
+#: /opt/feladatverseny/app/templates/admin/question_import.html:4
+msgid "CSV-import – Feladatverseny"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:9
+msgid "Feladatok importálása CSV-ből"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:12
+msgid "UTF-8 kódolású, pontosvesszővel tagolt CSV-fájl ellenőrzése."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:23
+msgid "CSV-fájl"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:42
+msgid "CSV ellenőrzése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:51
+msgid "Ellenőrzés és importálás"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:58
+msgid "Elvárt fejléc"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:63
+msgid "Több évfolyam és témakör esetén"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:65
+msgid "karaktert használj."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:71
+msgid "Talált hibák"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:78
+#, python-format
+msgid "%(line)s. sor"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:98
+msgid "Import előnézete"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:103
+msgid "Sor"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:105
+#: /opt/feladatverseny/app/templates/admin/source_years.html:26
+msgid "Év"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:106
+#: /opt/feladatverseny/app/templates/admin/questions.html:217
+msgid "Sorszám"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:110
+#: /opt/feladatverseny/app/templates/admin/questions.html:221
+msgid "Feladat"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:111
+msgid "Helyes"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:124
+msgid "Hibás"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import.html:126
+msgid "Rendben"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:4
+msgid "CSV-import eredménye – Feladatverseny"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:10
+msgid "CSV-import sikeres"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:14
+#, python-format
+msgid "%(count)s feladatot importáltunk."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:27
+msgid "Feladatok megnyitása"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:36
+msgid "Újabb CSV importálása"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:45
+msgid "CSV-sor"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:46
+msgid "Feladat ID"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:47
+msgid "Várt képfájlnév"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:48
+#: /opt/feladatverseny/app/templates/admin/questions.html:223
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
+msgid "Művelet"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:73
+#: /opt/feladatverseny/app/templates/admin/questions.html:279
+msgid "Megnyitás"
+msgstr ""
+
 #: /opt/feladatverseny/app/templates/admin/questions.html:4
 msgid "Feladatok – Feladatverseny"
 msgstr ""
@@ -718,23 +956,6 @@ msgstr ""
 msgid "megfelelő feladat található."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/questions.html:217
-msgid "Sorszám"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/questions.html:221
-msgid "Feladat"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/questions.html:223
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
-msgid "Művelet"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/questions.html:279
-msgid "Megnyitás"
-msgstr ""
-
 #: /opt/feladatverseny/app/templates/admin/questions.html:286
 msgid "Nincs még rögzített feladat."
 msgstr ""
@@ -750,10 +971,6 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/source_years.html:13
 msgid "A korábbi feladatsorokhoz tartozó versenyévek."
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/source_years.html:26
-msgid "Év"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/source_years.html:49
