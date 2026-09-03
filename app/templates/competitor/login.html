@@ -1,15 +1,23 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Versenyzői belépés
+    {{ _("Versenyzői belépés") }}
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
-        <h1>Versenyzői belépés</h1>
+        <h1>
+            {{ _("Versenyzői belépés") }}
+        </h1>
+
         <p>
-            Jelentkezz be a kapott felhasználónévvel és jelszóval.
+            {{
+                _(
+                    "Jelentkezz be a kapott "
+                    "felhasználónévvel és jelszóval."
+                )
+            }}
         </p>
     </div>
 </div>
@@ -22,7 +30,7 @@
     >
         <div class="form-group">
             <label for="username">
-                Felhasználónév
+                {{ _("Felhasználónév") }}
             </label>
 
             <input
@@ -39,7 +47,7 @@
 
         <div class="form-group">
             <label for="password">
-                Jelszó
+                {{ _("Jelszó") }}
             </label>
 
             <input
@@ -53,22 +61,24 @@
 
         <div class="form-group">
             <label for="language">
-                Nyelv / Language
+                {{ _("Nyelv") }}
             </label>
-
-            {% set selected_language = request.form.get(
-                'language',
-                default_language
-            ) %}
 
             <select
                 id="language"
-                name="language"
-                required
+                onchange="
+                    window.location.href =
+                    this.value;
+                "
             >
                 <option
-                    value="hu"
-                    {% if selected_language == 'hu' %}
+                    value="{{
+                        url_for(
+                            'competitor.set_language',
+                            language='hu'
+                        )
+                    }}"
+                    {% if get_locale()|string == 'hu' %}
                         selected
                     {% endif %}
                 >
@@ -76,8 +86,13 @@
                 </option>
 
                 <option
-                    value="en"
-                    {% if selected_language == 'en' %}
+                    value="{{
+                        url_for(
+                            'competitor.set_language',
+                            language='en'
+                        )
+                    }}"
+                    {% if get_locale()|string == 'en' %}
                         selected
                     {% endif %}
                 >
@@ -91,7 +106,7 @@
                 class="button"
                 type="submit"
             >
-                Belépés
+                {{ _("Belépés") }}
             </button>
         </div>
     </form>

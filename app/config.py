@@ -20,6 +20,17 @@ class Config:
     BABEL_DEFAULT_LOCALE = "hu"
     BABEL_DEFAULT_TIMEZONE = "Europe/Budapest"
 
+    BABEL_TRANSLATION_DIRECTORIES = (
+        os.path.join(
+            os.path.dirname(
+                os.path.dirname(
+                    os.path.abspath(__file__)
+                )
+            ),
+            "translations",
+        )
+    )
+
     LANGUAGES = {
         "hu": "Magyar",
         "en": "English",

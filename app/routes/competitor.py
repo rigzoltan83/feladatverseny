@@ -9,6 +9,8 @@ from flask import (
     make_response,
 )
 
+from flask_babel import gettext as _
+
 from app.models import (
     Competitor,
     CompetitorAnswer,
@@ -26,6 +28,50 @@ competitor_bp = Blueprint(
     __name__,
     url_prefix="/versenyzo",
 )
+
+
+@competitor_bp.get("/nyelv/<language>")
+def set_language(language):
+    language = language.strip().lower()
+
+    if language not in {"hu", "en"}:
+        language = "hu"
+
+    session["language"] = language
+
+    competitor_id = session.get(
+        "competitor_id"
+    )
+
+    if competitor_id:
+        competitor = db.session.get(
+            Competitor,
+            competitor_id,
+        )
+
+        if competitor is not None:
+            competitor.preferred_language = (
+                language
+            )
+            db.session.commit()
+
+    response = make_response(
+        redirect(
+            request.referrer
+            or url_for("competitor.login")
+        )
+    )
+
+    response.set_cookie(
+        "feladatverseny_language",
+        language,
+        max_age=60 * 60 * 24 * 365,
+        httponly=True,
+        samesite="Lax",
+        path=request.script_root or "/",
+    )
+
+    return response
 
 
 @competitor_bp.route(
@@ -62,15 +108,13 @@ def login():
             "",
         )
 
-        selected_language = request.form.get(
+        selected_language = session.get(
             "language",
             default_language,
-        ).strip().lower()
+        )
 
         if selected_language not in {"hu", "en"}:
             selected_language = "hu"
-
-        default_language = selected_language
 
         competitor = (
             Competitor.query
@@ -101,7 +145,7 @@ def login():
             session["language"] = selected_language
 
             flash(
-                "Sikeres bejelentkezés.",
+                _("Sikeres bejelentkezés."),
                 "success",
             )
 
@@ -132,7 +176,9 @@ def login():
             return response
 
         flash(
-            "Hibás felhasználónév vagy jelszó.",
+            _(
+                "Hibás felhasználónév vagy jelszó."
+            ),
             "error",
         )
 
@@ -147,7 +193,7 @@ def logout():
     session.clear()
 
     flash(
-        "Sikeresen kijelentkeztél.",
+        _("Sikeresen kijelentkeztél."),
         "success",
     )
 

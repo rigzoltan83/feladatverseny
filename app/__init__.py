@@ -11,6 +11,11 @@ from flask import (
     url_for,
 )
 
+from flask_babel import (
+    get_locale,
+    gettext as _,
+)
+
 def create_app() -> Flask:
     """A Flask alkalmazás létrehozása."""
 
@@ -106,6 +111,10 @@ def create_app() -> Flask:
         locale_selector=select_locale,
     )
 
+    app.jinja_env.globals[
+        "get_locale"
+    ] = get_locale
+
     from app.routes.admin import admin_bp
     from app.routes.competitor import competitor_bp
     from app.routes.admin_reference import reference_bp
@@ -132,8 +141,10 @@ def create_app() -> Flask:
 
         if not competitor_id:
             flash(
-                "Az adminisztráció használatához "
-                "jelentkezz be.",
+                _(
+                    "Az adminisztráció használatához "
+                    "jelentkezz be."
+                ),
                 "error",
             )
 
@@ -153,7 +164,9 @@ def create_app() -> Flask:
             session.clear()
 
             flash(
-                "A felhasználói fiók nem érhető el.",
+                _(
+                    "A felhasználói fiók nem érhető el."
+                ),
                 "error",
             )
 
