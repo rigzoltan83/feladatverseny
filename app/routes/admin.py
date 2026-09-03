@@ -229,19 +229,23 @@ def result_detail(
             )
 
             if hours:
-                duration_text = (
-                    f"{hours} óra "
-                    f"{minutes} perc "
-                    f"{seconds} mp"
+                duration_text = _(
+                    "%(hours)s h %(minutes)s min "
+                    "%(seconds)s sec",
+                    hours=hours,
+                    minutes=minutes,
+                    seconds=seconds,
                 )
             elif minutes:
-                duration_text = (
-                    f"{minutes} perc "
-                    f"{seconds} mp"
+                duration_text = _(
+                    "%(minutes)s min %(seconds)s sec",
+                    minutes=minutes,
+                    seconds=seconds,
                 )
             else:
-                duration_text = (
-                    f"{seconds} mp"
+                duration_text = _(
+                    "%(seconds)s sec",
+                    seconds=seconds,
                 )
 
         result_rows.append(
@@ -279,11 +283,11 @@ def result_detail(
 
         row["rank"] = current_rank
 
-        submitted_count = sum(
-            1
-            for row in result_rows
-            if row["attempt"].status == "submitted"
-        )
+    submitted_count = sum(
+        1
+        for row in result_rows
+        if row["attempt"].status == "submitted"
+    )
 
     return render_template(
         "admin/result_detail.html",
@@ -395,18 +399,24 @@ def attempt_result_detail(
         )
 
         if hours:
-            duration_text = (
-                f"{hours} óra "
-                f"{minutes} perc "
-                f"{seconds} mp"
+            duration_text = _(
+                "%(hours)s h %(minutes)s min "
+                "%(seconds)s sec",
+                hours=hours,
+                minutes=minutes,
+                seconds=seconds,
             )
         elif minutes:
-            duration_text = (
-                f"{minutes} perc "
-                f"{seconds} mp"
+            duration_text = _(
+                "%(minutes)s min %(seconds)s sec",
+                minutes=minutes,
+                seconds=seconds,
             )
         else:
-            duration_text = f"{seconds} mp"
+            duration_text = _(
+                "%(seconds)s sec",
+                seconds=seconds,
+            )
 
     return render_template(
         "admin/attempt_result_detail.html",

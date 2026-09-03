@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 13:12+0200\n"
+"POT-Creation-Date: 2026-09-03 13:17+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: hu\n"
@@ -28,246 +28,264 @@ msgstr ""
 msgid "A felhasználói fiók nem érhető el."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:628
-#: /opt/feladatverseny/app/routes/admin.py:1182
+#: /opt/feladatverseny/app/routes/admin.py:233
+#: /opt/feladatverseny/app/routes/admin.py:403
+#, python-format
+msgid "%(hours)s h %(minutes)s min %(seconds)s sec"
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:241
+#: /opt/feladatverseny/app/routes/admin.py:411
+#, python-format
+msgid "%(minutes)s min %(seconds)s sec"
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:247
+#: /opt/feladatverseny/app/routes/admin.py:417
+#, python-format
+msgid "%(seconds)s sec"
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:638
+#: /opt/feladatverseny/app/routes/admin.py:1192
 msgid "Érvényes forrásévet kell választani."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:636
-#: /opt/feladatverseny/app/routes/admin.py:1190
+#: /opt/feladatverseny/app/routes/admin.py:646
+#: /opt/feladatverseny/app/routes/admin.py:1200
 msgid "A feladat sorszáma 1 és 25 közötti lehet."
-msgstr ""
-
-#: /opt/feladatverseny/app/routes/admin.py:644
-#: /opt/feladatverseny/app/routes/admin.py:1198
-#: /opt/feladatverseny/app/routes/admin.py:1537
-msgid "A nehézség 1 és 25 közötti lehet."
-msgstr ""
-
-#: /opt/feladatverseny/app/routes/admin.py:649
-#: /opt/feladatverseny/app/routes/admin.py:1203
-#: /opt/feladatverseny/app/routes/admin.py:1650
-msgid "A feladat szövege kötelező."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:654
 #: /opt/feladatverseny/app/routes/admin.py:1208
+#: /opt/feladatverseny/app/routes/admin.py:1547
+msgid "A nehézség 1 és 25 közötti lehet."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:659
+#: /opt/feladatverseny/app/routes/admin.py:1213
+#: /opt/feladatverseny/app/routes/admin.py:1660
+msgid "A feladat szövege kötelező."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:664
+#: /opt/feladatverseny/app/routes/admin.py:1218
 #: /opt/feladatverseny/app/routes/admin_templates.py:146
 #: /opt/feladatverseny/app/routes/admin_templates.py:422
 msgid "Legalább egy évfolyamot ki kell választani."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:659
-#: /opt/feladatverseny/app/routes/admin.py:1213
+#: /opt/feladatverseny/app/routes/admin.py:669
+#: /opt/feladatverseny/app/routes/admin.py:1223
 #: /opt/feladatverseny/app/routes/admin_templates.py:156
 #: /opt/feladatverseny/app/routes/admin_templates.py:432
 msgid "Legalább egy témakört ki kell választani."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:667
-#: /opt/feladatverseny/app/routes/admin.py:1221
-#: /opt/feladatverseny/app/routes/admin.py:1712
+#: /opt/feladatverseny/app/routes/admin.py:677
+#: /opt/feladatverseny/app/routes/admin.py:1231
+#: /opt/feladatverseny/app/routes/admin.py:1722
 msgid "Mind az öt válaszlehetőséget ki kell tölteni."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:672
-#: /opt/feladatverseny/app/routes/admin.py:1226
+#: /opt/feladatverseny/app/routes/admin.py:682
+#: /opt/feladatverseny/app/routes/admin.py:1236
 msgid "Ki kell választani a helyes választ."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:687
-#: /opt/feladatverseny/app/routes/admin.py:1241
+#: /opt/feladatverseny/app/routes/admin.py:697
+#: /opt/feladatverseny/app/routes/admin.py:1251
 #: /opt/feladatverseny/app/routes/admin_templates.py:174
 #: /opt/feladatverseny/app/routes/admin_templates.py:450
 msgid "Az évfolyamválasztás érvénytelen."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:694
-#: /opt/feladatverseny/app/routes/admin.py:1248
+#: /opt/feladatverseny/app/routes/admin.py:704
+#: /opt/feladatverseny/app/routes/admin.py:1258
 #: /opt/feladatverseny/app/routes/admin_templates.py:181
 #: /opt/feladatverseny/app/routes/admin_templates.py:457
 msgid "A témakörválasztás érvénytelen."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:734
+#: /opt/feladatverseny/app/routes/admin.py:744
 msgid "A feladatot és az öt válaszlehetőséget elmentettük."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:820
-#: /opt/feladatverseny/app/routes/admin.py:973
+#: /opt/feladatverseny/app/routes/admin.py:830
+#: /opt/feladatverseny/app/routes/admin.py:983
 msgid "A teljes név megadása kötelező."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:827
-#: /opt/feladatverseny/app/routes/admin.py:987
+#: /opt/feladatverseny/app/routes/admin.py:837
+#: /opt/feladatverseny/app/routes/admin.py:997
 msgid "A felhasználónév megadása kötelező."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:834
-#: /opt/feladatverseny/app/routes/admin.py:994
+#: /opt/feladatverseny/app/routes/admin.py:844
+#: /opt/feladatverseny/app/routes/admin.py:1004
 msgid "A felhasználónév legfeljebb 80 karakter lehet."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:849
-#: /opt/feladatverseny/app/routes/admin.py:1010
+#: /opt/feladatverseny/app/routes/admin.py:859
+#: /opt/feladatverseny/app/routes/admin.py:1020
 msgid "Ez a felhasználónév már foglalt."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:861
-#: /opt/feladatverseny/app/routes/admin.py:1022
+#: /opt/feladatverseny/app/routes/admin.py:871
+#: /opt/feladatverseny/app/routes/admin.py:1032
 msgid "Érvényes évfolyam kiválasztása kötelező."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:868
-#: /opt/feladatverseny/app/routes/admin.py:1029
+#: /opt/feladatverseny/app/routes/admin.py:878
+#: /opt/feladatverseny/app/routes/admin.py:1039
 msgid "Érvényes nyelvet kell választani."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:875
+#: /opt/feladatverseny/app/routes/admin.py:885
 msgid "A jelszónak legalább 6 karakteresnek kell lennie."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:882
+#: /opt/feladatverseny/app/routes/admin.py:892
 msgid "A két jelszó nem egyezik."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:902
+#: /opt/feladatverseny/app/routes/admin.py:912
 msgid "A versenyző sikeresen létrejött."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:980
+#: /opt/feladatverseny/app/routes/admin.py:990
 msgid "A teljes név legfeljebb 200 karakter lehet."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1037
+#: /opt/feladatverseny/app/routes/admin.py:1047
 msgid "Az új jelszónak legalább 6 karakteresnek kell lennie."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1044
+#: /opt/feladatverseny/app/routes/admin.py:1054
 msgid "A két új jelszó nem egyezik."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1062
+#: /opt/feladatverseny/app/routes/admin.py:1072
 msgid "A versenyző adatai sikeresen módosultak."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1291
+#: /opt/feladatverseny/app/routes/admin.py:1301
 msgid "A feladat módosításait elmentettük."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1336
+#: /opt/feladatverseny/app/routes/admin.py:1346
 msgid "Nem választottál ki CSV-fájlt."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1350
+#: /opt/feladatverseny/app/routes/admin.py:1360
 msgid "Csak CSV-fájl tölthető fel."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1369
+#: /opt/feladatverseny/app/routes/admin.py:1379
 msgid "A CSV nem olvasható UTF-8 kódolással."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1391
+#: /opt/feladatverseny/app/routes/admin.py:1401
 msgid "A CSV fejlécének formátuma hibás."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1404
+#: /opt/feladatverseny/app/routes/admin.py:1414
 #, python-format
 msgid "Elvárt fejléc: %(header)s"
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1464
+#: /opt/feladatverseny/app/routes/admin.py:1474
 msgid "A forrásév nem érvényes szám."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1474
+#: /opt/feladatverseny/app/routes/admin.py:1484
 msgid "A sorszám nem érvényes szám."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1484
+#: /opt/feladatverseny/app/routes/admin.py:1494
 msgid "A nehézség nem érvényes szám."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1496
+#: /opt/feladatverseny/app/routes/admin.py:1506
 msgid "A helyes válasz nem érvényes szám."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1510
+#: /opt/feladatverseny/app/routes/admin.py:1520
 #, python-format
 msgid "A forrásév nincs rögzítve: %(year)s."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1524
+#: /opt/feladatverseny/app/routes/admin.py:1534
 msgid "A sorszám 1 és 25 közötti lehet."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1551
+#: /opt/feladatverseny/app/routes/admin.py:1561
 msgid "A helyes válasz 1 és 5 közötti lehet."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1576
+#: /opt/feladatverseny/app/routes/admin.py:1586
 #, python-format
 msgid "Érvénytelen évfolyam: %(grade)s."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1588
+#: /opt/feladatverseny/app/routes/admin.py:1598
 #, python-format
 msgid "Nem létező évfolyam: %(grade)s."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1603
+#: /opt/feladatverseny/app/routes/admin.py:1613
 msgid "Legalább egy évfolyam szükséges."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1625
+#: /opt/feladatverseny/app/routes/admin.py:1635
 #, python-format
 msgid "Nem létező témakör: %(topic)s."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1642
+#: /opt/feladatverseny/app/routes/admin.py:1652
 msgid "Legalább egy témakör szükséges."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1676
+#: /opt/feladatverseny/app/routes/admin.py:1686
 #, python-format
 msgid ""
 "A feladat valószínűleg már létezik az adatbázisban. Feladat ID: "
 "%(question_id)s."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1688
+#: /opt/feladatverseny/app/routes/admin.py:1698
 msgid "Ugyanez a feladat már korábban szerepelt ebben a CSV-fájlban."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1727
+#: /opt/feladatverseny/app/routes/admin.py:1737
 msgid "Az aktív mező értéke legyen igen vagy nem."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1792
+#: /opt/feladatverseny/app/routes/admin.py:1802
 msgid "A CSV nem tartalmaz adatsort."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1800
+#: /opt/feladatverseny/app/routes/admin.py:1810
 #, python-format
 msgid "%(count)s hibás CSV-sor található. Az import nem történt meg."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1907
+#: /opt/feladatverseny/app/routes/admin.py:1917
 msgid "Az importálás közben hiba történt. Egyetlen rekordot sem mentettünk el."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1930
+#: /opt/feladatverseny/app/routes/admin.py:1940
 #, python-format
 msgid ""
 "%(count)s sor ellenőrzése sikeres. Az adatok még nem kerültek az "
 "adatbázisba."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1959
+#: /opt/feladatverseny/app/routes/admin.py:1969
 msgid "A feladatot aktiváltuk."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin.py:1961
+#: /opt/feladatverseny/app/routes/admin.py:1971
 msgid "A feladatot inaktiváltuk."
 msgstr ""
 
@@ -399,6 +417,145 @@ msgstr ""
 msgid "Adminisztráció"
 msgstr ""
 
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:17
+#, python-format
+msgid "%(test_name)s – részletes kitöltés"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:32
+msgid "Vissza a forduló eredményeihez"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:38
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:81
+msgid "Versenyző"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:42
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:21
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:33
+msgid "Név"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:49
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:47
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:41
+#: /opt/feladatverseny/app/templates/admin/competitors.html:85
+#: /opt/feladatverseny/app/templates/competitor/login.html:33
+msgid "Felhasználónév"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:56
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:66
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:57
+#: /opt/feladatverseny/app/templates/admin/competitors.html:86
+#: /opt/feladatverseny/app/templates/admin/grades.html:26
+#: /opt/feladatverseny/app/templates/admin/questions.html:58
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:84
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:180
+msgid "Évfolyam"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:66
+#: /opt/feladatverseny/app/templates/admin/competitors.html:87
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:127
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:24
+#: /opt/feladatverseny/app/templates/admin/question_detail.html:93
+#: /opt/feladatverseny/app/templates/admin/question_import.html:104
+#: /opt/feladatverseny/app/templates/admin/questions.html:140
+#: /opt/feladatverseny/app/templates/admin/questions.html:222
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:96
+#: /opt/feladatverseny/app/templates/admin/source_years.html:27
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:98
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:133
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:39
+#: /opt/feladatverseny/app/templates/admin/topics.html:27
+msgid "Állapot"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:77
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:180
+msgid "Beadva"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:86
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:58
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:189
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:205
+msgid "Nem adta be"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:95
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:92
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:134
+msgid "Eredmény"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:99
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:88
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:130
+msgid "Pontszám"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:110
+msgid "Százalék"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:121
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:100
+msgid "Kezdés"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:132
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:104
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:138
+msgid "Beadás"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:147
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:108
+msgid "Kitöltési idő"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:165
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:166
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:113
+#, python-format
+msgid "%(position)s. feladat"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:186
+msgid "Nem válaszolt"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:196
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:206
+#: /opt/feladatverseny/app/templates/admin/question_import.html:111
+msgid "Helyes"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:206
+#: /opt/feladatverseny/app/templates/admin/question_import.html:124
+msgid "Hibás"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:264
+msgid "✓ Ezt jelölte – helyes"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:267
+msgid "✗ Ezt jelölte"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:270
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:209
+msgid "✓ Helyes válasz"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/attempt_result_detail.html:280
+msgid "A feladatsor nem tartalmaz kérdést."
+msgstr ""
+
 #: /opt/feladatverseny/app/templates/admin/competitor_edit.html:4
 #: /opt/feladatverseny/app/templates/admin/competitor_edit.html:10
 msgid "Versenyző szerkesztése"
@@ -408,22 +565,6 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/competitor_form.html:26
 #: /opt/feladatverseny/app/templates/admin/competitors.html:84
 msgid "Teljes név"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:47
-#: /opt/feladatverseny/app/templates/admin/competitor_form.html:41
-#: /opt/feladatverseny/app/templates/admin/competitors.html:85
-#: /opt/feladatverseny/app/templates/competitor/login.html:33
-msgid "Felhasználónév"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:66
-#: /opt/feladatverseny/app/templates/admin/competitor_form.html:57
-#: /opt/feladatverseny/app/templates/admin/competitors.html:86
-#: /opt/feladatverseny/app/templates/admin/grades.html:26
-#: /opt/feladatverseny/app/templates/admin/questions.html:58
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:180
-msgid "Évfolyam"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitor_edit.html:88
@@ -542,21 +683,6 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/competitors.html:74
 #: /opt/feladatverseny/app/templates/admin/questions.html:207
 msgid "Megjelenítve:"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitors.html:87
-#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:127
-#: /opt/feladatverseny/app/templates/admin/generated_tests.html:24
-#: /opt/feladatverseny/app/templates/admin/question_detail.html:93
-#: /opt/feladatverseny/app/templates/admin/question_import.html:104
-#: /opt/feladatverseny/app/templates/admin/questions.html:140
-#: /opt/feladatverseny/app/templates/admin/questions.html:222
-#: /opt/feladatverseny/app/templates/admin/source_years.html:27
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:98
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:133
-#: /opt/feladatverseny/app/templates/admin/test_templates.html:39
-#: /opt/feladatverseny/app/templates/admin/topics.html:27
-msgid "Állapot"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:88
@@ -686,20 +812,9 @@ msgstr ""
 msgid "Feladatok száma"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:166
-#: /opt/feladatverseny/app/templates/competitor/test_view.html:113
-#, python-format
-msgid "%(position)s. feladat"
-msgstr ""
-
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:175
 #, python-format
 msgid "Eredeti feladat-ID: %(id)s · Nehézség: %(difficulty)s"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:206
-#: /opt/feladatverseny/app/templates/admin/question_import.html:111
-msgid "Helyes"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:216
@@ -714,14 +829,11 @@ msgstr ""
 msgid "A sablonok alapján létrehozott konkrét tesztek."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/generated_tests.html:21
-#: /opt/feladatverseny/app/templates/admin/test_templates.html:33
-msgid "Név"
-msgstr ""
-
 #: /opt/feladatverseny/app/templates/admin/generated_tests.html:23
 #: /opt/feladatverseny/app/templates/admin/index.html:70
 #: /opt/feladatverseny/app/templates/admin/questions.html:10
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:43
+#: /opt/feladatverseny/app/templates/admin/results.html:34
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:126
 msgid "Feladatok"
 msgstr ""
@@ -729,6 +841,8 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/generated_tests.html:26
 #: /opt/feladatverseny/app/templates/admin/question_import_result.html:48
 #: /opt/feladatverseny/app/templates/admin/questions.html:223
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:111
+#: /opt/feladatverseny/app/templates/admin/results.html:49
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:183
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:16
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
@@ -838,6 +952,8 @@ msgid "Létrehozott tesztek, aktiválás és lezárás."
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/index.html:139
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:4
+#: /opt/feladatverseny/app/templates/admin/results.html:10
 msgid "Eredmények"
 msgstr ""
 
@@ -1064,10 +1180,6 @@ msgstr ""
 msgid "Feladat"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/question_import.html:124
-msgid "Hibás"
-msgstr ""
-
 #: /opt/feladatverseny/app/templates/admin/question_import.html:126
 msgid "Rendben"
 msgstr ""
@@ -1173,6 +1285,82 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/questions.html:314
 #, python-format
 msgid "%(page)s / %(pages)s oldal"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:13
+msgid "A lezárt forduló részletes eredményei."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:22
+msgid "Vissza az eredményekhez"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:32
+msgid "Feladatsor megtekintése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:39
+msgid "Forduló adatai"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:48
+#: /opt/feladatverseny/app/templates/admin/results.html:37
+msgid "Résztvevők"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:53
+#: /opt/feladatverseny/app/templates/admin/results.html:40
+msgid "Beadta"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:71
+msgid "Versenyzői eredmények"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:79
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:122
+msgid "Helyezés"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:234
+msgid "Kitöltés"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/result_detail.html:244
+msgid "Ehhez a fordulóhoz nem tartozik egyetlen kitöltés sem."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:4
+msgid "Eredmények – Feladatverseny"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:13
+msgid "Lezárt fordulók és kitöltések."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:21
+msgid "Vissza az adminisztrációhoz"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:32
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:118
+msgid "Forduló"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:43
+msgid "Átlag"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:46
+msgid "Legjobb"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:112
+msgid "Részletek"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/results.html:123
+msgid "Még nincs lezárt forduló."
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/source_years.html:4
@@ -1396,30 +1584,6 @@ msgstr ""
 msgid "Korábbi eredményeim"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:118
-msgid "Forduló"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:122
-msgid "Helyezés"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:130
-msgid "Pontszám"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:134
-msgid "Eredmény"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:138
-msgid "Beadás"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:205
-msgid "Nem adta be"
-msgstr ""
-
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:229
 msgid "Feladatlap megtekintése"
 msgstr ""
@@ -1479,10 +1643,6 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/competitor/test_view.html:199
 msgid "✗ Ezt jelölted"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/test_view.html:209
-msgid "✓ Helyes válasz"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/competitor/test_view.html:232

@@ -13,8 +13,12 @@
             </h1>
 
             <p>
-                {{ generated_test.name }}
-                – részletes kitöltés
+                {{
+                _(
+                    "%(test_name)s – részletes kitöltés",
+                    test_name=generated_test.name
+                )
+            }}
             </p>
         </div>
 
@@ -25,31 +29,31 @@
                 generated_test_id=generated_test.id
             ) }}"
         >
-            Vissza a forduló eredményeihez
+            {{ _("Vissza a forduló eredményeihez") }}
         </a>
     </section>
 
     <section class="detail-grid">
         <article class="card">
-            <h2>Versenyző</h2>
+            <h2>{{ _("Versenyző") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Név</dt>
+                    <dt>{{ _("Név") }}</dt>
                     <dd>
                         {{ attempt.competitor.full_name }}
                     </dd>
                 </div>
 
                 <div>
-                    <dt>Felhasználónév</dt>
+                    <dt>{{ _("Felhasználónév") }}</dt>
                     <dd>
                         {{ attempt.competitor.username }}
                     </dd>
                 </div>
 
                 <div>
-                    <dt>Évfolyam</dt>
+                    <dt>{{ _("Évfolyam") }}</dt>
                     <dd>
                         {{
                             attempt.competitor
@@ -59,7 +63,7 @@
                 </div>
 
                 <div>
-                    <dt>Állapot</dt>
+                    <dt>{{ _("Állapot") }}</dt>
                     <dd>
                         {% if
                             attempt.status == "submitted"
@@ -70,7 +74,7 @@
                                     status-active
                                 "
                             >
-                                Beadva
+                                {{ _("Beadva") }}
                             </span>
                         {% else %}
                             <span
@@ -79,7 +83,7 @@
                                     status-inactive
                                 "
                             >
-                                Nem adta be
+                                {{ _("Nem adta be") }}
                             </span>
                         {% endif %}
                     </dd>
@@ -88,11 +92,11 @@
         </article>
 
         <article class="card">
-            <h2>Eredmény</h2>
+            <h2>{{ _("Eredmény") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Pontszám</dt>
+                    <dt>{{ _("Pontszám") }}</dt>
                     <dd>
                         <strong>
                             {{ correct_answer_count }}
@@ -103,7 +107,7 @@
                 </div>
 
                 <div>
-                    <dt>Százalék</dt>
+                    <dt>{{ _("Százalék") }}</dt>
                     <dd>
                         {{
                             "%.1f"
@@ -114,7 +118,7 @@
                 </div>
 
                 <div>
-                    <dt>Kezdés</dt>
+                    <dt>{{ _("Kezdés") }}</dt>
                     <dd>
                         {{
                             attempt.started_at.strftime(
@@ -125,7 +129,7 @@
                 </div>
 
                 <div>
-                    <dt>Beadás</dt>
+                    <dt>{{ _("Beadás") }}</dt>
                     <dd>
                         {% if attempt.submitted_at %}
                             {{
@@ -140,7 +144,7 @@
                 </div>
 
                 <div>
-                    <dt>Kitöltési idő</dt>
+                    <dt>{{ _("Kitöltési idő") }}</dt>
                     <dd>
                         {{ duration_text or "–" }}
                     </dd>
@@ -158,9 +162,14 @@
             <div class="question-result-header">
                 <h2>
                     {{
-                        generated_question
-                        .display_position
-                    }}. feladat
+                        _(
+                            "%(position)s. feladat",
+                            position=(
+                                generated_question
+                                .display_position
+                            )
+                        )
+                    }}
                 </h2>
 
                 {% if
@@ -174,7 +183,7 @@
                             status-inactive
                         "
                     >
-                        Nem válaszolt
+                        {{ _("Nem válaszolt") }}
                     </span>
 
                 {% elif question_result.is_correct %}
@@ -184,7 +193,7 @@
                             status-active
                         "
                     >
-                        Helyes
+                        {{ _("Helyes") }}
                     </span>
 
                 {% else %}
@@ -194,7 +203,7 @@
                             status-error
                         "
                     >
-                        Hibás
+                        {{ _("Hibás") }}
                     </span>
                 {% endif %}
             </div>
@@ -252,13 +261,13 @@
                                 is_selected
                                 and is_correct
                             %}
-                                ✓ Ezt jelölte – helyes
+                                {{ _("✓ Ezt jelölte – helyes") }}
 
                             {% elif is_selected %}
-                                ✗ Ezt jelölte
+                                {{ _("✗ Ezt jelölte") }}
 
                             {% elif is_correct %}
-                                ✓ Helyes válasz
+                                {{ _("✓ Helyes válasz") }}
                             {% endif %}
                         </span>
                     </li>
@@ -268,7 +277,7 @@
     {% else %}
         <section class="card">
             <p>
-                A feladatsor nem tartalmaz kérdést.
+                {{ _("A feladatsor nem tartalmaz kérdést.") }}
             </p>
         </section>
     {% endfor %}

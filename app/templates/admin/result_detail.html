@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ generated_test.name }} – Eredmények
+    {{ generated_test.name }} – {{ _("Eredmények") }}
 {% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
             <h1>{{ generated_test.name }}</h1>
 
             <p>
-                A lezárt forduló részletes eredményei.
+                {{ _("A lezárt forduló részletes eredményei.") }}
             </p>
         </div>
 
@@ -19,7 +19,7 @@
                 class="button button-secondary"
                 href="{{ url_for('admin.results') }}"
             >
-                Vissza az eredményekhez
+                {{ _("Vissza az eredményekhez") }}
             </a>
 
             <a
@@ -29,33 +29,33 @@
                     generated_test_id=generated_test.id
                 ) }}"
             >
-                Feladatsor megtekintése
+                {{ _("Feladatsor megtekintése") }}
             </a>
         </div>
     </section>
 
     <section class="detail-grid">
         <article class="card">
-            <h2>Forduló adatai</h2>
+            <h2>{{ _("Forduló adatai") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Feladatok</dt>
+                    <dt>{{ _("Feladatok") }}</dt>
                     <dd>{{ question_count }}</dd>
                 </div>
 
                 <div>
-                    <dt>Résztvevők</dt>
+                    <dt>{{ _("Résztvevők") }}</dt>
                     <dd>{{ result_rows | length }}</dd>
                 </div>
 
                 <div>
-                    <dt>Beadta</dt>
+                    <dt>{{ _("Beadta") }}</dt>
                     <dd>{{ submitted_count }}</dd>
                 </div>
 
                 <div>
-                    <dt>Nem adta be</dt>
+                    <dt>{{ _("Nem adta be") }}</dt>
                     <dd>
                         {{
                             (result_rows | length)
@@ -68,7 +68,7 @@
     </section>
 
     <section class="card">
-        <h2>Versenyzői eredmények</h2>
+        <h2>{{ _("Versenyzői eredmények") }}</h2>
 
         {% if result_rows %}
             <div class="table-wrapper">
@@ -76,39 +76,39 @@
                     <thead>
                         <tr>
                             <th class="table-number">
-                                Helyezés
+                                {{ _("Helyezés") }}
                             </th>
-                            <th>Versenyző</th>
+                            <th>{{ _("Versenyző") }}</th>
 
                             <th class="table-number">
-                                Évfolyam
-                            </th>
-
-                            <th class="table-number">
-                                Pontszám
+                                {{ _("Évfolyam") }}
                             </th>
 
                             <th class="table-number">
-                                Eredmény
+                                {{ _("Pontszám") }}
+                            </th>
+
+                            <th class="table-number">
+                                {{ _("Eredmény") }}
                             </th>
 
                             <th>
-                                Állapot
+                                {{ _("Állapot") }}
                             </th>
 
                             <th>
-                                Kezdés
+                                {{ _("Kezdés") }}
                             </th>
 
                             <th>
-                                Beadás
+                                {{ _("Beadás") }}
                             </th>
 
                             <th>
-                                Kitöltési idő
+                                {{ _("Kitöltési idő") }}
                             </th>
                             <th class="table-actions">
-                                Művelet
+                                {{ _("Művelet") }}
                             </th>
                         </tr>
                     </thead>
@@ -177,7 +177,7 @@
                                                 status-active
                                             "
                                         >
-                                            Beadva
+                                            {{ _("Beadva") }}
                                         </span>
                                     {% else %}
                                         <span
@@ -186,7 +186,7 @@
                                                 status-inactive
                                             "
                                         >
-                                            Nem adta be
+                                            {{ _("Nem adta be") }}
                                         </span>
                                     {% endif %}
                                 </td>
@@ -231,7 +231,7 @@
             attempt_id=row.attempt.id
         ) }}"
     >
-        Kitöltés
+        {{ _("Kitöltés") }}
     </a>
 </td>
                             </tr>
@@ -241,8 +241,7 @@
             </div>
         {% else %}
             <p>
-                Ehhez a fordulóhoz nem tartozik
-                egyetlen kitöltés sem.
+                {{ _("Ehhez a fordulóhoz nem tartozik egyetlen kitöltés sem.") }}
             </p>
         {% endif %}
     </section>

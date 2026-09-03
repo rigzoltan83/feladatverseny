@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Eredmények – Feladatverseny
+    {{ _("Eredmények – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header page-header-row">
         <div>
-            <h1>Eredmények</h1>
+            <h1>{{ _("Eredmények") }}</h1>
 
             <p>
-                Lezárt fordulók és kitöltések.
+                {{ _("Lezárt fordulók és kitöltések.") }}
             </p>
         </div>
 
@@ -18,7 +18,7 @@
             class="button button-secondary"
             href="{{ url_for('admin.index') }}"
         >
-            Vissza az adminisztrációhoz
+            {{ _("Vissza az adminisztrációhoz") }}
         </a>
     </section>
 
@@ -29,24 +29,24 @@
     <table class="data-table results-table">
         <thead>
             <tr>
-                <th>Forduló</th>
+                <th>{{ _("Forduló") }}</th>
                 <th class="table-number">
-                    Feladatok
+                    {{ _("Feladatok") }}
                 </th>
                 <th class="table-number">
-                    Résztvevők
+                    {{ _("Résztvevők") }}
                 </th>
                 <th class="table-number">
-                    Beadta
+                    {{ _("Beadta") }}
                 </th>
                 <th class="table-number">
-                    Átlag
+                    {{ _("Átlag") }}
                 </th>
                 <th class="table-number">
-                    Legjobb
+                    {{ _("Legjobb") }}
                 </th>
                 <th class="table-actions">
-                    Művelet
+                    {{ _("Művelet") }}
                 </th>
             </tr>
         </thead>
@@ -109,7 +109,7 @@
                                 generated_test_id=row.generated_test.id
                             ) }}"
                         >
-                            Részletek
+                            {{ _("Részletek") }}
                         </a>
                     </td>
                 </tr>
@@ -120,7 +120,7 @@
 
     {% else %}
         <p>
-            Még nincs lezárt forduló.
+            {{ _("Még nincs lezárt forduló.") }}
         </p>
     {% endif %}
 </section>
