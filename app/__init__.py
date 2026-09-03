@@ -24,7 +24,7 @@ def create_app() -> Flask:
 
     # A Config csak a .env betöltése után importálható.
     from app.config import Config
-    from app.extensions import db, migrate
+    from app.extensions import babel, db, migrate
 
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -56,6 +56,55 @@ def create_app() -> Flask:
     migrate.init_app(app, db)
 
     from app import models
+
+    def select_locale():
+        selected_language = session.get(
+            "language"
+        )
+
+        if selected_language in app.config["LANGUAGES"]:
+            return selected_language
+
+        competitor_id = session.get(
+            "competitor_id"
+        )
+
+        if competitor_id:
+            competitor = db.session.get(
+                models.Competitor,
+                competitor_id,
+            )
+
+            if (
+                competitor is not None
+                and competitor.preferred_language
+                in app.config["LANGUAGES"]
+            ):
+                selected_language = (
+                    competitor.preferred_language
+                )
+
+                session["language"] = (
+                    selected_language
+                )
+
+                return selected_language
+
+        cookie_language = request.cookies.get(
+            "feladatverseny_language"
+        )
+
+        if cookie_language in app.config["LANGUAGES"]:
+            return cookie_language
+
+        return app.config[
+            "BABEL_DEFAULT_LOCALE"
+        ]
+
+    babel.init_app(
+        app,
+        locale_selector=select_locale,
+    )
 
     from app.routes.admin import admin_bp
     from app.routes.competitor import competitor_bp

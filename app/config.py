@@ -17,6 +17,14 @@ def required_env(name: str) -> str:
 class Config:
     SECRET_KEY = required_env("SECRET_KEY")
 
+    BABEL_DEFAULT_LOCALE = "hu"
+    BABEL_DEFAULT_TIMEZONE = "Europe/Budapest"
+
+    LANGUAGES = {
+        "hu": "Magyar",
+        "en": "English",
+    }
+
     APPLICATION_PREFIX = (
         os.getenv(
             "APPLICATION_PREFIX",
