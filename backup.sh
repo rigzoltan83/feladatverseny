@@ -2,6 +2,10 @@
 
 set -Eeuo pipefail
 
+# Backups contain application secrets from .env.
+# Keep all newly created backup files root-only.
+umask 077
+
 PROJECT_DIR="/opt/feladatverseny"
 ENV_FILE="$PROJECT_DIR/.env"
 
