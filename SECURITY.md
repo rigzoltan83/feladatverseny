@@ -2,11 +2,9 @@
 
 ## Supported versions
 
-Feladatverseny is currently in pre-release development.
+The latest stable release of Feladatverseny is supported with security fixes.
 
-Security fixes are applied to the latest version of the `main` branch.
-
-After the first public release, supported versions will be documented here.
+Security fixes are also applied to the latest version of the `main` branch.
 
 ## Reporting a vulnerability
 

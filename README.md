@@ -267,9 +267,23 @@ See:
 
 - [CHANGELOG.md](CHANGELOG.md)
 
+## Support
+
+Feladatverseny is free and open-source software.
+
+If you find the project useful and would like to support continued
+development, you can support the developer on Patreon:
+
+**[Support Zoltán Rigo on Patreon](https://www.patreon.com/ZoltanRigo)**
+
+Support is entirely optional. The project remains freely available under
+the GNU General Public License v3.0.
+
 ## Status
 
-Feladatverseny is currently being prepared for its first public release.
+Feladatverseny is available as a stable self-hosted release.
+
+The current stable version is **v1.0.0**.
 
 The current repository should be considered pre-release software until the
 public release checklist has been completed.

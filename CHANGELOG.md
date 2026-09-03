@@ -6,6 +6,10 @@ The project uses semantic versioning for public releases.
 
 ## Unreleased
 
+No unreleased changes yet.
+
+## 1.0.0 - 2026-09-03
+
 ### Added
 
 - Hungarian and English user interface
