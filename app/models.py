@@ -464,6 +464,13 @@ class Competitor(db.Model):
         server_default=db.false(),
     )
 
+    preferred_language = db.Column(
+        db.String(5),
+        nullable=False,
+        default="hu",
+        server_default="hu",
+    )
+
     created_at = db.Column(
         db.DateTime(timezone=True),
         nullable=False,
