@@ -8,24 +8,33 @@
 
 <div class="page-header">
     <div>
-        <h1>{{ generated_test.name }}</h1>
+        <h1>
+            {{ generated_test.name }}
+        </h1>
 
         <p>
-            Versenyző:
-            <strong>{{ competitor.full_name }}</strong>
+            {{ _("Versenyző:") }}
+            <strong>
+                {{ competitor.full_name }}
+            </strong>
         </p>
 
         <p>
-            Feladatok száma:
-            <strong>{{ test_questions | length }}</strong>
+            {{ _("Feladatok száma:") }}
+            <strong>
+                {{ test_questions | length }}
+            </strong>
         </p>
+
         {% if attempt.started_at %}
             <p>
-                Megkezdve:
+                {{ _("Megkezdve:") }}
                 <strong>
-                    {{ attempt.started_at.strftime(
-                        "%Y.%m.%d. %H:%M:%S"
-                    ) }}
+                    {{
+                        attempt.started_at.strftime(
+                            "%Y.%m.%d. %H:%M:%S"
+                        )
+                    }}
                 </strong>
             </p>
         {% endif %}
@@ -33,49 +42,60 @@
         {% if attempt.status == "submitted" %}
             {% if attempt.submitted_at %}
                 <p>
-                    Befejezve:
+                    {{ _("Befejezve:") }}
                     <strong>
-                        {{ attempt.submitted_at.strftime(
-                            "%Y.%m.%d. %H:%M:%S"
-                        ) }}
+                        {{
+                            attempt.submitted_at.strftime(
+                                "%Y.%m.%d. %H:%M:%S"
+                            )
+                        }}
                     </strong>
                 </p>
             {% endif %}
 
             {% if completion_time %}
                 <p>
-                    Kitöltési idő:
-                    <strong>{{ completion_time }}</strong>
+                    {{ _("Kitöltési idő:") }}
+                    <strong>
+                        {{ completion_time }}
+                    </strong>
                 </p>
             {% endif %}
         {% endif %}
 
-{% if results_visible %}
-    <p>
-        <strong>
-            A forduló lezárult. A válaszok már nem módosíthatók.
-        </strong>
-    </p>
+        {% if results_visible %}
+            <p>
+                <strong>
+                    {{
+                        _(
+                            "A forduló lezárult. "
+                            "A válaszok már nem "
+                            "módosíthatók."
+                        )
+                    }}
+                </strong>
+            </p>
 
-    <p>
-        Eredmény:
-        <strong>
-            {{ correct_answer_count }}
-            /
-            {{ total_question_count }}
-            pont
-        </strong>
-    </p>
-{% endif %}
-
+            <p>
+                {{ _("Eredmény:") }}
+                <strong>
+                    {{ correct_answer_count }}
+                    /
+                    {{ total_question_count }}
+                    {{ _("pont") }}
+                </strong>
+            </p>
+        {% endif %}
     </div>
 
     <div>
         <a
             class="button button-secondary"
-            href="{{ url_for('competitor.dashboard') }}"
+            href="{{ url_for(
+                'competitor.dashboard'
+            ) }}"
         >
-            Vissza
+            {{ _("Vissza") }}
         </a>
     </div>
 </div>
@@ -89,11 +109,23 @@
         <section class="card question-card">
 
             <div class="question-number">
-                {{ generated_question.display_position }}. feladat
+                {{
+                    _(
+                        "%(position)s. feladat",
+                        position=(
+                            generated_question
+                            .display_position
+                        )
+                    )
+                }}
             </div>
 
             <div class="question-text">
-                {{ generated_question.question.question_text }}
+                {{
+                    generated_question
+                    .question
+                    .question_text
+                }}
             </div>
 
             <div class="answer-options">
@@ -101,67 +133,90 @@
                 {% for generated_answer
                     in generated_question.generated_answers %}
 
-<label class="answer-option">
+                    <label class="answer-option">
 
-<input
-    class="answer-radio"
-    type="radio"
-    name="question_{{ generated_question.id }}"
-    value="{{ generated_answer.id }}"
-    {% if saved_answers.get(generated_question.id)
-        == generated_answer.id %}
-        checked
-    {% endif %}
-    {% if attempt.status == "submitted" or results_visible %}
-        disabled
-    {% endif %}
->
+                        <input
+                            class="answer-radio"
+                            type="radio"
+                            name="question_{{ generated_question.id }}"
+                            value="{{ generated_answer.id }}"
+                            {% if saved_answers.get(
+                                generated_question.id
+                            ) == generated_answer.id %}
+                                checked
+                            {% endif %}
+                            {% if (
+                                attempt.status == "submitted"
+                                or results_visible
+                            ) %}
+                                disabled
+                            {% endif %}
+                        >
 
-    <span class="answer-marker">
-        {% if generated_answer.display_position == 1 %}
-            A
-        {% elif generated_answer.display_position == 2 %}
-            B
-        {% elif generated_answer.display_position == 3 %}
-            C
-        {% elif generated_answer.display_position == 4 %}
-            D
-        {% elif generated_answer.display_position == 5 %}
-            E
-        {% endif %}
-    </span>
+                        <span class="answer-marker">
+                            {% if generated_answer.display_position == 1 %}
+                                A
+                            {% elif generated_answer.display_position == 2 %}
+                                B
+                            {% elif generated_answer.display_position == 3 %}
+                                C
+                            {% elif generated_answer.display_position == 4 %}
+                                D
+                            {% elif generated_answer.display_position == 5 %}
+                                E
+                            {% endif %}
+                        </span>
 
-<span class="answer-content">
-    {{ generated_answer.answer_option.answer_text or "" }}
+                        <span class="answer-content">
+                            {{
+                                generated_answer
+                                .answer_option
+                                .answer_text
+                                or ""
+                            }}
 
-    {% if results_visible %}
+                            {% if results_visible %}
 
-        {% set is_selected =
-            saved_answers.get(generated_question.id)
-            == generated_answer.id
-        %}
+                                {% set is_selected =
+                                    saved_answers.get(
+                                        generated_question.id
+                                    )
+                                    == generated_answer.id
+                                %}
 
-        {% if is_selected
-              and generated_answer.answer_option.is_correct %}
-            <strong>
-                ✓ Jó válasz
-            </strong>
+                                {% if (
+                                    is_selected
+                                    and generated_answer
+                                        .answer_option
+                                        .is_correct
+                                ) %}
+                                    <strong>
+                                        {{ _("✓ Jó válasz") }}
+                                    </strong>
 
-        {% elif is_selected %}
-            <strong>
-                ✗ Ezt jelölted
-            </strong>
+                                {% elif is_selected %}
+                                    <strong>
+                                        {{ _("✗ Ezt jelölted") }}
+                                    </strong>
 
-        {% elif generated_answer.answer_option.is_correct %}
-            <strong>
-                ✓ Helyes válasz
-            </strong>
-        {% endif %}
+                                {% elif (
+                                    generated_answer
+                                    .answer_option
+                                    .is_correct
+                                ) %}
+                                    <strong>
+                                        {{
+                                            _(
+                                                "✓ Helyes válasz"
+                                            )
+                                        }}
+                                    </strong>
+                                {% endif %}
 
-    {% endif %}
-</span>
+                            {% endif %}
+                        </span>
 
-</label>
+                    </label>
 
                 {% endfor %}
 
@@ -173,13 +228,21 @@
 
         <section class="card">
             <p>
-                Ebben a feladatsorban nincs kérdés.
+                {{
+                    _(
+                        "Ebben a feladatsorban "
+                        "nincs kérdés."
+                    )
+                }}
             </p>
         </section>
 
     {% endfor %}
 
-    {% if attempt.status == "in_progress" and not results_visible %}
+    {% if (
+        attempt.status == "in_progress"
+        and not results_visible
+    ) %}
         <div class="test-actions">
 
             <button
@@ -188,7 +251,7 @@
                 name="action"
                 value="save"
             >
-                Válaszok mentése
+                {{ _("Válaszok mentése") }}
             </button>
 
             <button
@@ -196,19 +259,34 @@
                 type="submit"
                 name="action"
                 value="submit"
-                onclick="return confirm(
-                    'Biztosan véglegesen beküldöd a feladatsort? A beküldés után a válaszok már nem módosíthatók.'
-                );"
+                onclick='return confirm({{
+                    _(
+                        "Biztosan véglegesen "
+                        "beküldöd a feladatsort? "
+                        "A beküldés után a válaszok "
+                        "már nem módosíthatók."
+                    ) | tojson
+                }});'
             >
-                Feladatsor végleges beküldése
+                {{
+                    _(
+                        "Feladatsor végleges "
+                        "beküldése"
+                    )
+                }}
             </button>
 
         </div>
     {% else %}
         <section class="card">
             <p>
-                Ez a feladatsor már le van zárva,
-                ezért a válaszok nem módosíthatók.
+                {{
+                    _(
+                        "Ez a feladatsor már le van "
+                        "zárva, ezért a válaszok "
+                        "nem módosíthatók."
+                    )
+                }}
             </p>
         </section>
     {% endif %}

@@ -1,19 +1,28 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Versenyzői kezdőlap
+    {{ _("Versenyzői kezdőlap") }}
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
         <h1>
-            Üdvözlünk, {{ competitor.full_name }}!
+            {{
+                _(
+                    "Üdvözlünk, %(name)s!",
+                    name=competitor.full_name
+                )
+            }}
         </h1>
 
         <p>
-            {{ competitor.grade.grade_number }}.
-            évfolyam
+            {{
+                _(
+                    "%(grade)s. évfolyam",
+                    grade=competitor.grade.grade_number
+                )
+            }}
         </p>
     </div>
 
@@ -22,14 +31,15 @@
             class="button button-secondary"
             href="{{ url_for('competitor.logout') }}"
         >
-            Kijelentkezés
+            {{ _("Kijelentkezés") }}
         </a>
     </div>
-
 </div>
 
 <section class="card">
-    <h2>Elérhető feladatsorok</h2>
+    <h2>
+        {{ _("Elérhető feladatsorok") }}
+    </h2>
 
     {% if active_tests %}
         <div class="test-card-list">
@@ -41,74 +51,95 @@
                         </h3>
 
                         <p>
-                            Feladatok száma:
+                            {{ _("Feladatok száma:") }}
                             <strong>
-                                {{ generated_test.generated_questions
-                                   | length }}
+                                {{
+                                    generated_test
+                                    .generated_questions
+                                    | length
+                                }}
                             </strong>
                         </p>
 
                         <p>
-                            Létrehozva:
-                            {{ generated_test.created_at.strftime(
-                                "%Y-%m-%d %H:%M"
-                            ) }}
+                            {{ _("Létrehozva:") }}
+                            {{
+                                generated_test
+                                .created_at
+                                .strftime(
+                                    "%Y-%m-%d %H:%M"
+                                )
+                            }}
                         </p>
                     </div>
 
-<div class="test-card-actions">
-    <a
-        class="button"
-        href="{{ url_for(
-            'competitor.test_view',
-            test_id=generated_test.id
-        ) }}"
-    >
-        Feladatsor megnyitása
-    </a>
-</div>
+                    <div class="test-card-actions">
+                        <a
+                            class="button"
+                            href="{{ url_for(
+                                'competitor.test_view',
+                                test_id=generated_test.id
+                            ) }}"
+                        >
+                            {{
+                                _(
+                                    "Feladatsor "
+                                    "megnyitása"
+                                )
+                            }}
+                        </a>
+                    </div>
                 </article>
             {% endfor %}
         </div>
     {% else %}
         <p>
-            Jelenleg nincs az évfolyamodhoz elérhető
-            aktív feladatsor.
+            {{
+                _(
+                    "Jelenleg nincs az évfolyamodhoz "
+                    "elérhető aktív feladatsor."
+                )
+            }}
         </p>
     {% endif %}
 </section>
+
 <section class="card">
-    <h2>Korábbi eredményeim</h2>
+    <h2>
+        {{ _("Korábbi eredményeim") }}
+    </h2>
 
     {% if result_rows %}
         <div class="table-wrapper">
             <table class="data-table results-table">
                 <thead>
                     <tr>
-                        <th>Forduló</th>
-
-                        <th class="table-number">
-                            Helyezés
+                        <th>
+                            {{ _("Forduló") }}
                         </th>
 
                         <th class="table-number">
-                            Feladatok
+                            {{ _("Helyezés") }}
                         </th>
 
                         <th class="table-number">
-                            Pontszám
+                            {{ _("Feladatok") }}
                         </th>
 
                         <th class="table-number">
-                            Eredmény
+                            {{ _("Pontszám") }}
+                        </th>
+
+                        <th class="table-number">
+                            {{ _("Eredmény") }}
                         </th>
 
                         <th>
-                            Beadás
+                            {{ _("Beadás") }}
                         </th>
 
                         <th class="table-actions">
-                            Művelet
+                            {{ _("Művelet") }}
                         </th>
                     </tr>
                 </thead>
@@ -147,7 +178,9 @@
                             <td class="table-number">
                                 {{
                                     "%.1f"
-                                    | format(row.percentage)
+                                    | format(
+                                        row.percentage
+                                    )
                                 }}
                                 %
                             </td>
@@ -168,20 +201,36 @@
                                             status-inactive
                                         "
                                     >
-                                        Nem adta be
+                                        {{
+                                            _(
+                                                "Nem adta be"
+                                            )
+                                        }}
                                     </span>
                                 {% endif %}
                             </td>
 
                             <td class="table-actions">
                                 <a
-                                    class="button button-secondary"
+                                    class="
+                                        button
+                                        button-secondary
+                                    "
                                     href="{{ url_for(
                                         'competitor.test_view',
-                                        test_id=row.attempt.generated_test.id
+                                        test_id=(
+                                            row.attempt
+                                            .generated_test
+                                            .id
+                                        )
                                     ) }}"
                                 >
-                                    Feladatlap megtekintése
+                                    {{
+                                        _(
+                                            "Feladatlap "
+                                            "megtekintése"
+                                        )
+                                    }}
                                 </a>
                             </td>
                         </tr>
@@ -191,8 +240,12 @@
         </div>
     {% else %}
         <p>
-            Még nincs lezárt forduló,
-            amelyben részt vettél.
+            {{
+                _(
+                    "Még nincs lezárt forduló, "
+                    "amelyben részt vettél."
+                )
+            }}
         </p>
     {% endif %}
 </section>

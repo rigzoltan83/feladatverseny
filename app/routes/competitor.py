@@ -210,7 +210,10 @@ def dashboard():
 
     if not competitor_id:
         flash(
-            "Az oldal megtekintéséhez jelentkezz be.",
+            _(
+                "Az oldal megtekintéséhez "
+                "jelentkezz be."
+            ),
             "error",
         )
 
@@ -227,7 +230,10 @@ def dashboard():
         session.clear()
 
         flash(
-            "A felhasználói fiók nem érhető el.",
+            _(
+                "A felhasználói fiók "
+                "nem érhető el."
+            ),
             "error",
         )
 
@@ -379,7 +385,10 @@ def test_view(test_id):
 
     if not competitor_id:
         flash(
-            "A feladatsor megtekintéséhez jelentkezz be.",
+            _(
+                "A feladatsor megtekintéséhez "
+                "jelentkezz be."
+            ),
             "error",
         )
 
@@ -396,7 +405,10 @@ def test_view(test_id):
         session.clear()
 
         flash(
-            "A felhasználói fiók nem érhető el.",
+            _(
+                "A felhasználói fiók "
+                "nem érhető el."
+            ),
             "error",
         )
 
@@ -444,7 +456,10 @@ def test_view(test_id):
 
     if not is_allowed:
         flash(
-            "Ez a feladatsor számodra nem érhető el.",
+            _(
+                "Ez a feladatsor számodra "
+                "nem érhető el."
+            ),
             "error",
         )
 
@@ -472,8 +487,11 @@ def test_view(test_id):
 
         if is_closed:
             flash(
-                "A forduló lezárult, ezért a válaszok "
-                "már nem módosíthatók.",
+                _(
+                    "A forduló lezárult, ezért "
+                    "a válaszok már nem "
+                    "módosíthatók."
+                ),
                 "error",
             )
 
@@ -486,7 +504,10 @@ def test_view(test_id):
 
         if attempt.status == "submitted":
             flash(
-                "A feladatsor már le van zárva, ezért nem módosítható.",
+                _(
+                    "A feladatsor már le van zárva, "
+                    "ezért nem módosítható."
+                ),
                 "error",
             )
 
@@ -582,14 +603,17 @@ def test_view(test_id):
             db.session.commit()
 
             flash(
-                "A feladatsor végleges beküldése sikerült.",
+                _(
+                    "A feladatsor végleges "
+                    "beküldése sikerült."
+                ),
                 "success",
             )
         else:
             db.session.commit()
 
             flash(
-                "A válaszok mentése sikerült.",
+                _("A válaszok mentése sikerült."),
                 "success",
             )
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 12:11+0200\n"
+"POT-Creation-Date: 2026-09-03 12:30+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,29 +18,142 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: /opt/feladatverseny/app/__init__.py:138
+#: /opt/feladatverseny/app/__init__.py:145
 msgid "Az adminisztráció használatához jelentkezz be."
 msgstr "Sign in to access the administration area."
 
-#: /opt/feladatverseny/app/__init__.py:161
+#: /opt/feladatverseny/app/__init__.py:168
+#: /opt/feladatverseny/app/routes/competitor.py:234
+#: /opt/feladatverseny/app/routes/competitor.py:409
 msgid "A felhasználói fiók nem érhető el."
 msgstr "The user account is unavailable."
 
-#: /opt/feladatverseny/app/routes/competitor.py:106
+#: /opt/feladatverseny/app/routes/competitor.py:148
 msgid "Sikeres bejelentkezés."
 msgstr "Signed in successfully."
 
-#: /opt/feladatverseny/app/routes/competitor.py:138
+#: /opt/feladatverseny/app/routes/competitor.py:180
 msgid "Hibás felhasználónév vagy jelszó."
 msgstr "Invalid username or password."
 
-#: /opt/feladatverseny/app/routes/competitor.py:154
+#: /opt/feladatverseny/app/routes/competitor.py:196
 msgid "Sikeresen kijelentkeztél."
 msgstr "You have been signed out."
+
+#: /opt/feladatverseny/app/routes/competitor.py:214
+msgid "Az oldal megtekintéséhez jelentkezz be."
+msgstr "Sign in to view this page."
+
+#: /opt/feladatverseny/app/routes/competitor.py:389
+msgid "A feladatsor megtekintéséhez jelentkezz be."
+msgstr "Sign in to view this test."
+
+#: /opt/feladatverseny/app/routes/competitor.py:460
+msgid "Ez a feladatsor számodra nem érhető el."
+msgstr "This test is not available to you."
+
+#: /opt/feladatverseny/app/routes/competitor.py:491
+msgid "A forduló lezárult, ezért a válaszok már nem módosíthatók."
+msgstr "The round has ended, so the answers can no longer be changed."
+
+#: /opt/feladatverseny/app/routes/competitor.py:508
+msgid "A feladatsor már le van zárva, ezért nem módosítható."
+msgstr "This test has already been submitted and cannot be changed."
+
+#: /opt/feladatverseny/app/routes/competitor.py:607
+msgid "A feladatsor végleges beküldése sikerült."
+msgstr "The test was submitted successfully."
+
+#: /opt/feladatverseny/app/routes/competitor.py:616
+msgid "A válaszok mentése sikerült."
+msgstr "Answers saved successfully."
 
 #: /opt/feladatverseny/app/templates/base.html:31
 msgid "Adminisztráció"
 msgstr "Administration"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:4
+msgid "Versenyzői kezdőlap"
+msgstr "Competitor dashboard"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:12
+#, python-format
+msgid "Üdvözlünk, %(name)s!"
+msgstr "Welcome, %(name)s!"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:21
+#, python-format
+msgid "%(grade)s. évfolyam"
+msgstr "Grade %(grade)s"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:34
+msgid "Kijelentkezés"
+msgstr "Sign out"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:41
+msgid "Elérhető feladatsorok"
+msgstr "Available tests"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:54
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:23
+msgid "Feladatok száma:"
+msgstr "Number of questions:"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:65
+msgid "Létrehozva:"
+msgstr "Created:"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:85
+msgid "Feladatsor megnyitása"
+msgstr "Open test"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:98
+msgid "Jelenleg nincs az évfolyamodhoz elérhető aktív feladatsor."
+msgstr "There are currently no active tests available for your grade."
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:109
+msgid "Korábbi eredményeim"
+msgstr "My previous results"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:118
+msgid "Forduló"
+msgstr "Round"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:122
+msgid "Helyezés"
+msgstr "Rank"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:126
+msgid "Feladatok"
+msgstr "Questions"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:130
+msgid "Pontszám"
+msgstr "Score"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:134
+msgid "Eredmény"
+msgstr "Result"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:138
+msgid "Beadás"
+msgstr "Submitted"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
+msgid "Művelet"
+msgstr "Action"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:205
+msgid "Nem adta be"
+msgstr "Not submitted"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:229
+msgid "Feladatlap megtekintése"
+msgstr "View test"
+
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:244
+msgid "Még nincs lezárt forduló, amelyben részt vettél."
+msgstr "There are no completed rounds you have participated in yet."
 
 #: /opt/feladatverseny/app/templates/competitor/login.html:4
 #: /opt/feladatverseny/app/templates/competitor/login.html:11
@@ -63,7 +176,80 @@ msgstr "Password"
 msgid "Nyelv"
 msgstr "Language"
 
-#: /opt/feladatverseny/app/templates/competitor/login.html:102
+#: /opt/feladatverseny/app/templates/competitor/login.html:109
 msgid "Belépés"
 msgstr "Sign in"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:16
+msgid "Versenyző:"
+msgstr "Competitor:"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:31
+msgid "Megkezdve:"
+msgstr "Started:"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:45
+msgid "Befejezve:"
+msgstr "Completed:"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:58
+msgid "Kitöltési idő:"
+msgstr "Completion time:"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:70
+msgid "A forduló lezárult. A válaszok már nem módosíthatók."
+msgstr "The round has ended. Answers can no longer be changed."
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:80
+msgid "Eredmény:"
+msgstr "Result:"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:85
+msgid "pont"
+msgstr "points"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:98
+msgid "Vissza"
+msgstr "Back"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:113
+#, python-format
+msgid "%(position)s. feladat"
+msgstr "Question %(position)s"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:194
+msgid "✓ Jó válasz"
+msgstr "✓ Correct answer"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:199
+msgid "✗ Ezt jelölted"
+msgstr "✗ Your answer"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:209
+msgid "✓ Helyes válasz"
+msgstr "✓ Correct answer"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:232
+msgid "Ebben a feladatsorban nincs kérdés."
+msgstr "This test contains no questions."
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:254
+msgid "Válaszok mentése"
+msgstr "Save answers"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:263
+msgid ""
+"Biztosan véglegesen beküldöd a feladatsort? A beküldés után a válaszok már "
+"nem módosíthatók."
+msgstr ""
+"Are you sure you want to submit the test permanently? Answers cannot be "
+"changed after submission."
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:272
+msgid "Feladatsor végleges beküldése"
+msgstr "Submit test"
+
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:284
+msgid "Ez a feladatsor már le van zárva, ezért a válaszok nem módosíthatók."
+msgstr "This test is already closed, so the answers cannot be changed."
 
