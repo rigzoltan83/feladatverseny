@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Versenyzők
+    {{ _("Versenyzők") }}
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
-        <h1>Versenyzők</h1>
+        <h1>{{ _("Versenyzők") }}</h1>
+
         <p>
-            Regisztrált versenyzők kezelése.
+            {{ _("Regisztrált versenyzők kezelése.") }}
         </p>
     </div>
 
@@ -18,7 +19,7 @@
             class="button"
             href="{{ url_for('admin.competitor_create') }}"
         >
-            Új versenyző
+            {{ _("Új versenyző") }}
         </a>
     </div>
 </div>
@@ -31,7 +32,7 @@
     >
         <div class="form-group question-search-field">
             <label for="q">
-                Keresés
+                {{ _("Keresés") }}
             </label>
 
             <input
@@ -39,7 +40,9 @@
                 name="q"
                 type="search"
                 value="{{ search_text }}"
-                placeholder="Név vagy felhasználónév..."
+                placeholder="{{
+                    _('Név vagy felhasználónév...')
+                }}"
             >
         </div>
 
@@ -48,7 +51,7 @@
                 class="button"
                 type="submit"
             >
-                Keresés
+                {{ _("Keresés") }}
             </button>
 
             {% if search_text %}
@@ -56,7 +59,7 @@
                     class="button button-secondary"
                     href="{{ url_for('admin.competitors') }}"
                 >
-                    Keresés törlése
+                    {{ _("Keresés törlése") }}
                 </a>
             {% endif %}
         </div>
@@ -65,10 +68,10 @@
 
 <p class="list-summary">
     <strong>{{ pagination.total }}</strong>
-    versenyző található.
+    {{ _("versenyző található.") }}
 
     {% if pagination.total %}
-        Megjelenítve:
+        {{ _("Megjelenítve:") }}
         {{ pagination.first }}–{{ pagination.last }}.
     {% endif %}
 </p>
@@ -78,12 +81,12 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Teljes név</th>
-                <th>Felhasználónév</th>
-                <th>Évfolyam</th>
-                <th>Állapot</th>
-                <th>Létrehozva</th>
-                <th>Műveletek</th>
+                <th>{{ _("Teljes név") }}</th>
+                <th>{{ _("Felhasználónév") }}</th>
+                <th>{{ _("Évfolyam") }}</th>
+                <th>{{ _("Állapot") }}</th>
+                <th>{{ _("Létrehozva") }}</th>
+                <th>{{ _("Műveletek") }}</th>
             </tr>
         </thead>
 
@@ -103,26 +106,45 @@
                     </td>
 
                     <td>
-                        {{ competitor.grade.grade_number }}.
-                        évfolyam
+                        {{
+                            _(
+                                "%(grade)s. évfolyam",
+                                grade=(
+                                    competitor.grade
+                                    .grade_number
+                                )
+                            )
+                        }}
                     </td>
 
                     <td>
                         {% if competitor.is_active %}
-                            <span class="status-badge status-active">
-                                Aktív
+                            <span
+                                class="
+                                    status-badge
+                                    status-active
+                                "
+                            >
+                                {{ _("Aktív") }}
                             </span>
                         {% else %}
-                            <span class="status-badge status-inactive">
-                                Inaktív
+                            <span
+                                class="
+                                    status-badge
+                                    status-inactive
+                                "
+                            >
+                                {{ _("Inaktív") }}
                             </span>
                         {% endif %}
                     </td>
 
                     <td>
-                        {{ competitor.created_at.strftime(
-                            "%Y-%m-%d %H:%M"
-                        ) }}
+                        {{
+                            competitor.created_at.strftime(
+                                "%Y-%m-%d %H:%M"
+                            )
+                        }}
                     </td>
 
                     <td>
@@ -133,7 +155,7 @@
                                 competitor_id=competitor.id
                             ) }}"
                         >
-                            Szerkesztés
+                            {{ _("Szerkesztés") }}
                         </a>
                     </td>
                 </tr>
@@ -143,7 +165,12 @@
                         colspan="7"
                         class="empty-table-cell"
                     >
-                        Nincs megjeleníthető versenyző.
+                        {{
+                            _(
+                                "Nincs megjeleníthető "
+                                "versenyző."
+                            )
+                        }}
                     </td>
                 </tr>
             {% endfor %}
@@ -162,13 +189,18 @@
                     q=search_text
                 ) }}"
             >
-                Előző
+                {{ _("Előző") }}
             </a>
         {% endif %}
 
         <span class="pagination-info">
-            {{ pagination.page }} /
-            {{ pagination.pages }}. oldal
+            {{
+                _(
+                    "%(page)s / %(pages)s. oldal",
+                    page=pagination.page,
+                    pages=pagination.pages
+                )
+            }}
         </span>
 
         {% if pagination.has_next %}
@@ -180,7 +212,7 @@
                     q=search_text
                 ) }}"
             >
-                Következő
+                {{ _("Következő") }}
             </a>
         {% endif %}
     </nav>

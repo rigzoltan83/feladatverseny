@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 12:30+0200\n"
+"POT-Creation-Date: 2026-09-03 12:36+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -68,9 +68,239 @@ msgstr "The test was submitted successfully."
 msgid "A válaszok mentése sikerült."
 msgstr "Answers saved successfully."
 
+#: /opt/feladatverseny/app/templates/admin/index.html:11
 #: /opt/feladatverseny/app/templates/base.html:31
 msgid "Adminisztráció"
 msgstr "Administration"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:4
+#: /opt/feladatverseny/app/templates/admin/competitors.html:10
+#: /opt/feladatverseny/app/templates/admin/index.html:85
+msgid "Versenyzők"
+msgstr "Competitors"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:13
+msgid "Regisztrált versenyzők kezelése."
+msgstr "Manage registered competitors."
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:22
+msgid "Új versenyző"
+msgstr "New competitor"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:35
+#: /opt/feladatverseny/app/templates/admin/competitors.html:54
+msgid "Keresés"
+msgstr "Search"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:44
+msgid "Név vagy felhasználónév..."
+msgstr "Name or username..."
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:62
+msgid "Keresés törlése"
+msgstr "Clear search"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:71
+msgid "versenyző található."
+msgstr "competitors found."
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:74
+msgid "Megjelenítve:"
+msgstr "Showing:"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:84
+msgid "Teljes név"
+msgstr "Full name"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:85
+#: /opt/feladatverseny/app/templates/competitor/login.html:33
+msgid "Felhasználónév"
+msgstr "Username"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:86
+#: /opt/feladatverseny/app/templates/admin/grades.html:26
+msgid "Évfolyam"
+msgstr "Grade"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:87
+#: /opt/feladatverseny/app/templates/admin/source_years.html:27
+#: /opt/feladatverseny/app/templates/admin/topics.html:27
+msgid "Állapot"
+msgstr "Status"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:88
+msgid "Létrehozva"
+msgstr "Created"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:89
+msgid "Műveletek"
+msgstr "Actions"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:110
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:21
+#, python-format
+msgid "%(grade)s. évfolyam"
+msgstr "Grade %(grade)s"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:128
+#: /opt/feladatverseny/app/templates/admin/source_years.html:39
+#: /opt/feladatverseny/app/templates/admin/topics.html:39
+msgid "Aktív"
+msgstr "Active"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:137
+#: /opt/feladatverseny/app/templates/admin/source_years.html:41
+#: /opt/feladatverseny/app/templates/admin/topics.html:41
+msgid "Inaktív"
+msgstr "Inactive"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:158
+msgid "Szerkesztés"
+msgstr "Edit"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:169
+msgid "Nincs megjeleníthető versenyző."
+msgstr "No competitors to display."
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:192
+msgid "Előző"
+msgstr "Previous"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:198
+#, python-format
+msgid "%(page)s / %(pages)s. oldal"
+msgstr "Page %(page)s / %(pages)s"
+
+#: /opt/feladatverseny/app/templates/admin/competitors.html:215
+msgid "Következő"
+msgstr "Next"
+
+#: /opt/feladatverseny/app/templates/admin/grades.html:4
+msgid "Évfolyamok – Feladatverseny"
+msgstr "Grades – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/grades.html:9
+#: /opt/feladatverseny/app/templates/admin/index.html:37
+msgid "Évfolyamok"
+msgstr "Grades"
+
+#: /opt/feladatverseny/app/templates/admin/grades.html:13
+msgid "Az adatbázisban jelenleg elérhető évfolyamok."
+msgstr "Grades currently available in the database."
+
+#: /opt/feladatverseny/app/templates/admin/grades.html:25
+#: /opt/feladatverseny/app/templates/admin/source_years.html:25
+#: /opt/feladatverseny/app/templates/admin/topics.html:25
+msgid "Azonosító"
+msgstr "ID"
+
+#: /opt/feladatverseny/app/templates/admin/grades.html:27
+#: /opt/feladatverseny/app/templates/admin/topics.html:26
+msgid "Megnevezés"
+msgstr "Name"
+
+#: /opt/feladatverseny/app/templates/admin/grades.html:42
+msgid "Nincs még rögzített évfolyam."
+msgstr "No grades have been added yet."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:4
+msgid "Adminisztráció – Feladatverseny"
+msgstr "Administration – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:15
+msgid "A Feladatverseny adatainak és működésének kezelése."
+msgstr "Manage Feladatverseny data and operations."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:27
+msgid "← Versenyzői oldal"
+msgstr "← Competitor area"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:38
+msgid "Évfolyamok kezelése."
+msgstr "Manage grades."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:45
+#: /opt/feladatverseny/app/templates/admin/topics.html:9
+msgid "Témakörök"
+msgstr "Topics"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:48
+msgid "A feladatok témaköreinek kezelése."
+msgstr "Manage question topics."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:60
+#: /opt/feladatverseny/app/templates/admin/source_years.html:9
+msgid "Forrásévek"
+msgstr "Source years"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:62
+msgid "A korábbi versenyévek kezelése."
+msgstr "Manage previous competition years."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:70
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:126
+msgid "Feladatok"
+msgstr "Questions"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:73
+msgid "Feladatok és válaszlehetőségek kezelése."
+msgstr "Manage questions and answer options."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:88
+msgid "Versenyzők és felhasználók kezelése."
+msgstr "Manage competitors and users."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:104
+msgid "Feladatsorok"
+msgstr "Test templates"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:107
+msgid "Tesztsablonok és generálási szabályok."
+msgstr "Test templates and generation rules."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:123
+msgid "Generált feladatsorok"
+msgstr "Generated tests"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:127
+msgid "Létrehozott tesztek, aktiválás és lezárás."
+msgstr "Created tests, activation and closing."
+
+#: /opt/feladatverseny/app/templates/admin/index.html:139
+msgid "Eredmények"
+msgstr "Results"
+
+#: /opt/feladatverseny/app/templates/admin/index.html:143
+msgid "Lezárt fordulók, kitöltések és pontszámok."
+msgstr "Closed rounds, submissions and scores."
+
+#: /opt/feladatverseny/app/templates/admin/source_years.html:4
+msgid "Forrásévek – Feladatverseny"
+msgstr "Source years – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/source_years.html:13
+msgid "A korábbi feladatsorokhoz tartozó versenyévek."
+msgstr "Competition years from previous question sets."
+
+#: /opt/feladatverseny/app/templates/admin/source_years.html:26
+msgid "Év"
+msgstr "Year"
+
+#: /opt/feladatverseny/app/templates/admin/source_years.html:49
+msgid "Nincs még rögzített forrásév."
+msgstr "No source years have been added yet."
+
+#: /opt/feladatverseny/app/templates/admin/topics.html:4
+msgid "Témakörök – Feladatverseny"
+msgstr "Topics – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/topics.html:13
+msgid "A feladatokhoz rendelhető témakörök."
+msgstr "Topics that can be assigned to questions."
+
+#: /opt/feladatverseny/app/templates/admin/topics.html:49
+msgid "Nincs még rögzített témakör."
+msgstr "No topics have been added yet."
 
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:4
 msgid "Versenyzői kezdőlap"
@@ -80,11 +310,6 @@ msgstr "Competitor dashboard"
 #, python-format
 msgid "Üdvözlünk, %(name)s!"
 msgstr "Welcome, %(name)s!"
-
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:21
-#, python-format
-msgid "%(grade)s. évfolyam"
-msgstr "Grade %(grade)s"
 
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:34
 msgid "Kijelentkezés"
@@ -123,10 +348,6 @@ msgstr "Round"
 msgid "Helyezés"
 msgstr "Rank"
 
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:126
-msgid "Feladatok"
-msgstr "Questions"
-
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:130
 msgid "Pontszám"
 msgstr "Score"
@@ -163,10 +384,6 @@ msgstr "Competitor login"
 #: /opt/feladatverseny/app/templates/competitor/login.html:16
 msgid "Jelentkezz be a kapott felhasználónévvel és jelszóval."
 msgstr "Sign in with the username and password you received."
-
-#: /opt/feladatverseny/app/templates/competitor/login.html:33
-msgid "Felhasználónév"
-msgstr "Username"
 
 #: /opt/feladatverseny/app/templates/competitor/login.html:50
 msgid "Jelszó"

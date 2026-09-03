@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Évfolyamok – Feladatverseny
+    {{ _("Évfolyamok – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Évfolyamok</h1>
+        <h1>{{ _("Évfolyamok") }}</h1>
 
         <p>
-            Az adatbázisban jelenleg elérhető évfolyamok.
+            {{
+                _(
+                    "Az adatbázisban jelenleg "
+                    "elérhető évfolyamok."
+                )
+            }}
         </p>
     </section>
 
@@ -17,9 +22,9 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Azonosító</th>
-                    <th>Évfolyam</th>
-                    <th>Megnevezés</th>
+                    <th>{{ _("Azonosító") }}</th>
+                    <th>{{ _("Évfolyam") }}</th>
+                    <th>{{ _("Megnevezés") }}</th>
                 </tr>
             </thead>
 
@@ -33,7 +38,12 @@
                 {% else %}
                     <tr>
                         <td colspan="3">
-                            Nincs még rögzített évfolyam.
+                            {{
+                                _(
+                                    "Nincs még rögzített "
+                                    "évfolyam."
+                                )
+                            }}
                         </td>
                     </tr>
                 {% endfor %}

@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Témakörök – Feladatverseny
+    {{ _("Témakörök – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Témakörök</h1>
+        <h1>{{ _("Témakörök") }}</h1>
 
         <p>
-            A feladatokhoz rendelhető témakörök.
+            {{
+                _(
+                    "A feladatokhoz rendelhető "
+                    "témakörök."
+                )
+            }}
         </p>
     </section>
 
@@ -17,9 +22,9 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Azonosító</th>
-                    <th>Megnevezés</th>
-                    <th>Állapot</th>
+                    <th>{{ _("Azonosító") }}</th>
+                    <th>{{ _("Megnevezés") }}</th>
+                    <th>{{ _("Állapot") }}</th>
                 </tr>
             </thead>
 
@@ -28,18 +33,24 @@
                     <tr>
                         <td>{{ topic.id }}</td>
                         <td>{{ topic.name }}</td>
+
                         <td>
                             {% if topic.is_active %}
-                                Aktív
+                                {{ _("Aktív") }}
                             {% else %}
-                                Inaktív
+                                {{ _("Inaktív") }}
                             {% endif %}
                         </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td colspan="3">
-                            Nincs még rögzített témakör.
+                            {{
+                                _(
+                                    "Nincs még rögzített "
+                                    "témakör."
+                                )
+                            }}
                         </td>
                     </tr>
                 {% endfor %}

@@ -1,15 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Forrásévek – Feladatverseny
+    {{ _("Forrásévek – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Forrásévek</h1>
+        <h1>{{ _("Forrásévek") }}</h1>
 
         <p>
-            A korábbi feladatsorokhoz tartozó versenyévek.
+            {{
+                _(
+                    "A korábbi feladatsorokhoz "
+                    "tartozó versenyévek."
+                )
+            }}
         </p>
     </section>
 
@@ -17,9 +22,9 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Azonosító</th>
-                    <th>Év</th>
-                    <th>Állapot</th>
+                    <th>{{ _("Azonosító") }}</th>
+                    <th>{{ _("Év") }}</th>
+                    <th>{{ _("Állapot") }}</th>
                 </tr>
             </thead>
 
@@ -28,18 +33,24 @@
                     <tr>
                         <td>{{ source_year.id }}</td>
                         <td>{{ source_year.year_number }}</td>
+
                         <td>
                             {% if source_year.is_active %}
-                                Aktív
+                                {{ _("Aktív") }}
                             {% else %}
-                                Inaktív
+                                {{ _("Inaktív") }}
                             {% endif %}
                         </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td colspan="3">
-                            Nincs még rögzített forrásév.
+                            {{
+                                _(
+                                    "Nincs még rögzített "
+                                    "forrásév."
+                                )
+                            }}
                         </td>
                     </tr>
                 {% endfor %}

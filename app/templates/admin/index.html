@@ -1,86 +1,151 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Adminisztráció – Feladatverseny
+    {{ _("Adminisztráció – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
-    <section class="page-header">
-        <div class="page-header-row">
-            <div>
-                <h1>Adminisztráció</h1>
+<section class="page-header">
+    <div class="page-header-row">
+        <div>
+            <h1>{{ _("Adminisztráció") }}</h1>
 
-                <p>
-                    A Feladatverseny adatainak és működésének kezelése.
-                </p>
-            </div>
-
-            <a
-                href="{{ url_for('competitor.dashboard') }}"
-                class="button"
-            >
-                ← Versenyzői oldal
-            </a>
+            <p>
+                {{
+                    _(
+                        "A Feladatverseny adatainak "
+                        "és működésének kezelése."
+                    )
+                }}
+            </p>
         </div>
-    </section>
 
+        <a
+            href="{{ url_for('competitor.dashboard') }}"
+            class="button"
+        >
+            {{ _("← Versenyzői oldal") }}
+        </a>
+    </div>
+</section>
 
 <div class="admin-grid">
-        <a class="admin-card" href="{{ url_for('admin_reference.grades') }}">
-            <h2>Évfolyamok</h2>
-            <p>Évfolyamok kezelése.</p>
-        </a>
+    <a
+        class="admin-card"
+        href="{{ url_for('admin_reference.grades') }}"
+    >
+        <h2>{{ _("Évfolyamok") }}</h2>
+        <p>{{ _("Évfolyamok kezelése.") }}</p>
+    </a>
 
-        <a class="admin-card" href="{{ url_for('admin_reference.topics') }}">
-            <h2>Témakörök</h2>
-            <p>A feladatok témaköreinek kezelése.</p>
-        </a>
+    <a
+        class="admin-card"
+        href="{{ url_for('admin_reference.topics') }}"
+    >
+        <h2>{{ _("Témakörök") }}</h2>
+        <p>
+            {{
+                _(
+                    "A feladatok témaköreinek "
+                    "kezelése."
+                )
+            }}
+        </p>
+    </a>
 
-        <a class="admin-card" href="{{ url_for('admin_reference.source_years') }}">
-            <h2>Forrásévek</h2>
-            <p>A korábbi versenyévek kezelése.</p>
-        </a>
+    <a
+        class="admin-card"
+        href="{{ url_for('admin_reference.source_years') }}"
+    >
+        <h2>{{ _("Forrásévek") }}</h2>
+        <p>
+            {{ _("A korábbi versenyévek kezelése.") }}
+        </p>
+    </a>
 
-        <a class="admin-card" href="{{ url_for('admin.questions') }}">
-            <h2>Feladatok</h2>
-            <p>Feladatok és válaszlehetőségek kezelése.</p>
-        </a>
+    <a
+        class="admin-card"
+        href="{{ url_for('admin.questions') }}"
+    >
+        <h2>{{ _("Feladatok") }}</h2>
+        <p>
+            {{
+                _(
+                    "Feladatok és válaszlehetőségek "
+                    "kezelése."
+                )
+            }}
+        </p>
+    </a>
 
-        <a class="admin-card" href="{{ url_for('admin.competitors') }}">
-            <h2>Versenyzők</h2>
-            <p>Versenyzők és felhasználók kezelése.</p>
-        </a>
+    <a
+        class="admin-card"
+        href="{{ url_for('admin.competitors') }}"
+    >
+        <h2>{{ _("Versenyzők") }}</h2>
+        <p>
+            {{
+                _(
+                    "Versenyzők és felhasználók "
+                    "kezelése."
+                )
+            }}
+        </p>
+    </a>
 
-        <a class="admin-card" href="{{ url_for('admin_templates.template_list') }}#">
-            <h2>Feladatsorok</h2>
-            <p>Tesztsablonok és generálási szabályok.</p>
-        </a>
+    <a
+        class="admin-card"
+        href="{{
+            url_for(
+                'admin_templates.template_list'
+            )
+        }}"
+    >
+        <h2>{{ _("Feladatsorok") }}</h2>
+        <p>
+            {{
+                _(
+                    "Tesztsablonok és generálási "
+                    "szabályok."
+                )
+            }}
+        </p>
+    </a>
 
-<a
-    class="admin-card"
-    href="{{ url_for(
-        'admin_generated_tests.generated_test_list'
-    ) }}"
->
-    <h2>Generált feladatsorok</h2>
+    <a
+        class="admin-card"
+        href="{{
+            url_for(
+                'admin_generated_tests.generated_test_list'
+            )
+        }}"
+    >
+        <h2>{{ _("Generált feladatsorok") }}</h2>
 
-    <p>
-        Létrehozott tesztek,
-        aktiválás és lezárás.
-    </p>
-</a>
+        <p>
+            {{
+                _(
+                    "Létrehozott tesztek, "
+                    "aktiválás és lezárás."
+                )
+            }}
+        </p>
+    </a>
 
-<a
-    class="admin-card"
-    href="{{ url_for('admin.results') }}"
->
-    <h2>Eredmények</h2>
+    <a
+        class="admin-card"
+        href="{{ url_for('admin.results') }}"
+    >
+        <h2>{{ _("Eredmények") }}</h2>
 
-    <p>
-        Lezárt fordulók,
-        kitöltések és pontszámok.
-    </p>
-</a>
-    </section>
-
+        <p>
+            {{
+                _(
+                    "Lezárt fordulók, kitöltések "
+                    "és pontszámok."
+                )
+            }}
+        </p>
+    </a>
+</div>
 {% endblock %}
