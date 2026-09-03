@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 12:51+0200\n"
+"POT-Creation-Date: 2026-09-03 12:59+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -52,11 +52,15 @@ msgstr "Question text is required."
 
 #: /opt/feladatverseny/app/routes/admin.py:654
 #: /opt/feladatverseny/app/routes/admin.py:1208
+#: /opt/feladatverseny/app/routes/admin_templates.py:146
+#: /opt/feladatverseny/app/routes/admin_templates.py:422
 msgid "Legalább egy évfolyamot ki kell választani."
 msgstr "At least one grade must be selected."
 
 #: /opt/feladatverseny/app/routes/admin.py:659
 #: /opt/feladatverseny/app/routes/admin.py:1213
+#: /opt/feladatverseny/app/routes/admin_templates.py:156
+#: /opt/feladatverseny/app/routes/admin_templates.py:432
 msgid "Legalább egy témakört ki kell választani."
 msgstr "At least one topic must be selected."
 
@@ -73,11 +77,15 @@ msgstr "The correct answer must be selected."
 
 #: /opt/feladatverseny/app/routes/admin.py:687
 #: /opt/feladatverseny/app/routes/admin.py:1241
+#: /opt/feladatverseny/app/routes/admin_templates.py:174
+#: /opt/feladatverseny/app/routes/admin_templates.py:450
 msgid "Az évfolyamválasztás érvénytelen."
 msgstr "The grade selection is invalid."
 
 #: /opt/feladatverseny/app/routes/admin.py:694
 #: /opt/feladatverseny/app/routes/admin.py:1248
+#: /opt/feladatverseny/app/routes/admin_templates.py:181
+#: /opt/feladatverseny/app/routes/admin_templates.py:457
 msgid "A témakörválasztás érvénytelen."
 msgstr "The topic selection is invalid."
 
@@ -265,6 +273,37 @@ msgstr "The question was activated."
 msgid "A feladatot inaktiváltuk."
 msgstr "The question was deactivated."
 
+#: /opt/feladatverseny/app/routes/admin_templates.py:105
+#: /opt/feladatverseny/app/routes/admin_templates.py:380
+msgid "A tesztsablon neve kötelező."
+msgstr "The test template name is required."
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:123
+#: /opt/feladatverseny/app/routes/admin_templates.py:399
+msgid "Már létezik ilyen nevű tesztsablon."
+msgstr "A test template with this name already exists."
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:136
+#: /opt/feladatverseny/app/routes/admin_templates.py:412
+msgid "A feladatok száma 1 és 100 közötti lehet."
+msgstr "The number of questions must be between 1 and 100."
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:214
+msgid "A tesztsablont létrehoztuk."
+msgstr "The test template was created."
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:487
+msgid "A tesztsablon módosításait elmentettük."
+msgstr "The test template changes were saved."
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:526
+msgid "A tesztsablont aktiváltuk."
+msgstr "The test template was activated."
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:530
+msgid "A tesztsablont inaktiváltuk."
+msgstr "The test template was deactivated."
+
 #: /opt/feladatverseny/app/routes/competitor.py:148
 msgid "Sikeres bejelentkezés."
 msgstr "Signed in successfully."
@@ -333,6 +372,7 @@ msgstr "Username"
 #: /opt/feladatverseny/app/templates/admin/competitors.html:86
 #: /opt/feladatverseny/app/templates/admin/grades.html:26
 #: /opt/feladatverseny/app/templates/admin/questions.html:58
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:180
 msgid "Évfolyam"
 msgstr "Grade"
 
@@ -373,12 +413,14 @@ msgstr "Confirm new password"
 
 #: /opt/feladatverseny/app/templates/admin/competitor_edit.html:207
 #: /opt/feladatverseny/app/templates/admin/question_form.html:240
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:185
 msgid "Módosítások mentése"
 msgstr "Save changes"
 
 #: /opt/feladatverseny/app/templates/admin/competitor_edit.html:214
 #: /opt/feladatverseny/app/templates/admin/competitor_form.html:173
 #: /opt/feladatverseny/app/templates/admin/question_form.html:250
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:197
 msgid "Mégse"
 msgstr "Cancel"
 
@@ -458,6 +500,9 @@ msgstr "Showing:"
 #: /opt/feladatverseny/app/templates/admin/questions.html:140
 #: /opt/feladatverseny/app/templates/admin/questions.html:222
 #: /opt/feladatverseny/app/templates/admin/source_years.html:27
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:98
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:133
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:39
 #: /opt/feladatverseny/app/templates/admin/topics.html:27
 msgid "Állapot"
 msgstr "Status"
@@ -475,6 +520,8 @@ msgstr "Actions"
 #: /opt/feladatverseny/app/templates/admin/questions.html:162
 #: /opt/feladatverseny/app/templates/admin/questions.html:266
 #: /opt/feladatverseny/app/templates/admin/source_years.html:39
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:104
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:97
 #: /opt/feladatverseny/app/templates/admin/topics.html:39
 msgid "Aktív"
 msgstr "Active"
@@ -484,12 +531,15 @@ msgstr "Active"
 #: /opt/feladatverseny/app/templates/admin/questions.html:171
 #: /opt/feladatverseny/app/templates/admin/questions.html:268
 #: /opt/feladatverseny/app/templates/admin/source_years.html:41
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:110
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:103
 #: /opt/feladatverseny/app/templates/admin/topics.html:41
 msgid "Inaktív"
 msgstr "Inactive"
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:158
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:37
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:46
 msgid "Szerkesztés"
 msgstr "Edit"
 
@@ -522,6 +572,9 @@ msgstr "Grades – Feladatverseny"
 #: /opt/feladatverseny/app/templates/admin/question_form.html:121
 #: /opt/feladatverseny/app/templates/admin/question_import.html:108
 #: /opt/feladatverseny/app/templates/admin/questions.html:219
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:269
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:84
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:35
 msgid "Évfolyamok"
 msgstr "Grades"
 
@@ -531,6 +584,7 @@ msgstr "Grades currently available in the database."
 
 #: /opt/feladatverseny/app/templates/admin/grades.html:25
 #: /opt/feladatverseny/app/templates/admin/source_years.html:25
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:88
 #: /opt/feladatverseny/app/templates/admin/topics.html:25
 msgid "Azonosító"
 msgstr "ID"
@@ -565,6 +619,9 @@ msgstr "Manage grades."
 #: /opt/feladatverseny/app/templates/admin/question_form.html:146
 #: /opt/feladatverseny/app/templates/admin/question_import.html:109
 #: /opt/feladatverseny/app/templates/admin/questions.html:220
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:283
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:112
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:36
 #: /opt/feladatverseny/app/templates/admin/topics.html:9
 msgid "Témakörök"
 msgstr "Topics"
@@ -635,18 +692,22 @@ msgid "A feladat részletes adatai és válaszlehetőségei."
 msgstr "Question details and answer options."
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:55
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:64
 msgid "Inaktiválás"
 msgstr "Deactivate"
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:57
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:66
 msgid "Aktiválás"
 msgstr "Activate"
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:66
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:77
 msgid "Vissza a listához"
 msgstr "Back to list"
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:74
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:84
 msgid "Alapadatok"
 msgstr "Details"
 
@@ -666,6 +727,7 @@ msgstr "Original position"
 #: /opt/feladatverseny/app/templates/admin/question_form.html:84
 #: /opt/feladatverseny/app/templates/admin/question_import.html:107
 #: /opt/feladatverseny/app/templates/admin/questions.html:218
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:179
 msgid "Nehézség"
 msgstr "Difficulty"
 
@@ -767,6 +829,7 @@ msgid "%(position)s. válasz"
 msgstr "Answer %(position)s"
 
 #: /opt/feladatverseny/app/templates/admin/question_form.html:224
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:52
 msgid "– opcionális"
 msgstr "– optional"
 
@@ -839,6 +902,7 @@ msgstr "Position"
 
 #: /opt/feladatverseny/app/templates/admin/question_import.html:110
 #: /opt/feladatverseny/app/templates/admin/questions.html:221
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:182
 msgid "Feladat"
 msgstr "Question"
 
@@ -889,12 +953,16 @@ msgstr "Expected image filename"
 
 #: /opt/feladatverseny/app/templates/admin/question_import_result.html:48
 #: /opt/feladatverseny/app/templates/admin/questions.html:223
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:183
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:16
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
 msgid "Művelet"
 msgstr "Action"
 
 #: /opt/feladatverseny/app/templates/admin/question_import_result.html:73
 #: /opt/feladatverseny/app/templates/admin/questions.html:279
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:220
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:115
 msgid "Megnyitás"
 msgstr "Open"
 
@@ -931,6 +999,7 @@ msgid "évfolyam"
 msgstr "grade"
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:85
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:181
 msgid "Témakör"
 msgstr "Topic"
 
@@ -978,6 +1047,177 @@ msgstr "Competition years from previous question sets."
 #: /opt/feladatverseny/app/templates/admin/source_years.html:49
 msgid "Nincs még rögzített forrásév."
 msgstr "No source years have been added yet."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:13
+msgid "Tesztsablon részletes beállításai."
+msgstr "Detailed test template settings."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:26
+msgid "Létrehozod a feladatsort ebből a sablonból?"
+msgstr "Generate a question set from this template?"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:34
+msgid "Feladatsor generálása"
+msgstr "Generate question set"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:93
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:65
+#, fuzzy
+msgid "Feladatok száma"
+msgstr "Number of questions:"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:119
+msgid "Generálhatóság"
+msgstr "Generation readiness"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:123
+msgid "Kért feladatok"
+msgstr "Requested questions"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:128
+msgid "Elérhető aktív feladatok"
+msgstr "Available active questions"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:139
+msgid "Generálható"
+msgstr "Ready to generate"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:145
+msgid "Nincs elég feladat"
+msgstr "Not enough questions"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:154
+msgid "A sablonhoz elegendő aktív feladat található az adatbázisban."
+msgstr "There are enough active questions in the database for this template."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:159
+#, python-format
+msgid "Még %(count)s megfelelő feladatra lenne szükség."
+msgstr "%(count)s more matching question(s) are required."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:172
+msgid "Megfelelő feladatok – minta"
+msgstr "Matching Questions – Sample"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:230
+msgid "Az első 10 megfelelő feladat látható."
+msgstr "The first 10 matching questions are shown."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:235
+msgid "A sablon feltételeinek jelenleg egyetlen aktív feladat sem felel meg."
+msgstr "No active questions currently match the template criteria."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:241
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:140
+msgid "Keverési beállítások"
+msgstr "Shuffle settings"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:245
+msgid "Kérdések"
+msgstr "Questions"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:248
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:259
+msgid "Keverve"
+msgstr "Shuffled"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:250
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:261
+msgid "Eredeti sorrendben"
+msgstr "Original order"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:256
+msgid "Válaszok"
+msgstr "Answers"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:299
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:50
+msgid "Leírás"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:5
+msgid "Tesztsablon szerkesztése – Feladatverseny"
+msgstr "Edit Test Template – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:7
+msgid "Új tesztsablon – Feladatverseny"
+msgstr "New Test Template – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:15
+msgid "Tesztsablon szerkesztése"
+msgstr "Edit test template"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:17
+msgid "Új tesztsablon"
+msgstr "New test template"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:22
+msgid "A generálandó feladatsor alapbeállításai."
+msgstr "Basic settings for the generated question set."
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:32
+msgid "Sablon neve"
+msgstr "Template name"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:156
+msgid "Kérdések sorrendjének keverése"
+msgstr "Shuffle question order"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:173
+msgid "Válaszok sorrendjének keverése"
+msgstr "Shuffle answer order"
+
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:187
+msgid "Tesztsablon mentése"
+msgstr "Save test template"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:4
+msgid "Tesztsablonok – Feladatverseny"
+msgstr "Test Templates – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:10
+msgid "Tesztsablonok"
+msgstr "Test Templates"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:12
+msgid "A generálható feladatsorok beállításai."
+msgstr "Settings for generated question sets."
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:24
+msgid "+ Új tesztsablon"
+msgstr "+ New test template"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:33
+#, fuzzy
+msgid "Név"
+msgstr "Year"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:34
+msgid "Feladatszám"
+msgstr "Question count"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:37
+msgid "Kérdéskeverés"
+msgstr "Shuffle questions"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:38
+msgid "Válaszkeverés"
+msgstr "Shuffle answers"
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:78
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:86
+msgid "Igen"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:80
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:88
+msgid "Nem"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:122
+#, fuzzy
+msgid "Nincs még rögzített tesztsablon."
+msgstr "No topics have been added yet."
 
 #: /opt/feladatverseny/app/templates/admin/topics.html:4
 msgid "Témakörök – Feladatverseny"

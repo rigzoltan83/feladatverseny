@@ -2,9 +2,9 @@
 
 {% block title %}
     {% if template %}
-        Tesztsablon szerkesztése – Feladatverseny
+        {{ _("Tesztsablon szerkesztése – Feladatverseny") }}
     {% else %}
-        Új tesztsablon – Feladatverseny
+        {{ _("Új tesztsablon – Feladatverseny") }}
     {% endif %}
 {% endblock %}
 
@@ -12,15 +12,14 @@
     <section class="page-header">
         <h1>
             {% if template %}
-                Tesztsablon szerkesztése
+                {{ _("Tesztsablon szerkesztése") }}
             {% else %}
-                Új tesztsablon
+                {{ _("Új tesztsablon") }}
             {% endif %}
         </h1>
 
         <p>
-            A generálandó feladatsor
-            alapbeállításai.
+            {{ _("A generálandó feladatsor alapbeállításai.") }}
         </p>
     </section>
 
@@ -30,7 +29,7 @@
     >
         <div class="form-group">
             <label for="name">
-                Sablon neve
+                {{ _("Sablon neve") }}
             </label>
 
             <input
@@ -48,9 +47,9 @@
 
         <div class="form-group">
             <label for="description">
-                Leírás
+                {{ _("Leírás") }}
                 <span class="optional">
-                    – opcionális
+                    {{ _("– opcionális") }}
                 </span>
             </label>
 
@@ -63,7 +62,7 @@
 
         <div class="form-group">
             <label for="question_count">
-                Feladatok száma
+                {{ _("Feladatok száma") }}
             </label>
 
             <input
@@ -82,7 +81,7 @@
         </div>
 
         <div class="form-section">
-            <h2>Évfolyamok</h2>
+            <h2>{{ _("Évfolyamok") }}</h2>
 
             <div class="checkbox-grid">
                 {% for grade in grades %}
@@ -110,7 +109,7 @@
         </div>
 
         <div class="form-section">
-            <h2>Témakörök</h2>
+            <h2>{{ _("Témakörök") }}</h2>
 
             <div class="checkbox-grid">
                 {% for topic in topics %}
@@ -138,7 +137,7 @@
         </div>
 
         <div class="form-section">
-            <h2>Keverési beállítások</h2>
+            <h2>{{ _("Keverési beállítások") }}</h2>
 
             <div class="checkbox-grid">
                 <label class="checkbox-option">
@@ -154,7 +153,7 @@
                         {% endif %}
                     > 
                     <span>
-                        Kérdések sorrendjének keverése
+                        {{ _("Kérdések sorrendjének keverése") }}
                     </span>
                 </label>
 
@@ -171,7 +170,7 @@
                         {% endif %}
                     >
                     <span>
-                        Válaszok sorrendjének keverése
+                        {{ _("Válaszok sorrendjének keverése") }}
                     </span>
                 </label>
             </div>
@@ -183,9 +182,9 @@
                 type="submit"
             >
                 {% if template %}
-                    Módosítások mentése
+                    {{ _("Módosítások mentése") }}
                 {% else %}
-                    Tesztsablon mentése
+                    {{ _("Tesztsablon mentése") }}
                 {% endif %}
             </button>
 
@@ -195,7 +194,7 @@
                     'admin_templates.template_list'
                 ) }}"
             >
-                Mégse
+                {{ _("Mégse") }}
             </a>
         </div>
     </form>

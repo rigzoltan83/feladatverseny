@@ -7,6 +7,8 @@ from flask import (
     url_for,
 )
 
+from flask_babel import gettext as _
+
 from app.extensions import db
 from app.models import (
     Grade,
@@ -100,7 +102,7 @@ def template_new():
 
         if not name:
             errors.append(
-                "A tesztsablon neve kötelező."
+                _("A tesztsablon neve kötelező.")
             )
 
         existing_template = (
@@ -117,8 +119,10 @@ def template_new():
         if existing_template is not None:
             errors.append(
                 (
+                    _(
                     "Már létezik ilyen nevű "
                     "tesztsablon."
+                )
                 )
             )
 
@@ -128,24 +132,30 @@ def template_new():
         ):
             errors.append(
                 (
+                    _(
                     "A feladatok száma "
                     "1 és 100 közötti lehet."
+                )
                 )
             )
 
         if not grade_ids:
             errors.append(
                 (
+                    _(
                     "Legalább egy évfolyamot "
                     "ki kell választani."
+                )
                 )
             )
 
         if not topic_ids:
             errors.append(
                 (
+                    _(
                     "Legalább egy témakört "
                     "ki kell választani."
+                )
                 )
             )
 
@@ -161,14 +171,14 @@ def template_new():
             set(grade_ids)
         ):
             errors.append(
-                "Az évfolyamválasztás érvénytelen."
+                _("Az évfolyamválasztás érvénytelen.")
             )
 
         if len(selected_topics) != len(
             set(topic_ids)
         ):
             errors.append(
-                "A témakörválasztás érvénytelen."
+                _("A témakörválasztás érvénytelen.")
             )
 
         if errors:
@@ -201,7 +211,7 @@ def template_new():
             db.session.commit()
 
             flash(
-                "A tesztsablont létrehoztuk.",
+                _("A tesztsablont létrehoztuk."),
                 "success",
             )
 
@@ -367,7 +377,7 @@ def template_edit(template_id: int):
 
         if not name:
             errors.append(
-                "A tesztsablon neve kötelező."
+                _("A tesztsablon neve kötelező.")
             )
 
         duplicate_template = (
@@ -385,8 +395,10 @@ def template_edit(template_id: int):
         if duplicate_template is not None:
             errors.append(
                 (
+                    _(
                     "Már létezik ilyen nevű "
                     "tesztsablon."
+                )
                 )
             )
 
@@ -396,24 +408,30 @@ def template_edit(template_id: int):
         ):
             errors.append(
                 (
+                    _(
                     "A feladatok száma "
                     "1 és 100 közötti lehet."
+                )
                 )
             )
 
         if not grade_ids:
             errors.append(
                 (
+                    _(
                     "Legalább egy évfolyamot "
                     "ki kell választani."
+                )
                 )
             )
 
         if not topic_ids:
             errors.append(
                 (
+                    _(
                     "Legalább egy témakört "
                     "ki kell választani."
+                )
                 )
             )
 
@@ -429,14 +447,14 @@ def template_edit(template_id: int):
             set(grade_ids)
         ):
             errors.append(
-                "Az évfolyamválasztás érvénytelen."
+                _("Az évfolyamválasztás érvénytelen.")
             )
 
         if len(selected_topics) != len(
             set(topic_ids)
         ):
             errors.append(
-                "A témakörválasztás érvénytelen."
+                _("A témakörválasztás érvénytelen.")
             )
 
         if errors:
@@ -465,8 +483,10 @@ def template_edit(template_id: int):
 
             flash(
                 (
+                    _(
                     "A tesztsablon módosításait "
                     "elmentettük."
+                )
                 ),
                 "success",
             )
@@ -502,9 +522,13 @@ def template_toggle_active(template_id: int):
     db.session.commit()
 
     if template.is_active:
-        message = "A tesztsablont aktiváltuk."
+        message = _(
+            "A tesztsablont aktiváltuk."
+        )
     else:
-        message = "A tesztsablont inaktiváltuk."
+        message = _(
+            "A tesztsablont inaktiváltuk."
+        )
 
     flash(
         message,

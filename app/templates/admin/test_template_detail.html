@@ -10,7 +10,7 @@
             <h1>{{ template.name }}</h1>
 
             <p>
-                Tesztsablon részletes beállításai.
+                {{ _("Tesztsablon részletes beállításai.") }}
             </p>
         </div>
 
@@ -22,15 +22,16 @@
                     'admin_generated_tests.generate_test',
                     template_id=template.id
                 ) }}"
-                onsubmit="return confirm(
-                    'Létrehozod a feladatsort ebből a sablonból?'
-                );"
+                onsubmit='return confirm({{
+                    _("Létrehozod a feladatsort ebből a sablonból?")
+                    | tojson
+                }});'
             >
                 <button
                     class="button"
                     type="submit"
                 >
-                    Feladatsor generálása
+                    {{ _("Feladatsor generálása") }}
                 </button>
             </form>
         {% endif %}
@@ -42,7 +43,7 @@
                     template_id=template.id
                 ) }}"
             >
-                Szerkesztés
+                {{ _("Szerkesztés") }}
             </a>
 
             <form
@@ -60,9 +61,9 @@
                     type="submit"
                 >
                     {% if template.is_active %}
-                        Inaktiválás
+                        {{ _("Inaktiválás") }}
                     {% else %}
-                        Aktiválás
+                        {{ _("Aktiválás") }}
                     {% endif %}
                 </button>
             </form>
@@ -73,40 +74,40 @@
                     'admin_templates.template_list'
                 ) }}"
             >
-                Vissza a listához
+                {{ _("Vissza a listához") }}
             </a>
         </div>
     </section>
 
     <section class="detail-grid">
         <article class="card">
-            <h2>Alapadatok</h2>
+            <h2>{{ _("Alapadatok") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Azonosító</dt>
+                    <dt>{{ _("Azonosító") }}</dt>
                     <dd>{{ template.id }}</dd>
                 </div>
 
                 <div>
-                    <dt>Feladatok száma</dt>
+                    <dt>{{ _("Feladatok száma") }}</dt>
                     <dd>{{ template.question_count }}</dd>
                 </div>
 
                 <div>
-                    <dt>Állapot</dt>
+                    <dt>{{ _("Állapot") }}</dt>
                     <dd>
                         {% if template.is_active %}
                             <span
                                 class="status-badge status-active"
                             >
-                                Aktív
+                                {{ _("Aktív") }}
                             </span>
                         {% else %}
                             <span
                                 class="status-badge status-inactive"
                             >
-                                Inaktív
+                                {{ _("Inaktív") }}
                             </span>
                         {% endif %}
                     </dd>
@@ -115,33 +116,33 @@
         </article>
 
 <section class="card">
-    <h2>Generálhatóság</h2>
+    <h2>{{ _("Generálhatóság") }}</h2>
 
     <dl class="detail-list">
         <div>
-            <dt>Kért feladatok</dt>
+            <dt>{{ _("Kért feladatok") }}</dt>
             <dd>{{ template.question_count }}</dd>
         </div>
 
         <div>
-            <dt>Elérhető aktív feladatok</dt>
+            <dt>{{ _("Elérhető aktív feladatok") }}</dt>
             <dd>{{ available_question_count }}</dd>
         </div>
 
         <div>
-            <dt>Állapot</dt>
+            <dt>{{ _("Állapot") }}</dt>
             <dd>
                 {% if enough_questions %}
                     <span
                         class="status-badge status-active"
                     >
-                        Generálható
+                        {{ _("Generálható") }}
                     </span>
                 {% else %}
                     <span
                         class="status-badge status-inactive"
                     >
-                        Nincs elég feladat
+                        {{ _("Nincs elég feladat") }}
                     </span>
                 {% endif %}
             </dd>
@@ -150,36 +151,36 @@
 
     {% if enough_questions %}
         <p>
-            A sablonhoz elegendő aktív feladat
-            található az adatbázisban.
+            {{ _("A sablonhoz elegendő aktív feladat található az adatbázisban.") }}
         </p>
     {% else %}
         <p>
-            Még
-            <strong>
-                {{
-                    template.question_count
-                    - available_question_count
-                }}
-            </strong>
-            megfelelő feladatra lenne szükség.
+            {{
+                _(
+                    "Még %(count)s megfelelő feladatra lenne szükség.",
+                    count=(
+                        template.question_count
+                        - available_question_count
+                    )
+                )
+            }}
         </p>
     {% endif %}
 </section>
 
 <section class="card">
-    <h2>Megfelelő feladatok – minta</h2>
+    <h2>{{ _("Megfelelő feladatok – minta") }}</h2>
 
     {% if sample_questions %}
         <table class="data-table">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nehézség</th>
-                    <th>Évfolyam</th>
-                    <th>Témakör</th>
-                    <th>Feladat</th>
-                    <th>Művelet</th>
+                    <th>{{ _("Nehézség") }}</th>
+                    <th>{{ _("Évfolyam") }}</th>
+                    <th>{{ _("Témakör") }}</th>
+                    <th>{{ _("Feladat") }}</th>
+                    <th>{{ _("Művelet") }}</th>
                 </tr>
             </thead>
 
@@ -216,7 +217,7 @@
                                     question_id=question.id
                                 ) }}"
                             >
-                                Megnyitás
+                                {{ _("Megnyitás") }}
                             </a>
                         </td>
                     </tr>
@@ -226,39 +227,38 @@
 
         {% if available_question_count > 10 %}
             <p>
-                Az első 10 megfelelő feladat látható.
+                {{ _("Az első 10 megfelelő feladat látható.") }}
             </p>
         {% endif %}
     {% else %}
         <p>
-            A sablon feltételeinek jelenleg
-            egyetlen aktív feladat sem felel meg.
+            {{ _("A sablon feltételeinek jelenleg egyetlen aktív feladat sem felel meg.") }}
         </p>
     {% endif %}
 </section>
 
         <article class="card">
-            <h2>Keverési beállítások</h2>
+            <h2>{{ _("Keverési beállítások") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Kérdések</dt>
+                    <dt>{{ _("Kérdések") }}</dt>
                     <dd>
                         {% if template.shuffle_questions %}
-                            Keverve
+                            {{ _("Keverve") }}
                         {% else %}
-                            Eredeti sorrendben
+                            {{ _("Eredeti sorrendben") }}
                         {% endif %}
                     </dd>
                 </div>
 
                 <div>
-                    <dt>Válaszok</dt>
+                    <dt>{{ _("Válaszok") }}</dt>
                     <dd>
                         {% if template.shuffle_answers %}
-                            Keverve
+                            {{ _("Keverve") }}
                         {% else %}
-                            Eredeti sorrendben
+                            {{ _("Eredeti sorrendben") }}
                         {% endif %}
                     </dd>
                 </div>
@@ -266,7 +266,7 @@
         </article>
 
         <article class="card">
-            <h2>Évfolyamok</h2>
+            <h2>{{ _("Évfolyamok") }}</h2>
 
             <div class="tag-list">
                 {% for grade in template.grades %}
@@ -280,7 +280,7 @@
         </article>
 
         <article class="card">
-            <h2>Témakörök</h2>
+            <h2>{{ _("Témakörök") }}</h2>
 
             <div class="tag-list">
                 {% for topic in template.topics %}
@@ -296,7 +296,7 @@
 
     {% if template.description %}
         <section class="card">
-            <h2>Leírás</h2>
+            <h2>{{ _("Leírás") }}</h2>
 
             <div class="question-text">
                 {{ template.description }}

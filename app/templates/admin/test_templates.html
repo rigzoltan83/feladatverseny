@@ -1,20 +1,19 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Tesztsablonok – Feladatverseny
+    {{ _("Tesztsablonok – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header page-header-row">
         <div>
-            <h1>Tesztsablonok</h1>
+            <h1>{{ _("Tesztsablonok") }}</h1>
             <p>
-                A generálható feladatsorok
-                beállításai.
+                {{ _("A generálható feladatsorok beállításai.") }}
             </p>
         </div>
 
-        <th>Művelet</th>
+        <th>{{ _("Művelet") }}</th>
 
         <a
             class="button"
@@ -22,7 +21,7 @@
                 'admin_templates.template_new'
             ) }}"
         >
-            + Új tesztsablon
+            {{ _("+ Új tesztsablon") }}
         </a>
     </section>
 
@@ -31,13 +30,13 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Név</th>
-                    <th>Feladatszám</th>
-                    <th>Évfolyamok</th>
-                    <th>Témakörök</th>
-                    <th>Kérdéskeverés</th>
-                    <th>Válaszkeverés</th>
-                    <th>Állapot</th>
+                    <th>{{ _("Név") }}</th>
+                    <th>{{ _("Feladatszám") }}</th>
+                    <th>{{ _("Évfolyamok") }}</th>
+                    <th>{{ _("Témakörök") }}</th>
+                    <th>{{ _("Kérdéskeverés") }}</th>
+                    <th>{{ _("Válaszkeverés") }}</th>
+                    <th>{{ _("Állapot") }}</th>
                 </tr>
             </thead>
 
@@ -76,17 +75,17 @@
 
                         <td>
                             {% if template.shuffle_questions %}
-                                Igen
+                                {{ _("Igen") }}
                             {% else %}
-                                Nem
+                                {{ _("Nem") }}
                             {% endif %}
                         </td>
 
                         <td>
                             {% if template.shuffle_answers %}
-                                Igen
+                                {{ _("Igen") }}
                             {% else %}
-                                Nem
+                                {{ _("Nem") }}
                             {% endif %}
                         </td>
 
@@ -95,13 +94,13 @@
                                 <span
                                     class="status-badge status-active"
                                 >
-                                    Aktív
+                                    {{ _("Aktív") }}
                                 </span>
                             {% else %}
                                 <span
                                     class="status-badge status-inactive"
                                 >
-                                    Inaktív
+                                    {{ _("Inaktív") }}
                                 </span>
                             {% endif %}
                         </td>
@@ -113,14 +112,14 @@
                                     template_id=template.id
                                 ) }}"
                             >
-                                Megnyitás
+                                {{ _("Megnyitás") }}
                             </a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td colspan="9">
-                            Nincs még rögzített tesztsablon.
+                            {{ _("Nincs még rögzített tesztsablon.") }}
                         </td>
                     </tr>
                 {% endfor %}
