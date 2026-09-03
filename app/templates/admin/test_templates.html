@@ -66,7 +66,7 @@
 
                         <td>
                             {% for topic in template.topics %}
-                                {{ topic.name }}
+                                {{ topic.display_name }}
                                 {% if not loop.last %}, {% endif %}
                             {% else %}
                                 –

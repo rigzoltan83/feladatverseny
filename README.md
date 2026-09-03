@@ -63,17 +63,44 @@ health checks and bilingual Hungarian/English user interfaces.
 
 ## Screenshots
 
-Screenshots will be added before the first public release.
+All screenshots below use synthetic demo data. No real competitors,
+questions, results, private addresses or credentials are included.
 
-Planned screenshots:
+### Administration
 
-1. Administration dashboard
-2. Question management
-3. Competitor dashboard
-4. Competition test view
-5. Results overview
+![Administration dashboard](docs/screenshots/02-admin-dashboard.png)
 
-Public screenshots are sanitized and contain no private competition or user data.
+The administration dashboard provides access to grades, topics, source
+years, questions, competitors, test templates, generated question sets
+and results.
+
+### Question bank
+
+![Question bank](docs/screenshots/03-question-bank.png)
+
+Questions can be searched and filtered by grade, topic, source year and
+status. The interface supports Hungarian and English, including localized
+topic names.
+
+### Competition interface
+
+![Competition test view](docs/screenshots/04-test-view.png)
+
+Competitors receive a clean browser-based test interface with randomized
+questions and answer options.
+
+### Results
+
+![Competition results](docs/screenshots/05-results.png)
+
+Closed competitions provide ranking, score, completion status and timing
+information for each competitor.
+
+### Login and language selection
+
+![Competitor login](docs/screenshots/01-login.png)
+
+The login screen allows competitors to select Hungarian or English.
 
 ## Quick start
 

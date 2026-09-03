@@ -100,7 +100,7 @@
                             selected
                         {% endif %}
                     >
-                        {{ topic.name }}
+                        {{ topic.display_name }}
                     </option>
                 {% endfor %}
             </select>
@@ -251,7 +251,7 @@
 
                         <td>
                             {% for topic in question.topics %}
-                                {{ topic.name }}{% if not loop.last %}, {% endif %}
+                                {{ topic.display_name }}{% if not loop.last %}, {% endif %}
                             {% else %}
                                 –
                             {% endfor %}

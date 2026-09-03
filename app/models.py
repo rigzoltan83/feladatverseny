@@ -121,6 +121,22 @@ class Topic(db.Model):
         unique=True,
     )
 
+    name_en = db.Column(
+        db.String(100),
+        nullable=True,
+    )
+
+    @property
+    def display_name(self) -> str:
+        from flask_babel import get_locale
+
+        language = str(get_locale() or "hu")
+
+        if language.startswith("en") and self.name_en:
+            return self.name_en
+
+        return self.name
+
     is_active = db.Column(
         db.Boolean,
         nullable=False,
