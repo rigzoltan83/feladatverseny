@@ -285,12 +285,8 @@ Feladatverseny is available as a stable self-hosted release.
 
 The current stable version is **v1.0.0**.
 
-The current repository should be considered pre-release software until the
-public release checklist has been completed.
-
 ## License
 
-A license will be selected before the first public release.
+Feladatverseny is licensed under the GNU General Public License v3.0.
 
-Until a license is added, no additional permissions are granted beyond those
-provided by applicable copyright law.
+See [LICENSE](LICENSE) for the full license text.
