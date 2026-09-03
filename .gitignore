@@ -15,3 +15,6 @@ venv/
 .python_history
 *.bak-*
 .cache/
+
+# Local private seed backup
+deploy/seed/initial-data.private-backup.sql.gz
