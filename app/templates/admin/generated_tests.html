@@ -1,16 +1,15 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Generált feladatsorok – Feladatverseny
+    {{ _("Generált feladatsorok – Feladatverseny") }}
 {% endblock %}
 
 {% block content %}
     <section class="page-header">
-        <h1>Generált feladatsorok</h1>
+        <h1>{{ _("Generált feladatsorok") }}</h1>
 
         <p>
-            A sablonok alapján létrehozott
-            konkrét tesztek.
+            {{ _("A sablonok alapján létrehozott konkrét tesztek.") }}
         </p>
     </section>
 
@@ -19,12 +18,12 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Név</th>
-                    <th>Sablon</th>
-                    <th>Feladatok</th>
-                    <th>Állapot</th>
-                    <th>Létrehozva</th>
-                    <th>Művelet</th>
+                    <th>{{ _("Név") }}</th>
+                    <th>{{ _("Sablon") }}</th>
+                    <th>{{ _("Feladatok") }}</th>
+                    <th>{{ _("Állapot") }}</th>
+                    <th>{{ _("Létrehozva") }}</th>
+                    <th>{{ _("Művelet") }}</th>
                 </tr>
             </thead>
 
@@ -49,15 +48,15 @@
 <td>
     {% if test.status == 'draft' %}
         <span class="status-badge status-draft">
-            Piszkozat
+            {{ _("Piszkozat") }}
         </span>
     {% elif test.status == 'active' %}
         <span class="status-badge status-active">
-            Aktív
+            {{ _("Aktív") }}
         </span>
     {% elif test.status == 'closed' %}
         <span class="status-badge status-inactive">
-            Lezárt
+            {{ _("Lezárt") }}
         </span>
     {% else %}
         {{ test.status }}
@@ -80,15 +79,14 @@
                                     generated_test_id=test.id
                                 ) }}"
                             >
-                                Megnyitás
+                                {{ _("Megnyitás") }}
                             </a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
                         <td colspan="7">
-                            Nincs még generált
-                            feladatsor.
+                            {{ _("Nincs még generált feladatsor.") }}
                         </td>
                     </tr>
                 {% endfor %}

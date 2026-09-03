@@ -10,7 +10,7 @@
             <h1>{{ generated_test.name }}</h1>
 
             <p>
-                Generált feladatsor ellenőrzése.
+                {{ _("Generált feladatsor ellenőrzése.") }}
             </p>
         </div>
 
@@ -27,7 +27,7 @@
             class="button"
             type="submit"
         >
-            Aktiválás
+            {{ _("Aktiválás") }}
         </button>
     </form>
 
@@ -37,15 +37,16 @@
             'admin_generated_tests.generated_test_close',
             generated_test_id=generated_test.id
         ) }}"
-        onsubmit="return confirm(
-            'Biztosan végleg lezárod ezt a feladatsort?'
-        );"
+        onsubmit='return confirm({{
+            _("Biztosan végleg lezárod ezt a feladatsort?")
+            | tojson
+        }});'
     >
         <button
             class="button button-danger"
             type="submit"
         >
-            Lezárás
+            {{ _("Lezárás") }}
         </button>
     </form>
 {% elif generated_test.status == 'active' %}
@@ -60,7 +61,7 @@
             class="button button-secondary"
             type="submit"
         >
-            Vissza piszkozatba
+            {{ _("Vissza piszkozatba") }}
         </button>
     </form>
 
@@ -70,15 +71,16 @@
             'admin_generated_tests.generated_test_close',
             generated_test_id=generated_test.id
         ) }}"
-        onsubmit="return confirm(
-            'Biztosan végleg lezárod ezt a feladatsort?'
-        );"
+        onsubmit='return confirm({{
+            _("Biztosan végleg lezárod ezt a feladatsort?")
+            | tojson
+        }});'
     >
         <button
             class="button button-danger"
             type="submit"
         >
-            Lezárás
+            {{ _("Lezárás") }}
         </button>
     </form>
 {% endif %}
@@ -90,7 +92,7 @@
                     template_id=generated_test.test_template.id
                 ) }}"
             >
-                Vissza a sablonhoz
+                {{ _("Vissza a sablonhoz") }}
             </a>
 
             <a
@@ -99,42 +101,42 @@
                     'admin_generated_tests.generated_test_list'
                 ) }}"
             >
-                Generált feladatsorok
+                {{ _("Generált feladatsorok") }}
             </a>
         </div>
     </section>
 
     <section class="detail-grid">
         <article class="card">
-            <h2>Alapadatok</h2>
+            <h2>{{ _("Alapadatok") }}</h2>
 
             <dl class="detail-list">
                 <div>
-                    <dt>Azonosító</dt>
+                    <dt>{{ _("Azonosító") }}</dt>
                     <dd>{{ generated_test.id }}</dd>
                 </div>
 
                 <div>
-                    <dt>Sablon</dt>
+                    <dt>{{ _("Sablon") }}</dt>
                     <dd>
                         {{ generated_test.test_template.name }}
                     </dd>
                 </div>
 
                 <div>
-                    <dt>Állapot</dt>
+                    <dt>{{ _("Állapot") }}</dt>
 <dd>
     {% if generated_test.status == 'draft' %}
         <span class="status-badge status-draft">
-            Piszkozat
+            {{ _("Piszkozat") }}
         </span>
     {% elif generated_test.status == 'active' %}
         <span class="status-badge status-active">
-            Aktív
+            {{ _("Aktív") }}
         </span>
     {% elif generated_test.status == 'closed' %}
         <span class="status-badge status-inactive">
-            Lezárt
+            {{ _("Lezárt") }}
         </span>
     {% else %}
         {{ generated_test.status }}
@@ -143,7 +145,7 @@
                 </div>
 
                 <div>
-                    <dt>Feladatok száma</dt>
+                    <dt>{{ _("Feladatok száma") }}</dt>
                     <dd>
                         {{
                             generated_test.generated_questions
@@ -160,16 +162,22 @@
     %}
         <section class="card generated-question">
             <h2>
-                {{ generated_question.display_position }}.
-                feladat
+                {{
+                _(
+                    "%(position)s. feladat",
+                    position=generated_question.display_position
+                )
+            }}
             </h2>
 
             <p class="question-meta">
-                Eredeti feladat-ID:
-                {{ generated_question.question.id }}
-
-                · Nehézség:
-                {{ generated_question.question.difficulty }}
+                {{
+                _(
+                    "Eredeti feladat-ID: %(id)s · Nehézség: %(difficulty)s",
+                    id=generated_question.question.id,
+                    difficulty=generated_question.question.difficulty
+                )
+            }}
             </p>
 
             <div class="question-text">
@@ -195,7 +203,7 @@
                             generated_answer.answer_option.is_correct
                         %}
                             <strong>
-                                Helyes
+                                {{ _("Helyes") }}
                             </strong>
                         {% endif %}
                     </li>
@@ -205,8 +213,7 @@
     {% else %}
         <section class="card">
             <p>
-                A generált feladatsor nem
-                tartalmaz kérdést.
+                {{ _("A generált feladatsor nem tartalmaz kérdést.") }}
             </p>
         </section>
     {% endfor %}

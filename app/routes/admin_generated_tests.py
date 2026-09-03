@@ -9,6 +9,8 @@ from flask import (
     url_for,
 )
 
+from flask_babel import gettext as _
+
 from app.extensions import db
 from app.models import (
     AnswerOption,
@@ -119,7 +121,7 @@ def generate_test(template_id: int):
 
     if not template.is_active:
         flash(
-            (
+            _(
                 "Inaktív tesztsablonból "
                 "nem generálható feladatsor."
             ),
@@ -139,10 +141,12 @@ def generate_test(template_id: int):
 
     if len(candidates) < template.question_count:
         flash(
-            (
+            _(
                 "Nincs elegendő megfelelő feladat. "
-                f"Elérhető: {len(candidates)}, "
-                f"szükséges: {template.question_count}."
+                "Elérhető: %(available)s, "
+                "szükséges: %(required)s.",
+                available=len(candidates),
+                required=template.question_count,
             ),
             "error",
         )
@@ -173,7 +177,7 @@ def generate_test(template_id: int):
         set(selected_question_ids)
     ):
         flash(
-            (
+            _(
                 "A generálás megszakadt, mert "
                 "ismétlődő feladat került a listába."
             ),
@@ -259,9 +263,10 @@ def generate_test(template_id: int):
         raise
 
     flash(
-        (
-            f"A feladatsor elkészült "
-            f"{template.question_count} feladattal."
+        _(
+            "A feladatsor elkészült "
+            "%(count)s feladattal.",
+            count=template.question_count,
         ),
         "success",
     )
@@ -303,7 +308,7 @@ def generated_test_activate(
 
     if generated_test.status == "closed":
         flash(
-            (
+            _(
                 "Lezárt feladatsor nem "
                 "aktiválható újra."
             ),
@@ -312,7 +317,7 @@ def generated_test_activate(
 
     elif generated_test.status == "active":
         flash(
-            "A feladatsor már aktív.",
+            _("A feladatsor már aktív."),
             "error",
         )
 
@@ -321,7 +326,7 @@ def generated_test_activate(
         db.session.commit()
 
         flash(
-            "A feladatsort aktiváltuk.",
+            _("A feladatsort aktiváltuk."),
             "success",
         )
 
@@ -346,7 +351,7 @@ def generated_test_close(
 
     if generated_test.status == "closed":
         flash(
-            "A feladatsor már le van zárva.",
+            _("A feladatsor már le van zárva."),
             "error",
         )
 
@@ -355,7 +360,7 @@ def generated_test_close(
         db.session.commit()
 
         flash(
-            "A feladatsort lezártuk.",
+            _("A feladatsort lezártuk."),
             "success",
         )
 
@@ -380,7 +385,7 @@ def generated_test_return_to_draft(
 
     if generated_test.status == "closed":
         flash(
-            (
+            _(
                 "Lezárt feladatsor nem "
                 "állítható vissza piszkozatba."
             ),
@@ -389,7 +394,7 @@ def generated_test_return_to_draft(
 
     elif generated_test.status == "draft":
         flash(
-            "A feladatsor már piszkozat.",
+            _("A feladatsor már piszkozat."),
             "error",
         )
 
@@ -398,7 +403,7 @@ def generated_test_return_to_draft(
         db.session.commit()
 
         flash(
-            (
+            _(
                 "A feladatsort visszaállítottuk "
                 "piszkozat állapotba."
             ),

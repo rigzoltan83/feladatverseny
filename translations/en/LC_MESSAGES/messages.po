@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 12:59+0200\n"
+"POT-Creation-Date: 2026-09-03 13:12+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -273,6 +273,60 @@ msgstr "The question was activated."
 msgid "A feladatot inaktiváltuk."
 msgstr "The question was deactivated."
 
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:125
+msgid "Inaktív tesztsablonból nem generálható feladatsor."
+msgstr "A question set cannot be generated from an inactive test template."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:145
+#, python-format
+msgid ""
+"Nincs elegendő megfelelő feladat. Elérhető: %(available)s, szükséges: "
+"%(required)s."
+msgstr ""
+"Not enough matching questions. Available: %(available)s, required: "
+"%(required)s."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:181
+msgid "A generálás megszakadt, mert ismétlődő feladat került a listába."
+msgstr "Generation was aborted because a duplicate question was added to the list."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:267
+#, python-format
+msgid "A feladatsor elkészült %(count)s feladattal."
+msgstr "The question set was generated with %(count)s questions."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:312
+msgid "Lezárt feladatsor nem aktiválható újra."
+msgstr "A closed question set cannot be reactivated."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:320
+msgid "A feladatsor már aktív."
+msgstr "The question set is already active."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:329
+msgid "A feladatsort aktiváltuk."
+msgstr "The question set was activated."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:354
+msgid "A feladatsor már le van zárva."
+msgstr "The question set is already closed."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:363
+msgid "A feladatsort lezártuk."
+msgstr "The question set was closed."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:389
+msgid "Lezárt feladatsor nem állítható vissza piszkozatba."
+msgstr "A closed question set cannot be returned to draft status."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:397
+msgid "A feladatsor már piszkozat."
+msgstr "The question set is already a draft."
+
+#: /opt/feladatverseny/app/routes/admin_generated_tests.py:407
+msgid "A feladatsort visszaállítottuk piszkozat állapotba."
+msgstr "The question set was returned to draft status."
+
 #: /opt/feladatverseny/app/routes/admin_templates.py:105
 #: /opt/feladatverseny/app/routes/admin_templates.py:380
 msgid "A tesztsablon neve kötelező."
@@ -495,6 +549,8 @@ msgid "Megjelenítve:"
 msgstr "Showing:"
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:87
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:127
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:24
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:93
 #: /opt/feladatverseny/app/templates/admin/question_import.html:104
 #: /opt/feladatverseny/app/templates/admin/questions.html:140
@@ -508,6 +564,7 @@ msgid "Állapot"
 msgstr "Status"
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:88
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:25
 msgid "Létrehozva"
 msgstr "Created"
 
@@ -516,6 +573,8 @@ msgid "Műveletek"
 msgstr "Actions"
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:128
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:135
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:55
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:96
 #: /opt/feladatverseny/app/templates/admin/questions.html:162
 #: /opt/feladatverseny/app/templates/admin/questions.html:266
@@ -562,6 +621,138 @@ msgstr "Page %(page)s / %(pages)s"
 msgid "Következő"
 msgstr "Next"
 
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:13
+msgid "Generált feladatsor ellenőrzése."
+msgstr "Review generated question set."
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:30
+#: /opt/feladatverseny/app/templates/admin/question_detail.html:57
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:66
+msgid "Aktiválás"
+msgstr "Activate"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:41
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:75
+msgid "Biztosan végleg lezárod ezt a feladatsort?"
+msgstr "Are you sure you want to permanently close this question set?"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:49
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:83
+msgid "Lezárás"
+msgstr "Close"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:64
+msgid "Vissza piszkozatba"
+msgstr "Return to draft"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:95
+msgid "Vissza a sablonhoz"
+msgstr "Back to template"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:104
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:9
+#: /opt/feladatverseny/app/templates/admin/index.html:123
+msgid "Generált feladatsorok"
+msgstr "Generated Question Sets"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:111
+#: /opt/feladatverseny/app/templates/admin/question_detail.html:74
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:84
+msgid "Alapadatok"
+msgstr "Details"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:115
+#: /opt/feladatverseny/app/templates/admin/grades.html:25
+#: /opt/feladatverseny/app/templates/admin/source_years.html:25
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:88
+#: /opt/feladatverseny/app/templates/admin/topics.html:25
+msgid "Azonosító"
+msgstr "ID"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:120
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:22
+msgid "Sablon"
+msgstr "Template"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:131
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:51
+msgid "Piszkozat"
+msgstr "Draft"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:139
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:59
+msgid "Lezárt"
+msgstr "Closed"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:148
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:93
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:65
+#, fuzzy
+msgid "Feladatok száma"
+msgstr "Number of questions:"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:166
+#: /opt/feladatverseny/app/templates/competitor/test_view.html:113
+#, python-format
+msgid "%(position)s. feladat"
+msgstr "Question %(position)s"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:175
+#, python-format
+msgid "Eredeti feladat-ID: %(id)s · Nehézség: %(difficulty)s"
+msgstr "Original question ID: %(id)s · Difficulty: %(difficulty)s"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:206
+#: /opt/feladatverseny/app/templates/admin/question_import.html:111
+msgid "Helyes"
+msgstr "Correct"
+
+#: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:216
+msgid "A generált feladatsor nem tartalmaz kérdést."
+msgstr "The generated question set contains no questions."
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:4
+msgid "Generált feladatsorok – Feladatverseny"
+msgstr "Generated Question Sets – Feladatverseny"
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:12
+msgid "A sablonok alapján létrehozott konkrét tesztek."
+msgstr "Question sets generated from test templates."
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:21
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:33
+#, fuzzy
+msgid "Név"
+msgstr "Year"
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:23
+#: /opt/feladatverseny/app/templates/admin/index.html:70
+#: /opt/feladatverseny/app/templates/admin/questions.html:10
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:126
+msgid "Feladatok"
+msgstr "Questions"
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:26
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:48
+#: /opt/feladatverseny/app/templates/admin/questions.html:223
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:183
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:16
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
+msgid "Művelet"
+msgstr "Action"
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:82
+#: /opt/feladatverseny/app/templates/admin/question_import_result.html:73
+#: /opt/feladatverseny/app/templates/admin/questions.html:279
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:220
+#: /opt/feladatverseny/app/templates/admin/test_templates.html:115
+msgid "Megnyitás"
+msgstr "Open"
+
+#: /opt/feladatverseny/app/templates/admin/generated_tests.html:89
+msgid "Nincs még generált feladatsor."
+msgstr "No question sets have been generated yet."
+
 #: /opt/feladatverseny/app/templates/admin/grades.html:4
 msgid "Évfolyamok – Feladatverseny"
 msgstr "Grades – Feladatverseny"
@@ -581,13 +772,6 @@ msgstr "Grades"
 #: /opt/feladatverseny/app/templates/admin/grades.html:13
 msgid "Az adatbázisban jelenleg elérhető évfolyamok."
 msgstr "Grades currently available in the database."
-
-#: /opt/feladatverseny/app/templates/admin/grades.html:25
-#: /opt/feladatverseny/app/templates/admin/source_years.html:25
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:88
-#: /opt/feladatverseny/app/templates/admin/topics.html:25
-msgid "Azonosító"
-msgstr "ID"
 
 #: /opt/feladatverseny/app/templates/admin/grades.html:27
 #: /opt/feladatverseny/app/templates/admin/topics.html:26
@@ -639,12 +823,6 @@ msgstr "Source years"
 msgid "A korábbi versenyévek kezelése."
 msgstr "Manage previous competition years."
 
-#: /opt/feladatverseny/app/templates/admin/index.html:70
-#: /opt/feladatverseny/app/templates/admin/questions.html:10
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:126
-msgid "Feladatok"
-msgstr "Questions"
-
 #: /opt/feladatverseny/app/templates/admin/index.html:73
 msgid "Feladatok és válaszlehetőségek kezelése."
 msgstr "Manage questions and answer options."
@@ -660,10 +838,6 @@ msgstr "Test templates"
 #: /opt/feladatverseny/app/templates/admin/index.html:107
 msgid "Tesztsablonok és generálási szabályok."
 msgstr "Test templates and generation rules."
-
-#: /opt/feladatverseny/app/templates/admin/index.html:123
-msgid "Generált feladatsorok"
-msgstr "Generated tests"
 
 #: /opt/feladatverseny/app/templates/admin/index.html:127
 msgid "Létrehozott tesztek, aktiválás és lezárás."
@@ -696,20 +870,10 @@ msgstr "Question details and answer options."
 msgid "Inaktiválás"
 msgstr "Deactivate"
 
-#: /opt/feladatverseny/app/templates/admin/question_detail.html:57
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:66
-msgid "Aktiválás"
-msgstr "Activate"
-
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:66
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:77
 msgid "Vissza a listához"
 msgstr "Back to list"
-
-#: /opt/feladatverseny/app/templates/admin/question_detail.html:74
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:84
-msgid "Alapadatok"
-msgstr "Details"
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:78
 #: /opt/feladatverseny/app/templates/admin/question_form.html:32
@@ -906,10 +1070,6 @@ msgstr "Position"
 msgid "Feladat"
 msgstr "Question"
 
-#: /opt/feladatverseny/app/templates/admin/question_import.html:111
-msgid "Helyes"
-msgstr "Correct"
-
 #: /opt/feladatverseny/app/templates/admin/question_import.html:124
 msgid "Hibás"
 msgstr "Invalid"
@@ -950,21 +1110,6 @@ msgstr "Question ID"
 #: /opt/feladatverseny/app/templates/admin/question_import_result.html:47
 msgid "Várt képfájlnév"
 msgstr "Expected image filename"
-
-#: /opt/feladatverseny/app/templates/admin/question_import_result.html:48
-#: /opt/feladatverseny/app/templates/admin/questions.html:223
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:183
-#: /opt/feladatverseny/app/templates/admin/test_templates.html:16
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
-msgid "Művelet"
-msgstr "Action"
-
-#: /opt/feladatverseny/app/templates/admin/question_import_result.html:73
-#: /opt/feladatverseny/app/templates/admin/questions.html:279
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:220
-#: /opt/feladatverseny/app/templates/admin/test_templates.html:115
-msgid "Megnyitás"
-msgstr "Open"
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:4
 msgid "Feladatok – Feladatverseny"
@@ -1059,12 +1204,6 @@ msgstr "Generate a question set from this template?"
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:34
 msgid "Feladatsor generálása"
 msgstr "Generate question set"
-
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:93
-#: /opt/feladatverseny/app/templates/admin/test_template_form.html:65
-#, fuzzy
-msgid "Feladatok száma"
-msgstr "Number of questions:"
 
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:119
 msgid "Generálhatóság"
@@ -1186,11 +1325,6 @@ msgstr "Settings for generated question sets."
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:24
 msgid "+ Új tesztsablon"
 msgstr "+ New test template"
-
-#: /opt/feladatverseny/app/templates/admin/test_templates.html:33
-#, fuzzy
-msgid "Név"
-msgstr "Year"
 
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:34
 msgid "Feladatszám"
@@ -1345,11 +1479,6 @@ msgstr "points"
 #: /opt/feladatverseny/app/templates/competitor/test_view.html:98
 msgid "Vissza"
 msgstr "Back"
-
-#: /opt/feladatverseny/app/templates/competitor/test_view.html:113
-#, python-format
-msgid "%(position)s. feladat"
-msgstr "Question %(position)s"
 
 #: /opt/feladatverseny/app/templates/competitor/test_view.html:194
 msgid "✓ Jó válasz"
