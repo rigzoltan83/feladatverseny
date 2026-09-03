@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Új versenyző
+    {{ _("Új versenyző") }}
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
-        <h1>Új versenyző</h1>
+        <h1>{{ _("Új versenyző") }}</h1>
+
         <p>
-            Új versenyzői belépés létrehozása.
+            {{ _("Új versenyzői belépés létrehozása.") }}
         </p>
     </div>
 </div>
@@ -22,7 +23,7 @@
     >
         <div class="form-group">
             <label for="full_name">
-                Teljes név
+                {{ _("Teljes név") }}
             </label>
 
             <input
@@ -37,7 +38,7 @@
 
         <div class="form-group">
             <label for="username">
-                Felhasználónév
+                {{ _("Felhasználónév") }}
             </label>
 
             <input
@@ -53,7 +54,7 @@
 
         <div class="form-group">
             <label for="grade_id">
-                Évfolyam
+                {{ _("Évfolyam") }}
             </label>
 
             <select
@@ -62,7 +63,7 @@
                 required
             >
                 <option value="">
-                    Válassz évfolyamot
+                    {{ _("Válassz évfolyamot") }}
                 </option>
 
                 {% for grade in grades %}
@@ -77,8 +78,12 @@
                             selected
                         {% endif %}
                     >
-                        {{ grade.grade_number }}.
-                        évfolyam
+                        {{
+                            _(
+                                "%(grade)s. évfolyam",
+                                grade=grade.grade_number
+                            )
+                        }}
                     </option>
                 {% endfor %}
             </select>
@@ -86,7 +91,7 @@
 
         <div class="form-group">
             <label for="preferred_language">
-                Nyelv
+                {{ _("Nyelv") }}
             </label>
 
             <select
@@ -121,7 +126,7 @@
 
         <div class="form-group">
             <label for="password">
-                Jelszó
+                {{ _("Jelszó") }}
             </label>
 
             <input
@@ -134,13 +139,13 @@
             >
 
             <small>
-                Legalább 6 karakter.
+                {{ _("Legalább 6 karakter.") }}
             </small>
         </div>
 
         <div class="form-group">
             <label for="password_confirm">
-                Jelszó újra
+                {{ _("Jelszó újra") }}
             </label>
 
             <input
@@ -158,14 +163,14 @@
                 class="button"
                 type="submit"
             >
-                Versenyző mentése
+                {{ _("Versenyző mentése") }}
             </button>
 
             <a
                 class="button button-secondary"
                 href="{{ url_for('admin.competitors') }}"
             >
-                Mégse
+                {{ _("Mégse") }}
             </a>
         </div>
     </form>

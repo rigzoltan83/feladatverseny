@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Versenyző szerkesztése
+    {{ _("Versenyző szerkesztése") }}
 {% endblock %}
 
 {% block content %}
 <div class="page-header">
     <div>
-        <h1>Versenyző szerkesztése</h1>
+        <h1>{{ _("Versenyző szerkesztése") }}</h1>
 
         <p>
             {{ competitor.full_name }}
@@ -26,7 +26,7 @@
     >
         <div class="form-group">
             <label for="full_name">
-                Teljes név
+                {{ _("Teljes név") }}
             </label>
 
             <input
@@ -44,7 +44,7 @@
 
         <div class="form-group">
             <label for="username">
-                Felhasználónév
+                {{ _("Felhasználónév") }}
             </label>
 
             <input
@@ -63,7 +63,7 @@
 
         <div class="form-group">
             <label for="grade_id">
-                Évfolyam
+                {{ _("Évfolyam") }}
             </label>
 
             {% set selected_grade_id = request.form.get(
@@ -84,8 +84,13 @@
                             selected
                         {% endif %}
                     >
-                        {{ grade.grade_number }}.
-                        évfolyam – {{ grade.name }}
+                        {{
+                            _(
+                                "%(grade)s. évfolyam – %(name)s",
+                                grade=grade.grade_number,
+                                name=grade.name
+                            )
+                        }}
                     </option>
                 {% endfor %}
             </select>
@@ -93,7 +98,7 @@
 
         <div class="form-group">
             <label for="preferred_language">
-                Nyelv
+                {{ _("Nyelv") }}
             </label>
 
             {% set selected_language = request.form.get(
@@ -140,26 +145,35 @@
                     {% endif %}
                 >
 
-                A versenyző aktív
+                {{ _("A versenyző aktív") }}
             </label>
 
             <small>
-                Az inaktív versenyző később nem tud belépni.
+                {{
+                    _(
+                        "Az inaktív versenyző később "
+                        "nem tud belépni."
+                    )
+                }}
             </small>
         </div>
 
         <hr>
 
-        <h2>Jelszó módosítása</h2>
+        <h2>{{ _("Jelszó módosítása") }}</h2>
 
         <p>
-            Hagyd üresen, ha a jelenlegi jelszót nem szeretnéd
-            megváltoztatni.
+            {{
+                _(
+                    "Hagyd üresen, ha a jelenlegi "
+                    "jelszót nem szeretnéd megváltoztatni."
+                )
+            }}
         </p>
 
         <div class="form-group">
             <label for="password">
-                Új jelszó
+                {{ _("Új jelszó") }}
             </label>
 
             <input
@@ -173,7 +187,7 @@
 
         <div class="form-group">
             <label for="password_confirm">
-                Új jelszó újra
+                {{ _("Új jelszó újra") }}
             </label>
 
             <input
@@ -190,14 +204,14 @@
                 class="button"
                 type="submit"
             >
-                Módosítások mentése
+                {{ _("Módosítások mentése") }}
             </button>
 
             <a
                 class="button button-secondary"
                 href="{{ url_for('admin.competitors') }}"
             >
-                Mégse
+                {{ _("Mégse") }}
             </a>
         </div>
     </form>

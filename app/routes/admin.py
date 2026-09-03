@@ -12,6 +12,8 @@ from flask import (
     url_for,
 )
 
+from flask_babel import gettext as _
+
 from app.extensions import db
 from app.models import (
     Competitor,
@@ -813,21 +815,21 @@ def competitor_create():
 
         if not full_name:
             flash(
-                "A teljes név megadása kötelező.",
+                _("A teljes név megadása kötelező."),
                 "error",
             )
             has_error = True
 
         if not username:
             flash(
-                "A felhasználónév megadása kötelező.",
+                _("A felhasználónév megadása kötelező."),
                 "error",
             )
             has_error = True
 
         if len(username) > 80:
             flash(
-                "A felhasználónév legfeljebb 80 karakter lehet.",
+                _("A felhasználónév legfeljebb 80 karakter lehet."),
                 "error",
             )
             has_error = True
@@ -842,7 +844,7 @@ def competitor_create():
 
         if existing_competitor:
             flash(
-                "Ez a felhasználónév már foglalt.",
+                _("Ez a felhasználónév már foglalt."),
                 "error",
             )
             has_error = True
@@ -854,28 +856,28 @@ def competitor_create():
 
         if not grade:
             flash(
-                "Érvényes évfolyam kiválasztása kötelező.",
+                _("Érvényes évfolyam kiválasztása kötelező."),
                 "error",
             )
             has_error = True
 
         if preferred_language not in {"hu", "en"}:
             flash(
-                "Érvényes nyelvet kell választani.",
+                _("Érvényes nyelvet kell választani."),
                 "error",
             )
             has_error = True
 
         if len(password) < 6:
             flash(
-                "A jelszónak legalább 6 karakteresnek kell lennie.",
+                _("A jelszónak legalább 6 karakteresnek kell lennie."),
                 "error",
             )
             has_error = True
 
         if password != password_confirm:
             flash(
-                "A két jelszó nem egyezik.",
+                _("A két jelszó nem egyezik."),
                 "error",
             )
             has_error = True
@@ -895,7 +897,7 @@ def competitor_create():
             db.session.commit()
 
             flash(
-                "A versenyző sikeresen létrejött.",
+                _("A versenyző sikeresen létrejött."),
                 "success",
             )
 
@@ -966,28 +968,28 @@ def competitor_edit(competitor_id):
 
         if not full_name:
             flash(
-                "A teljes név megadása kötelező.",
+                _("A teljes név megadása kötelező."),
                 "error",
             )
             has_error = True
 
         if len(full_name) > 200:
             flash(
-                "A teljes név legfeljebb 200 karakter lehet.",
+                _("A teljes név legfeljebb 200 karakter lehet."),
                 "error",
             )
             has_error = True
 
         if not username:
             flash(
-                "A felhasználónév megadása kötelező.",
+                _("A felhasználónév megadása kötelező."),
                 "error",
             )
             has_error = True
 
         if len(username) > 80:
             flash(
-                "A felhasználónév legfeljebb 80 karakter lehet.",
+                _("A felhasználónév legfeljebb 80 karakter lehet."),
                 "error",
             )
             has_error = True
@@ -1003,7 +1005,7 @@ def competitor_edit(competitor_id):
 
         if existing_competitor:
             flash(
-                "Ez a felhasználónév már foglalt.",
+                _("Ez a felhasználónév már foglalt."),
                 "error",
             )
             has_error = True
@@ -1015,14 +1017,14 @@ def competitor_edit(competitor_id):
 
         if not grade:
             flash(
-                "Érvényes évfolyam kiválasztása kötelező.",
+                _("Érvényes évfolyam kiválasztása kötelező."),
                 "error",
             )
             has_error = True
 
         if preferred_language not in {"hu", "en"}:
             flash(
-                "Érvényes nyelvet kell választani.",
+                _("Érvényes nyelvet kell választani."),
                 "error",
             )
             has_error = True
@@ -1030,14 +1032,14 @@ def competitor_edit(competitor_id):
         if password:
             if len(password) < 6:
                 flash(
-                    "Az új jelszónak legalább 6 karakteresnek kell lennie.",
+                    _("Az új jelszónak legalább 6 karakteresnek kell lennie."),
                     "error",
                 )
                 has_error = True
 
             if password != password_confirm:
                 flash(
-                    "A két új jelszó nem egyezik.",
+                    _("A két új jelszó nem egyezik."),
                     "error",
                 )
                 has_error = True
@@ -1055,7 +1057,7 @@ def competitor_edit(competitor_id):
             db.session.commit()
 
             flash(
-                "A versenyző adatai sikeresen módosultak.",
+                _("A versenyző adatai sikeresen módosultak."),
                 "success",
             )
 

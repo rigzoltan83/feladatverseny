@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 12:36+0200\n"
+"POT-Creation-Date: 2026-09-03 12:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,6 +25,64 @@ msgstr ""
 #: /opt/feladatverseny/app/routes/competitor.py:234
 #: /opt/feladatverseny/app/routes/competitor.py:409
 msgid "A felhasználói fiók nem érhető el."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:818
+#: /opt/feladatverseny/app/routes/admin.py:971
+msgid "A teljes név megadása kötelező."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:825
+#: /opt/feladatverseny/app/routes/admin.py:985
+msgid "A felhasználónév megadása kötelező."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:832
+#: /opt/feladatverseny/app/routes/admin.py:992
+msgid "A felhasználónév legfeljebb 80 karakter lehet."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:847
+#: /opt/feladatverseny/app/routes/admin.py:1008
+msgid "Ez a felhasználónév már foglalt."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:859
+#: /opt/feladatverseny/app/routes/admin.py:1020
+msgid "Érvényes évfolyam kiválasztása kötelező."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:866
+#: /opt/feladatverseny/app/routes/admin.py:1027
+msgid "Érvényes nyelvet kell választani."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:873
+msgid "A jelszónak legalább 6 karakteresnek kell lennie."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:880
+msgid "A két jelszó nem egyezik."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:900
+msgid "A versenyző sikeresen létrejött."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:978
+msgid "A teljes név legfeljebb 200 karakter lehet."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1035
+msgid "Az új jelszónak legalább 6 karakteresnek kell lennie."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1042
+msgid "A két új jelszó nem egyezik."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin.py:1060
+msgid "A versenyző adatai sikeresen módosultak."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/competitor.py:148
@@ -72,6 +130,113 @@ msgstr ""
 msgid "Adminisztráció"
 msgstr ""
 
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:4
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:10
+msgid "Versenyző szerkesztése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:29
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:26
+#: /opt/feladatverseny/app/templates/admin/competitors.html:84
+msgid "Teljes név"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:47
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:41
+#: /opt/feladatverseny/app/templates/admin/competitors.html:85
+#: /opt/feladatverseny/app/templates/competitor/login.html:33
+msgid "Felhasználónév"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:66
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:57
+#: /opt/feladatverseny/app/templates/admin/competitors.html:86
+#: /opt/feladatverseny/app/templates/admin/grades.html:26
+msgid "Évfolyam"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:88
+#, python-format
+msgid "%(grade)s. évfolyam – %(name)s"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:101
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:94
+#: /opt/feladatverseny/app/templates/competitor/login.html:64
+msgid "Nyelv"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:148
+msgid "A versenyző aktív"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:153
+msgid "Az inaktív versenyző később nem tud belépni."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:163
+msgid "Jelszó módosítása"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:167
+msgid "Hagyd üresen, ha a jelenlegi jelszót nem szeretnéd megváltoztatni."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:176
+msgid "Új jelszó"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:190
+msgid "Új jelszó újra"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:207
+msgid "Módosítások mentése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_edit.html:214
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:173
+msgid "Mégse"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:4
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:10
+#: /opt/feladatverseny/app/templates/admin/competitors.html:22
+msgid "Új versenyző"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:13
+msgid "Új versenyzői belépés létrehozása."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:66
+msgid "Válassz évfolyamot"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:82
+#: /opt/feladatverseny/app/templates/admin/competitors.html:110
+#: /opt/feladatverseny/app/templates/competitor/dashboard.html:21
+#, python-format
+msgid "%(grade)s. évfolyam"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:129
+#: /opt/feladatverseny/app/templates/competitor/login.html:50
+msgid "Jelszó"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:142
+msgid "Legalább 6 karakter."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:148
+msgid "Jelszó újra"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/competitor_form.html:166
+msgid "Versenyző mentése"
+msgstr ""
+
 #: /opt/feladatverseny/app/templates/admin/competitors.html:4
 #: /opt/feladatverseny/app/templates/admin/competitors.html:10
 #: /opt/feladatverseny/app/templates/admin/index.html:85
@@ -80,10 +245,6 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:13
 msgid "Regisztrált versenyzők kezelése."
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitors.html:22
-msgid "Új versenyző"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:35
@@ -107,20 +268,6 @@ msgstr ""
 msgid "Megjelenítve:"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/competitors.html:84
-msgid "Teljes név"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitors.html:85
-#: /opt/feladatverseny/app/templates/competitor/login.html:33
-msgid "Felhasználónév"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitors.html:86
-#: /opt/feladatverseny/app/templates/admin/grades.html:26
-msgid "Évfolyam"
-msgstr ""
-
 #: /opt/feladatverseny/app/templates/admin/competitors.html:87
 #: /opt/feladatverseny/app/templates/admin/source_years.html:27
 #: /opt/feladatverseny/app/templates/admin/topics.html:27
@@ -133,12 +280,6 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:89
 msgid "Műveletek"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/competitors.html:110
-#: /opt/feladatverseny/app/templates/competitor/dashboard.html:21
-#, python-format
-msgid "%(grade)s. évfolyam"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:128
@@ -382,14 +523,6 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/competitor/login.html:16
 msgid "Jelentkezz be a kapott felhasználónévvel és jelszóval."
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/login.html:50
-msgid "Jelszó"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/competitor/login.html:64
-msgid "Nyelv"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/competitor/login.html:109
