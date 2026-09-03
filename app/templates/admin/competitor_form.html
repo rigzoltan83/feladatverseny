@@ -85,6 +85,41 @@
         </div>
 
         <div class="form-group">
+            <label for="preferred_language">
+                Nyelv
+            </label>
+
+            <select
+                id="preferred_language"
+                name="preferred_language"
+                required
+            >
+                <option
+                    value="hu"
+                    {% if request.form.get(
+                        'preferred_language',
+                        'hu'
+                    ) == 'hu' %}
+                        selected
+                    {% endif %}
+                >
+                    Magyar
+                </option>
+
+                <option
+                    value="en"
+                    {% if request.form.get(
+                        'preferred_language'
+                    ) == 'en' %}
+                        selected
+                    {% endif %}
+                >
+                    English
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label for="password">
                 Jelszó
             </label>

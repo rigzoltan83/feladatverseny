@@ -92,6 +92,41 @@
         </div>
 
         <div class="form-group">
+            <label for="preferred_language">
+                Nyelv
+            </label>
+
+            {% set selected_language = request.form.get(
+                'preferred_language',
+                competitor.preferred_language or 'hu'
+            ) %}
+
+            <select
+                id="preferred_language"
+                name="preferred_language"
+                required
+            >
+                <option
+                    value="hu"
+                    {% if selected_language == 'hu' %}
+                        selected
+                    {% endif %}
+                >
+                    Magyar
+                </option>
+
+                <option
+                    value="en"
+                    {% if selected_language == 'en' %}
+                        selected
+                    {% endif %}
+                >
+                    English
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
             <label class="checkbox-label">
                 <input
                     name="is_active"

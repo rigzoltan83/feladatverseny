@@ -6,6 +6,7 @@ from flask import (
     request,
     session,
     url_for,
+    make_response,
 )
 
 from app.models import (
@@ -42,6 +43,14 @@ def login():
             url_for("competitor.dashboard")
         )
 
+    default_language = request.cookies.get(
+        "feladatverseny_language",
+        "hu",
+    ).strip().lower()
+
+    if default_language not in {"hu", "en"}:
+        default_language = "hu"
+
     if request.method == "POST":
         username = request.form.get(
             "username",
@@ -52,6 +61,16 @@ def login():
             "password",
             "",
         )
+
+        selected_language = request.form.get(
+            "language",
+            default_language,
+        ).strip().lower()
+
+        if selected_language not in {"hu", "en"}:
+            selected_language = "hu"
+
+        default_language = selected_language
 
         competitor = (
             Competitor.query
@@ -66,11 +85,20 @@ def login():
             and competitor.is_active
             and competitor.check_password(password)
         ):
+            competitor.preferred_language = (
+                selected_language
+            )
+
+            db.session.commit()
+
             session.clear()
 
             session["competitor_id"] = competitor.id
-            session["competitor_name"] = competitor.full_name
+            session["competitor_name"] = (
+                competitor.full_name
+            )
             session["is_admin"] = competitor.is_admin
+            session["language"] = selected_language
 
             flash(
                 "Sikeres bejelentkezés.",
@@ -78,13 +106,30 @@ def login():
             )
 
             if competitor.is_admin:
-                return redirect(
-                    url_for("admin.index")
+                response = make_response(
+                    redirect(
+                        url_for("admin.index")
+                    )
+                )
+            else:
+                response = make_response(
+                    redirect(
+                        url_for(
+                            "competitor.dashboard"
+                        )
+                    )
                 )
 
-            return redirect(
-                url_for("competitor.dashboard")
+            response.set_cookie(
+                "feladatverseny_language",
+                selected_language,
+                max_age=60 * 60 * 24 * 365,
+                httponly=True,
+                samesite="Lax",
+                path=request.script_root or "/",
             )
+
+            return response
 
         flash(
             "Hibás felhasználónév vagy jelszó.",
@@ -93,6 +138,7 @@ def login():
 
     return render_template(
         "competitor/login.html",
+        default_language=default_language,
     )
 
 

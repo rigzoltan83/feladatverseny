@@ -794,6 +794,11 @@ def competitor_create():
             type=int,
         )
 
+        preferred_language = request.form.get(
+            "preferred_language",
+            "hu",
+        ).strip().lower()
+
         password = request.form.get(
             "password",
             "",
@@ -854,6 +859,13 @@ def competitor_create():
             )
             has_error = True
 
+        if preferred_language not in {"hu", "en"}:
+            flash(
+                "Érvényes nyelvet kell választani.",
+                "error",
+            )
+            has_error = True
+
         if len(password) < 6:
             flash(
                 "A jelszónak legalább 6 karakteresnek kell lennie.",
@@ -873,6 +885,7 @@ def competitor_create():
                 full_name=full_name,
                 username=username,
                 grade_id=grade.id,
+                preferred_language=preferred_language,
                 is_active=True,
             )
 
@@ -928,6 +941,11 @@ def competitor_edit(competitor_id):
             "grade_id",
             type=int,
         )
+
+        preferred_language = request.form.get(
+            "preferred_language",
+            competitor.preferred_language or "hu",
+        ).strip().lower()
 
         is_active = (
             request.form.get("is_active")
@@ -1002,6 +1020,13 @@ def competitor_edit(competitor_id):
             )
             has_error = True
 
+        if preferred_language not in {"hu", "en"}:
+            flash(
+                "Érvényes nyelvet kell választani.",
+                "error",
+            )
+            has_error = True
+
         if password:
             if len(password) < 6:
                 flash(
@@ -1021,6 +1046,7 @@ def competitor_edit(competitor_id):
             competitor.full_name = full_name
             competitor.username = username
             competitor.grade_id = grade.id
+            competitor.preferred_language = preferred_language
             competitor.is_active = is_active
 
             if password:
