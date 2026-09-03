@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 13:17+0200\n"
+"POT-Creation-Date: 2026-09-03 13:21+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -344,6 +344,27 @@ msgstr "The question set is already a draft."
 #: /opt/feladatverseny/app/routes/admin_generated_tests.py:407
 msgid "A feladatsort visszaállítottuk piszkozat állapotba."
 msgstr "The question set was returned to draft status."
+
+#: /opt/feladatverseny/app/routes/admin_media.py:61
+msgid "Nem választottál ki képfájlt."
+msgstr "No image file was selected."
+
+#: /opt/feladatverseny/app/routes/admin_media.py:82
+msgid "Csak JPG vagy JPEG kép tölthető fel."
+msgstr "Only JPG or JPEG images can be uploaded."
+
+#: /opt/feladatverseny/app/routes/admin_media.py:106
+#, python-format
+msgid "A kép feltöltve: %(filename)s"
+msgstr "Image uploaded: %(filename)s"
+
+#: /opt/feladatverseny/app/routes/admin_media.py:137
+msgid "A feladat képét töröltük."
+msgstr "The question image was deleted."
+
+#: /opt/feladatverseny/app/routes/admin_media.py:142
+msgid "A feladathoz nem tartozik kép."
+msgstr "This question does not have an image."
 
 #: /opt/feladatverseny/app/routes/admin_templates.py:105
 #: /opt/feladatverseny/app/routes/admin_templates.py:380
@@ -813,9 +834,8 @@ msgstr "Closed"
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:148
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:93
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:65
-#, fuzzy
 msgid "Feladatok száma"
-msgstr "Number of questions:"
+msgstr "Number of questions"
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:175
 #, python-format
@@ -1459,7 +1479,7 @@ msgstr "Answers"
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:299
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:50
 msgid "Leírás"
-msgstr ""
+msgstr "Description"
 
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:5
 msgid "Tesztsablon szerkesztése – Feladatverseny"
@@ -1528,17 +1548,16 @@ msgstr "Shuffle answers"
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:78
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:86
 msgid "Igen"
-msgstr ""
+msgstr "Yes"
 
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:80
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:88
 msgid "Nem"
-msgstr ""
+msgstr "No"
 
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:122
-#, fuzzy
 msgid "Nincs még rögzített tesztsablon."
-msgstr "No topics have been added yet."
+msgstr "No test templates have been created yet."
 
 #: /opt/feladatverseny/app/templates/admin/topics.html:4
 msgid "Témakörök – Feladatverseny"

@@ -4,12 +4,12 @@ from sqlalchemy import URL
 
 
 def required_env(name: str) -> str:
-    """Kötelező környezeti változó lekérése."""
+    """Return a required environment variable."""
     value = os.getenv(name)
 
     if value is None or value == "":
         raise RuntimeError(
-            f"Hiányzó kötelező környezeti változó: {name}"
+            f"Missing required environment variable: {name}"
         )
 
     return value

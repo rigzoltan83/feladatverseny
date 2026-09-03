@@ -15,11 +15,11 @@ load_dotenv(ENV_FILE)
 
 
 def required_env(name: str) -> str:
-    """Környezeti változó lekérése egyértelmű hibaüzenettel."""
+    """Return a required environment variable with a clear error."""
     value = os.getenv(name)
 
     if not value:
-        raise RuntimeError(f"Hiányzó kötelező környezeti változó: {name}")
+        raise RuntimeError(f"Missing required environment variable: {name}")
 
     return value
 
@@ -49,7 +49,7 @@ APP_TIMEZONE = os.getenv("APP_TIMEZONE", "Europe/Budapest")
 def index():
     return """
     <!doctype html>
-    <html lang="hu">
+    <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,9 +83,9 @@ def index():
     <body>
         <div class="card">
             <h1>Feladatverseny</h1>
-            <p class="status">A webalkalmazás működik.</p>
+            <p class="status">The web application is running.</p>
             <p>
-                Adatbázis-ellenőrzés:
+                Database health check:
                 <a href="/health">/health</a>
             </p>
         </div>
@@ -127,12 +127,12 @@ def health():
         )
 
     except SQLAlchemyError:
-        app.logger.exception("Adatbázis-kapcsolati hiba")
+        app.logger.exception("Database connection error")
 
         return jsonify(
             status="error",
             database={
                 "status": "unavailable",
-                "message": "Az adatbázis-kapcsolat nem érhető el.",
+                "message": "The database connection is unavailable.",
             },
         ), 503

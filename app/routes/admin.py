@@ -1294,7 +1294,7 @@ def question_edit(question_id: int):
                     )
                 )
 
-            # Fontos: ez már a cikluson kívül van.
+            # Important: this is intentionally outside the loop.
             db.session.commit()
 
             flash(
@@ -1796,7 +1796,7 @@ def question_import():
                     }
                 )
 
-        # Fontos: ez már a for cikluson kívül van.
+        # Important: this is intentionally outside the for loop.
         if not preview_rows:
             flash(
                 _("A CSV nem tartalmaz adatsort."),

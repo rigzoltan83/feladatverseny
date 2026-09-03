@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 13:17+0200\n"
+"POT-Creation-Date: 2026-09-03 13:21+0200\n"
 "PO-Revision-Date: 2026-09-03 12:11+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: hu\n"
@@ -339,6 +339,27 @@ msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin_generated_tests.py:407
 msgid "A feladatsort visszaállítottuk piszkozat állapotba."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_media.py:61
+msgid "Nem választottál ki képfájlt."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_media.py:82
+msgid "Csak JPG vagy JPEG kép tölthető fel."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_media.py:106
+#, python-format
+msgid "A kép feltöltve: %(filename)s"
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_media.py:137
+msgid "A feladat képét töröltük."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_media.py:142
+msgid "A feladathoz nem tartozik kép."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin_templates.py:105

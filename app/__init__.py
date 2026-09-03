@@ -17,7 +17,7 @@ from flask_babel import (
 )
 
 def create_app() -> Flask:
-    """A Flask alkalmazás létrehozása."""
+    """Create and configure the Flask application."""
 
     project_root = os.path.dirname(
         os.path.dirname(os.path.abspath(__file__))
@@ -27,7 +27,7 @@ def create_app() -> Flask:
         os.path.join(project_root, ".env")
     )
 
-    # A Config csak a .env betöltése után importálható.
+    # Config must be imported only after loading .env.
     from app.config import Config
     from app.extensions import babel, db, migrate
 
@@ -187,7 +187,7 @@ def create_app() -> Flask:
 
 
 def register_routes(app: Flask) -> None:
-    """Az első tesztútvonalak regisztrálása."""
+    """Register the application root and health routes."""
 
     from datetime import datetime
     from zoneinfo import ZoneInfo
@@ -248,7 +248,7 @@ def register_routes(app: Flask) -> None:
 
         except SQLAlchemyError:
             current_app.logger.exception(
-                "Adatbázis-kapcsolati hiba"
+                "Database connection error"
             )
 
             db.session.rollback()
@@ -258,8 +258,8 @@ def register_routes(app: Flask) -> None:
                 database={
                     "status": "unavailable",
                     "message": (
-                        "Az adatbázis-kapcsolat "
-                        "nem érhető el."
+                        "The database connection "
+                        "is unavailable."
                     ),
                 },
             ), 503

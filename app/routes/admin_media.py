@@ -9,6 +9,7 @@ from flask import (
     send_from_directory,
     url_for,
 )
+from flask_babel import gettext as _
 
 from app.extensions import db
 from app.models import Question
@@ -57,7 +58,7 @@ def question_image_upload(question_id: int):
         or not uploaded_file.filename
     ):
         flash(
-            "Nem választottál ki képfájlt.",
+            _("Nem választottál ki képfájlt."),
             "error",
         )
 
@@ -78,7 +79,7 @@ def question_image_upload(question_id: int):
         (".jpg", ".jpeg")
     ):
         flash(
-            "Csak JPG vagy JPEG kép tölthető fel.",
+            _("Csak JPG vagy JPEG kép tölthető fel."),
             "error",
         )
 
@@ -101,7 +102,10 @@ def question_image_upload(question_id: int):
     uploaded_file.save(image_path)
 
     flash(
-        f"A kép feltöltve: {question.image_filename}",
+        _(
+            "A kép feltöltve: %(filename)s",
+            filename=question.image_filename,
+        ),
         "success",
     )
 
@@ -130,12 +134,12 @@ def question_image_delete(question_id: int):
         image_path.unlink()
 
         flash(
-            "A feladat képét töröltük.",
+            _("A feladat képét töröltük."),
             "success",
         )
     else:
         flash(
-            "A feladathoz nem tartozik kép.",
+            _("A feladathoz nem tartozik kép."),
             "error",
         )
 
