@@ -1,374 +1,255 @@
 # Feladatverseny
 
-Flask/PostgreSQL web application for managing and running the Feladatverseny question competition.
+Self-hosted web platform for creating and running school question competitions.
 
-The application is designed for Ubuntu Linux and includes an automated installer, PostgreSQL database setup, systemd services, database migrations, initial seed data, administrator creation, health checks, and automated backups.
+Feladatverseny helps schools, teachers and organizers build reusable question
+banks, generate competition rounds, manage competitors and review detailed
+results from a browser.
 
-## Requirements
+The application is designed for self-hosting on Ubuntu Linux and includes
+automated installation, PostgreSQL database setup, systemd services, backups,
+health checks and bilingual Hungarian/English user interfaces.
 
-* Ubuntu Linux
-* Python 3
-* PostgreSQL
-* Git
-* systemd
-* curl
+## Features
 
-The installer installs or configures the required application components.
+### Question bank
 
-## Clone
+- Create and edit questions from the browser
+- Organize questions by grade, topic and source year
+- Add multiple-choice answers and explanations
+- Upload images for individual questions
+- Import questions in bulk from CSV
+- Activate or deactivate questions without deleting them
 
-Clone the repository as a normal user rather than with `sudo`:
+### Competition management
 
-```bash
-cd /opt
+- Create reusable test templates
+- Generate competition tests from the question bank
+- Control generated test lifecycle
+- Activate, close or return tests to draft state
+- Review generated test contents before use
 
-git clone \
-  https://github.com/rigzoltan83/feladatverseny.git
+### Competitors
 
-cd /opt/feladatverseny
-```
+- Create and manage competitor accounts
+- Assign preferred interface language
+- Hungarian and English user interface
+- Competitor dashboard
+- Browser-based test completion
 
-If `/opt` is not writable by the current user, create or prepare the project directory with appropriate permissions before cloning.
+### Results
 
-## Installation
+- Automatic scoring
+- Detailed result overview
+- Per-competitor result pages
+- Per-question answer review
+- Correct, incorrect and unanswered answer indicators
+- Completion-time tracking
+- Ranking and aggregate result information
 
-For a standard installation:
+### Self-hosting
 
-```bash
-cd /opt/feladatverseny
+- Automated Ubuntu installer
+- PostgreSQL database provisioning
+- Flask database migrations
+- Gunicorn production service
+- systemd application service
+- Automated backup timer
+- PostgreSQL and application backups
+- Backup retention
+- Health endpoint
+- URL-prefix deployment support
+- Tailscale Serve compatible deployment
 
-sudo \
-  /opt/feladatverseny/deploy/install.sh
-```
+## Screenshots
 
-The installer automatically:
+Screenshots will be added before the first public release.
 
-* creates the `feladatweb` system user
-* creates the `feladat` system group
-* creates `/srv/feladatverseny/media`
-* creates `/backup/feladatverseny`
-* creates the Python virtual environment
-* installs Python dependencies
-* creates the PostgreSQL role and database
-* detects the local PostgreSQL server port
-* generates the application secrets and database password
-* creates `/opt/feladatverseny/.env`
-* applies database migrations
-* imports the initial seed data
-* creates the first administrator account interactively
-* installs and starts the Gunicorn systemd service
-* installs and enables the backup timer
-* performs an application health check
-* creates the first backup
+Planned screenshots:
 
-## Custom application port
+1. Administration dashboard
+2. Question management
+3. Competitor dashboard
+4. Competition test view
+5. Results overview
 
-The listening port can be selected during installation.
+Public screenshots are sanitized and contain no private competition or user data.
 
-Example:
+## Quick start
 
-```bash
-cd /opt/feladatverseny
+Clone the repository as a normal user:
 
-sudo \
-  APP_PORT=5080 \
-  /opt/feladatverseny/deploy/install.sh
-```
+    cd /opt
 
-This results in:
+    git clone https://github.com/rigzoltan83/feladatverseny.git
 
-```text
-APP_BIND=127.0.0.1:5080
-```
+    cd /opt/feladatverseny
 
-The application intentionally listens only on localhost by default.
+Run the installer as root:
+
+    sudo /opt/feladatverseny/deploy/install.sh
+
+The installer creates the application environment, PostgreSQL database,
+initial administrator account, systemd services and first backup.
+
+## Custom port
+
+The application listens only on localhost by default.
+
+To install on port `5080`:
+
+    sudo APP_PORT=5080 /opt/feladatverseny/deploy/install.sh
+
+This produces:
+
+    APP_BIND=127.0.0.1:5080
 
 ## Subpath deployment
 
-The application can be published below a URL prefix.
+Feladatverseny can run below a URL prefix such as:
 
-For example:
+    /feladatverseny
 
-```bash
-cd /opt/feladatverseny
+Example:
 
-sudo \
-  APP_PORT=5080 \
-  APPLICATION_PREFIX=/feladatverseny \
-  /opt/feladatverseny/deploy/install.sh
-```
+    sudo APP_PORT=5080 APPLICATION_PREFIX=/feladatverseny /opt/feladatverseny/deploy/install.sh
 
-This configuration is suitable for reverse proxies such as Tailscale Serve.
+This is useful behind reverse proxies and Tailscale Serve.
 
-The generated environment contains:
+## Tailscale Serve
 
-```text
-APP_BIND=127.0.0.1:5080
-APPLICATION_PREFIX=/feladatverseny
-```
+For an installation using:
 
-Flask redirects, generated URLs, and the session cookie path respect the configured application prefix.
+    APP_BIND=127.0.0.1:5080
+    APPLICATION_PREFIX=/feladatverseny
 
-## Tailscale Serve example
+the application can be published to a tailnet with:
 
-For an application running on:
+    sudo tailscale serve --bg --set-path /feladatverseny http://127.0.0.1:5080
 
-```text
-127.0.0.1:5080
-```
+Feladatverseny itself does not need to listen directly on the LAN interface.
 
-with:
+## Architecture
 
-```text
-APPLICATION_PREFIX=/feladatverseny
-```
+Feladatverseny uses a traditional server-rendered web architecture.
 
-it can be published on the tailnet with:
+Core components:
 
-```bash
-sudo tailscale serve \
-  --bg \
-  --set-path /feladatverseny \
-  http://127.0.0.1:5080
-```
+- Python
+- Flask
+- Flask-SQLAlchemy
+- Flask-Migrate
+- Flask-Babel
+- PostgreSQL
+- Gunicorn
+- systemd
+- Jinja templates
 
-Check the current Tailscale Serve configuration with:
+Persistent application media is stored separately from the source tree.
 
-```bash
-sudo tailscale serve status
-```
+Default paths:
 
-This adds the Feladatverseny path without requiring the application itself to listen on the LAN interface.
+    Application:  /opt/feladatverseny
+    Media:        /srv/feladatverseny/media
+    Backups:      /backup/feladatverseny
+    Configuration:/opt/feladatverseny/.env
 
-## Configuration
+## Localization
 
-The generated local configuration is stored in:
+The application supports:
 
-```text
-/opt/feladatverseny/.env
-```
+- Hungarian
+- English
 
-Important settings include:
+Language preference can be selected by users and is persisted for authenticated
+competitors and administrators.
 
-* `SECRET_KEY`
-* `DB_HOST`
-* `DB_PORT`
-* `DB_NAME`
-* `DB_USER`
-* `DB_PASSWORD`
-* `APP_BIND`
-* `APPLICATION_PREFIX`
-* `MEDIA_ROOT`
-
-The `.env` file contains secrets and is intentionally excluded from Git.
-
-## PostgreSQL
-
-The installer creates the PostgreSQL database and application role automatically.
-
-The default names are:
-
-```text
-Database: feladatverseny
-Role:     feladatverseny_user
-```
-
-The local PostgreSQL server port is detected automatically during installation.
-
-It can be overridden when necessary:
-
-```bash
-sudo \
-  DB_PORT=5433 \
-  /opt/feladatverseny/deploy/install.sh
-```
-
-The installer verifies database authentication before continuing with migrations.
-
-## Database migrations
-
-Migrations are normally applied automatically during installation.
-
-For manual maintenance:
-
-```bash
-cd /opt/feladatverseny
-
-source \
-  /opt/feladatverseny/venv/bin/activate
-
-flask \
-  --app run.py \
-  db upgrade
-
-flask \
-  --app run.py \
-  db current
-```
-
-## Application service
-
-Check the application service:
-
-```bash
-sudo systemctl status \
-  feladatverseny \
-  --no-pager -l
-```
-
-Restart the application:
-
-```bash
-sudo systemctl restart \
-  feladatverseny
-```
-
-The production service runs the application with Gunicorn.
+The technical project documentation is maintained in English.
 
 ## Health check
 
 The application exposes:
 
-```text
-/health
-```
+    /health
 
-For an installation using port `5080`:
+Example:
 
-```bash
-curl \
-  http://127.0.0.1:5080/health
-```
+    curl http://127.0.0.1:5080/health
 
-A healthy installation reports application and database status as `ok`.
+A healthy deployment reports both application and database status as `ok`.
 
 ## Backups
 
-The backup script is:
+Feladatverseny includes automatic PostgreSQL and application backups.
 
-```text
-/opt/feladatverseny/backup.sh
-```
+By default:
 
-Backups are stored below:
+- backups run daily
+- backups are stored under `/backup/feladatverseny`
+- backups older than 72 hours are removed automatically
+- backup files use root-only permissions
 
-```text
-/backup/feladatverseny
-```
+Backups contain application secrets and must never be published.
 
-Each backup contains:
+See:
 
-* PostgreSQL database dump
-* application files
-* backup metadata
+- [Backup and recovery](docs/BACKUP.md)
+- [Updating](docs/UPDATE.md)
 
-Python virtual environments, Git metadata, Python cache files, and compiled Python files are excluded from the application archive.
+## Installation documentation
 
-The backup timer runs every night at:
+For detailed deployment information, see:
 
-```text
-00:10
-```
+- [Installation guide](docs/INSTALL.md)
+- [Documentation index](docs/README.md)
 
-Backups older than 72 hours are automatically removed.
+## Public releases
 
-Check the timer with:
+Public releases use a sanitized installation seed.
 
-```bash
-sudo systemctl status \
-  feladatverseny-backup.timer \
-  --no-pager -l
-```
+The public seed must not contain:
 
-Run a backup manually with:
+- real competitors
+- real administrator accounts
+- real competition questions
+- private test templates
+- generated competitions
+- submissions
+- attempts
+- scores or results
+- uploaded private images
+- organization-specific private information
 
-```bash
-sudo systemctl start \
-  feladatverseny-backup.service
-```
+The production database is never modified merely to prepare a public release.
 
-Check the result with:
+See the mandatory:
 
-```bash
-sudo systemctl status \
-  feladatverseny-backup.service \
-  --no-pager -l
-```
+- [Public release checklist](docs/RELEASE.md)
 
 ## Updating
 
-Update the source as the repository owner:
+Existing installations should be backed up before updating.
 
-```bash
-cd /opt/feladatverseny
+See:
 
-git pull
-```
+- [Update guide](docs/UPDATE.md)
 
-Update Python dependencies:
+## Changelog
 
-```bash
-source \
-  /opt/feladatverseny/venv/bin/activate
+See:
 
-pip install \
-  -r /opt/feladatverseny/requirements.txt
-```
+- [CHANGELOG.md](CHANGELOG.md)
 
-Apply database migrations:
+## Status
 
-```bash
-cd /opt/feladatverseny
+Feladatverseny is currently being prepared for its first public release.
 
-flask \
-  --app run.py \
-  db upgrade
-```
+The current repository should be considered pre-release software until the
+public release checklist has been completed.
 
-Restart the service:
+## License
 
-```bash
-sudo systemctl restart \
-  feladatverseny
-```
+A license will be selected before the first public release.
 
-Verify the service and health endpoint after updating.
-
-## Persistent data
-
-Application source:
-
-```text
-/opt/feladatverseny
-```
-
-Persistent media:
-
-```text
-/srv/feladatverseny/media
-```
-
-Backups:
-
-```text
-/backup/feladatverseny
-```
-
-Local configuration and secrets:
-
-```text
-/opt/feladatverseny/.env
-```
-
-## Tested deployment
-
-The installation workflow has been tested with:
-
-```text
-APP_BIND=127.0.0.1:5080
-APPLICATION_PREFIX=/feladatverseny
-```
-
-and Tailscale Serve publishing the application below `/feladatverseny`.
-
-The tested deployment includes PostgreSQL authentication, migrations, initial seed import, administrator creation, Gunicorn/systemd startup, prefixed redirects, scoped session cookies, health checks, and automated backups.
+Until a license is added, no additional permissions are granted beyond those
+provided by applicable copyright law.
