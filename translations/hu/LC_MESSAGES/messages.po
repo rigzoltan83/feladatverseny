@@ -16,7 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Generated-By: Babel 2.10.3\n"
 
 #: /opt/feladatverseny/app/__init__.py:145
 msgid "Az adminisztráció használatához jelentkezz be."
@@ -32,19 +32,19 @@ msgstr ""
 #: /opt/feladatverseny/app/routes/admin.py:403
 #, python-format
 msgid "%(hours)s h %(minutes)s min %(seconds)s sec"
-msgstr ""
+msgstr "%(hours)s óra %(minutes)s perc %(seconds)s mp"
 
 #: /opt/feladatverseny/app/routes/admin.py:241
 #: /opt/feladatverseny/app/routes/admin.py:411
 #, python-format
 msgid "%(minutes)s min %(seconds)s sec"
-msgstr ""
+msgstr "%(minutes)s perc %(seconds)s mp"
 
 #: /opt/feladatverseny/app/routes/admin.py:247
 #: /opt/feladatverseny/app/routes/admin.py:417
 #, python-format
 msgid "%(seconds)s sec"
-msgstr ""
+msgstr "%(seconds)s mp"
 
 #: /opt/feladatverseny/app/routes/admin.py:638
 #: /opt/feladatverseny/app/routes/admin.py:1192
@@ -276,9 +276,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:1940
 #, python-format
-msgid ""
-"%(count)s sor ellenőrzése sikeres. Az adatok még nem kerültek az "
-"adatbázisba."
+msgid "%(count)s sor ellenőrzése sikeres. Az adatok még nem kerültek az adatbázisba."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:1969
@@ -1676,8 +1674,8 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/competitor/test_view.html:263
 msgid ""
-"Biztosan véglegesen beküldöd a feladatsort? A beküldés után a válaszok "
-"már nem módosíthatók."
+"Biztosan véglegesen beküldöd a feladatsort? A beküldés után a válaszok már "
+"nem módosíthatók."
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/competitor/test_view.html:272
