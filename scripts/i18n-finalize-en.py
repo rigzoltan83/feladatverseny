@@ -372,8 +372,76 @@ TRANSLATIONS = {
 
     "Összesen":
         "Total",
-}
 
+    "A manuális feladatsor legfeljebb 100 feladatot tartalmazhat.":
+        "A manual question set can contain at most 100 questions.",
+
+    "Feladatsor összeállítása csak manuális tesztsablonnál használható.":
+        "The question set composer is available only for manual test templates.",
+
+    "Feladat csak manuális tesztsablonhoz adható hozzá kézzel.":
+        "Questions can be added manually only to manual test templates.",
+
+    "Inaktív feladat nem adható a feladatsorhoz.":
+        "An inactive question cannot be added to the question set.",
+
+    "Ez a feladat már szerepel a feladatsorban.":
+        "This question is already included in the question set.",
+
+    "A feladatot hozzáadtuk a feladatsorhoz.":
+        "The question has been added to the question set.",
+
+    "Feladat csak manuális tesztsablonból távolítható el kézzel.":
+        "Questions can be removed manually only from manual test templates.",
+
+    "A feladatot eltávolítottuk a feladatsorból.":
+        "The question has been removed from the question set.",
+
+    "Feladatsor összeállítása":
+        "Question set composer",
+
+    "%(count)s feladat":
+        "%(count)s questions",
+
+    "Új feladat létrehozása":
+        "Create new question",
+
+    "Több meglévő feladat kiválasztása":
+        "Select multiple existing questions",
+
+    "Aktuális feladatsor":
+        "Current question set",
+
+    "Itt állíthatod be a feladatok pontos sorrendjét, és innen távolíthatod el őket.":
+        "Here you can set the exact order of the questions and remove them from the set.",
+
+    "Eltávolítod ezt a feladatot a feladatsorból?":
+        "Remove this question from the question set?",
+
+    "Eltávolítás":
+        "Remove",
+
+    "A feladatsor még üres.":
+        "The question set is still empty.",
+
+    "Adj hozzá meglévő feladatot a kérdésbankból, vagy hozz létre egy teljesen új feladatot.":
+        "Add an existing question from the question bank or create a completely new question.",
+
+    "Feladat hozzáadása a kérdésbankból":
+        "Add a question from the question bank",
+
+    "A már felvett feladatok nem jelennek meg ebben a listában.":
+        "Questions already included in the set are not shown in this list.",
+
+    "Elérhető feladatok":
+        "Available questions",
+
+    "Hozzáadás":
+        "Add",
+
+    "Nincs további, a szűrésnek megfelelő aktív feladat.":
+        "There are no additional active questions matching the filters.",
+}
 
 with PO_PATH.open(
     "r",

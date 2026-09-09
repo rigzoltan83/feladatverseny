@@ -636,6 +636,14 @@ def question_new():
         type=int,
     )
 
+    return_to = request.values.get(
+        "return_to",
+        "",
+    ).strip()
+
+    if return_to not in {"", "compose"}:
+        return_to = ""
+
     manual_template = None
 
     if manual_template_id:
@@ -650,6 +658,40 @@ def question_new():
         ):
             manual_template = None
             manual_template_id = None
+            return_to = ""
+
+    if manual_template is not None:
+        manual_question_count = (
+            TestTemplateQuestion.query
+            .filter_by(
+                test_template_id=manual_template.id,
+            )
+            .count()
+        )
+
+        if manual_question_count >= 100:
+            flash(
+                _(
+                    "A manuális feladatsor legfeljebb "
+                    "100 feladatot tartalmazhat."
+                ),
+                "error",
+            )
+
+            if return_to == "compose":
+                return redirect(
+                    url_for(
+                        "admin_templates.template_compose",
+                        template_id=manual_template.id,
+                    )
+                )
+
+            return redirect(
+                url_for(
+                    "admin_templates.template_detail",
+                    template_id=manual_template.id,
+                )
+            )
 
     grade_list = Grade.query.order_by(
         Grade.grade_number
@@ -916,6 +958,14 @@ def question_new():
             )
 
             if manual_template is not None:
+                if return_to == "compose":
+                    return redirect(
+                        url_for(
+                            "admin_templates.template_compose",
+                            template_id=manual_template.id,
+                        )
+                    )
+
                 return redirect(
                     url_for(
                         "admin_templates.template_detail",
@@ -938,6 +988,7 @@ def question_new():
         answer_by_position={},
         manual_template=manual_template,
         manual_template_id=manual_template_id,
+        return_to=return_to,
     )
 
 

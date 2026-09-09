@@ -1562,3 +1562,57 @@ input[type="file"] {
         border-bottom: 0;
     }
 }
+
+/* =========================================================
+   Manual test composer
+   ========================================================= */
+
+.composer-question-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.composer-question-actions form,
+.composer-bank-actions form {
+    margin: 0;
+}
+
+.composer-bank-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.composer-filter-card {
+    margin-top: 24px;
+}
+
+.composer-question-table th:last-child,
+.composer-question-table td:last-child {
+    width: 150px;
+}
+
+@media (max-width: 850px) {
+    .composer-question-actions {
+        grid-column: 2;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 600px) {
+    .composer-question-actions {
+        grid-column: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .composer-question-actions .button,
+    .composer-question-actions form,
+    .composer-question-actions button {
+        width: 100%;
+    }
+}

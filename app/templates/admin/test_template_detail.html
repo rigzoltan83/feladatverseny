@@ -292,6 +292,15 @@
                 <a
                     class="button"
                     href="{{ url_for(
+                        'admin_templates.template_compose',
+                        template_id=template.id
+                    ) }}"
+                >
+                    {{ _("Feladatsor összeállítása") }}
+                </a>
+                <a
+                    class="button"
+                    href="{{ url_for(
                         'admin.question_new',
                         manual_template_id=template.id
                     ) }}"

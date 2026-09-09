@@ -582,6 +582,371 @@ def template_questions(template_id: int):
     )
 
 
+@template_bp.get("/<int:template_id>/compose")
+def template_compose(template_id: int):
+    template = db.get_or_404(
+        TestTemplate,
+        template_id,
+    )
+
+    if template.selection_mode != "manual":
+        flash(
+            _(
+                "Feladatsor összeállítása csak manuális "
+                "tesztsablonnál használható."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    grades = Grade.query.order_by(
+        Grade.grade_number
+    ).all()
+
+    topics = (
+        Topic.query
+        .filter_by(is_active=True)
+        .order_by(Topic.name)
+        .all()
+    )
+
+    source_years = (
+        SourceYear.query
+        .order_by(
+            SourceYear.year_number.desc()
+        )
+        .all()
+    )
+
+    manual_questions = (
+        TestTemplateQuestion.query
+        .filter_by(
+            test_template_id=template.id,
+        )
+        .order_by(
+            TestTemplateQuestion.display_position,
+            TestTemplateQuestion.id,
+        )
+        .all()
+    )
+
+    selected_question_ids = {
+        row.question_id
+        for row in manual_questions
+    }
+
+    search_text = request.args.get(
+        "q",
+        "",
+    ).strip()
+
+    selected_grade_id = request.args.get(
+        "grade_id",
+        0,
+        type=int,
+    )
+
+    selected_topic_id = request.args.get(
+        "topic_id",
+        0,
+        type=int,
+    )
+
+    selected_source_year_id = request.args.get(
+        "source_year_id",
+        0,
+        type=int,
+    )
+
+    question_query = Question.query.filter(
+        Question.is_active.is_(True)
+    )
+
+    if selected_question_ids:
+        question_query = question_query.filter(
+            ~Question.id.in_(selected_question_ids)
+        )
+
+    if search_text:
+        question_query = question_query.filter(
+            Question.question_text.ilike(
+                f"%{search_text}%"
+            )
+        )
+
+    if selected_grade_id:
+        question_query = question_query.filter(
+            Question.grades.any(
+                Grade.id == selected_grade_id
+            )
+        )
+
+    if selected_topic_id:
+        question_query = question_query.filter(
+            Question.topics.any(
+                Topic.id == selected_topic_id
+            )
+        )
+
+    if selected_source_year_id:
+        question_query = question_query.filter(
+            Question.source_year_id
+            == selected_source_year_id
+        )
+
+    questions = (
+        question_query
+        .order_by(
+            Question.difficulty,
+            Question.id,
+        )
+        .all()
+    )
+
+    return render_template(
+        "admin/test_template_composer.html",
+        template=template,
+        manual_questions=manual_questions,
+        questions=questions,
+        grades=grades,
+        topics=topics,
+        source_years=source_years,
+        search_text=search_text,
+        selected_grade_id=selected_grade_id,
+        selected_topic_id=selected_topic_id,
+        selected_source_year_id=(
+            selected_source_year_id
+        ),
+    )
+
+
+@template_bp.post(
+    "/<int:template_id>/questions/"
+    "<int:question_id>/append"
+)
+def template_question_append(
+    template_id: int,
+    question_id: int,
+):
+    template = db.get_or_404(
+        TestTemplate,
+        template_id,
+    )
+
+    if template.selection_mode != "manual":
+        flash(
+            _(
+                "Feladat csak manuális tesztsablonhoz "
+                "adható hozzá kézzel."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    question = db.get_or_404(
+        Question,
+        question_id,
+    )
+
+    if not question.is_active:
+        flash(
+            _("Inaktív feladat nem adható a feladatsorhoz."),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_compose",
+                template_id=template.id,
+            )
+        )
+
+    existing_rows = (
+        TestTemplateQuestion.query
+        .filter_by(
+            test_template_id=template.id,
+        )
+        .order_by(
+            TestTemplateQuestion.display_position,
+            TestTemplateQuestion.id,
+        )
+        .all()
+    )
+
+    if len(existing_rows) >= 100:
+        flash(
+            _("Legfeljebb 100 feladat választható ki."),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_compose",
+                template_id=template.id,
+            )
+        )
+
+    if any(
+        row.question_id == question.id
+        for row in existing_rows
+    ):
+        flash(
+            _("Ez a feladat már szerepel a feladatsorban."),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_compose",
+                template_id=template.id,
+            )
+        )
+
+    db.session.add(
+        TestTemplateQuestion(
+            test_template_id=template.id,
+            question_id=question.id,
+            display_position=len(existing_rows) + 1,
+        )
+    )
+
+    template.question_count = len(existing_rows) + 1
+
+    db.session.commit()
+
+    flash(
+        _("A feladatot hozzáadtuk a feladatsorhoz."),
+        "success",
+    )
+
+    return redirect(
+        url_for(
+            "admin_templates.template_compose",
+            template_id=template.id,
+        )
+    )
+
+
+@template_bp.post(
+    "/<int:template_id>/questions/"
+    "<int:question_id>/remove"
+)
+def template_question_remove(
+    template_id: int,
+    question_id: int,
+):
+    template = db.get_or_404(
+        TestTemplate,
+        template_id,
+    )
+
+    if template.selection_mode != "manual":
+        flash(
+            _(
+                "Feladat csak manuális tesztsablonból "
+                "távolítható el kézzel."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    rows = (
+        TestTemplateQuestion.query
+        .filter_by(
+            test_template_id=template.id,
+        )
+        .order_by(
+            TestTemplateQuestion.display_position,
+            TestTemplateQuestion.id,
+        )
+        .all()
+    )
+
+    row_to_remove = next(
+        (
+            row
+            for row in rows
+            if row.question_id == question_id
+        ),
+        None,
+    )
+
+    if row_to_remove is None:
+        flash(
+            _(
+                "A kiválasztott feladat nem tartozik "
+                "ehhez a tesztsablonhoz."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_compose",
+                template_id=template.id,
+            )
+        )
+
+    remaining_question_ids = [
+        row.question_id
+        for row in rows
+        if row.question_id != question_id
+    ]
+
+    for row in rows:
+        db.session.delete(row)
+
+    db.session.flush()
+
+    for position, remaining_question_id in enumerate(
+        remaining_question_ids,
+        start=1,
+    ):
+        db.session.add(
+            TestTemplateQuestion(
+                test_template_id=template.id,
+                question_id=remaining_question_id,
+                display_position=position,
+            )
+        )
+
+    template.question_count = len(
+        remaining_question_ids
+    )
+
+    db.session.commit()
+
+    flash(
+        _("A feladatot eltávolítottuk a feladatsorból."),
+        "success",
+    )
+
+    return redirect(
+        url_for(
+            "admin_templates.template_compose",
+            template_id=template.id,
+        )
+    )
+
+
 @template_bp.post(
     "/<int:template_id>/questions/"
     "<int:question_id>/move/<direction>"
@@ -711,6 +1076,14 @@ def template_question_move(
         _("A feladat sorrendjét módosítottuk."),
         "success",
     )
+
+    if request.args.get("return_to") == "compose":
+        return redirect(
+            url_for(
+                "admin_templates.template_compose",
+                template_id=template.id,
+            )
+        )
 
     return redirect(
         url_for(

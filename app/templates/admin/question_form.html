@@ -51,6 +51,14 @@
             >
         {% endif %}
 
+        {% if return_to %}
+            <input
+                type="hidden"
+                name="return_to"
+                value="{{ return_to }}"
+            >
+        {% endif %}
+
         <div class="form-grid">
             <div class="form-group">
                 <label for="source_year_id">
@@ -298,6 +306,14 @@
                 class="button button-secondary"
                 href="{%
                     if manual_template
+                    and return_to == 'compose'
+                %}{{
+                    url_for(
+                        'admin_templates.template_compose',
+                        template_id=manual_template.id
+                    )
+                }}{%
+                    elif manual_template
                 %}{{
                     url_for(
                         'admin_templates.template_detail',
@@ -313,6 +329,7 @@
             >
                 {{ _("Mégse") }}
             </a>
+
         </div>
     </form>
 {% endblock %}
