@@ -151,6 +151,15 @@ TRANSLATIONS = {
 
     "Mentés":
         "Save",
+
+    "Adj meg egy magyar nevet, "
+    "és opcionálisan az angol "
+    "megnevezést is.":
+        "Enter a Hungarian name and optionally "
+        "the English name as well.",
+
+    "Összesen":
+        "Total",
 }
 
 

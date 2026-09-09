@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-09 07:46+0200\n"
+"POT-Creation-Date: 2026-09-09 07:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -532,7 +532,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:98
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:133
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:39
-#: /opt/feladatverseny/app/templates/admin/topics.html:79
+#: /opt/feladatverseny/app/templates/admin/topics.html:259
 msgid "Állapot"
 msgstr ""
 
@@ -754,7 +754,7 @@ msgid "Létrehozva"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:89
-#: /opt/feladatverseny/app/templates/admin/topics.html:80
+#: /opt/feladatverseny/app/templates/admin/topics.html:263
 msgid "Műveletek"
 msgstr ""
 
@@ -767,7 +767,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/source_years.html:39
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:104
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:97
-#: /opt/feladatverseny/app/templates/admin/topics.html:103
+#: /opt/feladatverseny/app/templates/admin/topics.html:306
 msgid "Aktív"
 msgstr ""
 
@@ -778,14 +778,14 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/source_years.html:41
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:110
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:103
-#: /opt/feladatverseny/app/templates/admin/topics.html:105
+#: /opt/feladatverseny/app/templates/admin/topics.html:317
 msgid "Inaktív"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:158
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:37
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:46
-#: /opt/feladatverseny/app/templates/admin/topics.html:119
+#: /opt/feladatverseny/app/templates/admin/topics.html:340
 msgid "Szerkesztés"
 msgstr ""
 
@@ -815,7 +815,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:30
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:57
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:66
-#: /opt/feladatverseny/app/templates/admin/topics.html:140
+#: /opt/feladatverseny/app/templates/admin/topics.html:368
 msgid "Aktiválás"
 msgstr ""
 
@@ -853,7 +853,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/grades.html:25
 #: /opt/feladatverseny/app/templates/admin/source_years.html:25
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:88
-#: /opt/feladatverseny/app/templates/admin/topics.html:76
+#: /opt/feladatverseny/app/templates/admin/topics.html:247
 msgid "Azonosító"
 msgstr ""
 
@@ -979,7 +979,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:283
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:112
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:36
-#: /opt/feladatverseny/app/templates/admin/topics.html:9
+#: /opt/feladatverseny/app/templates/admin/topics.html:131
 msgid "Témakörök"
 msgstr ""
 
@@ -1042,7 +1042,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:55
 #: /opt/feladatverseny/app/templates/admin/test_template_detail.html:64
-#: /opt/feladatverseny/app/templates/admin/topics.html:138
+#: /opt/feladatverseny/app/templates/admin/topics.html:362
 msgid "Inaktiválás"
 msgstr ""
 
@@ -1184,7 +1184,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/question_form.html:252
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:52
-#: /opt/feladatverseny/app/templates/admin/topics.html:45
+#: /opt/feladatverseny/app/templates/admin/topics.html:192
 msgid "– opcionális"
 msgstr ""
 
@@ -1621,12 +1621,12 @@ msgid "Témakör szerkesztése"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/topic_form.html:19
-#: /opt/feladatverseny/app/templates/admin/topics.html:28
+#: /opt/feladatverseny/app/templates/admin/topics.html:169
 msgid "Magyar megnevezés"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/topic_form.html:37
-#: /opt/feladatverseny/app/templates/admin/topics.html:43
+#: /opt/feladatverseny/app/templates/admin/topics.html:189
 msgid "Angol megnevezés"
 msgstr ""
 
@@ -1647,31 +1647,39 @@ msgstr ""
 msgid "Témakörök – Feladatverseny"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:13
+#: /opt/feladatverseny/app/templates/admin/topics.html:135
 msgid "A feladatokhoz rendelhető témakörök."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:22
+#: /opt/feladatverseny/app/templates/admin/topics.html:149
 msgid "Új témakör létrehozása"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:64
+#: /opt/feladatverseny/app/templates/admin/topics.html:154
+msgid "Adj meg egy magyar nevet, és opcionálisan az angol megnevezést is."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/topics.html:217
 msgid "Témakör létrehozása"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:71
+#: /opt/feladatverseny/app/templates/admin/topics.html:230
 msgid "Rögzített témakörök"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:77
+#: /opt/feladatverseny/app/templates/admin/topics.html:234
+msgid "Összesen"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/topics.html:251
 msgid "Magyar név"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:78
+#: /opt/feladatverseny/app/templates/admin/topics.html:255
 msgid "Angol név"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/topics.html:152
+#: /opt/feladatverseny/app/templates/admin/topics.html:391
 msgid "Nincs még rögzített témakör."
 msgstr ""
 

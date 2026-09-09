@@ -5,6 +5,128 @@
 {% endblock %}
 
 {% block content %}
+
+    <style>
+        .topics-layout {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .topics-create-card {
+            max-width: 900px;
+        }
+
+        .topics-create-header {
+            margin-bottom: 1.25rem;
+        }
+
+        .topics-create-header h2 {
+            margin-bottom: 0.35rem;
+        }
+
+        .topics-create-header p {
+            margin: 0;
+            opacity: 0.75;
+        }
+
+        .topics-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .topics-list-header h2 {
+            margin: 0;
+        }
+
+        .topics-count {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .topic-name {
+            font-weight: 600;
+        }
+
+        .topic-name-en {
+            opacity: 0.75;
+        }
+
+        .topic-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .topic-status::before {
+            content: "";
+            display: inline-block;
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .topic-status-active {
+            background: rgba(34, 197, 94, 0.12);
+            color: #15803d;
+        }
+
+        .topic-status-inactive {
+            background: rgba(107, 114, 128, 0.12);
+            color: #6b7280;
+        }
+
+        .topic-row-inactive {
+            opacity: 0.62;
+        }
+
+        .topic-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .topic-actions form {
+            margin: 0;
+        }
+
+        .topic-actions .button {
+            white-space: nowrap;
+        }
+
+        .topics-empty {
+            text-align: center;
+            padding: 2rem 1rem;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 760px) {
+            .topics-list-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .data-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .topic-actions {
+                min-width: 220px;
+            }
+        }
+    </style>
+
     <section class="page-header">
         <h1>{{ _("Témakörök") }}</h1>
 
@@ -18,146 +140,270 @@
         </p>
     </section>
 
-    <section class="card form-card">
-        <h2>{{ _("Új témakör létrehozása") }}</h2>
+    <div class="topics-layout">
 
-        <form method="post">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="name">
-                        {{ _("Magyar megnevezés") }}
-                    </label>
+        <section class="card form-card topics-create-card">
 
-                    <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        maxlength="100"
-                        value="{{ request.form.get('name', '') }}"
-                        required
-                    >
-                </div>
+            <div class="topics-create-header">
+                <h2>
+                    {{ _("Új témakör létrehozása") }}
+                </h2>
 
-                <div class="form-group">
-                    <label for="name_en">
-                        {{ _("Angol megnevezés") }}
-                        <span class="optional">
-                            {{ _("– opcionális") }}
-                        </span>
-                    </label>
-
-                    <input
-                        id="name_en"
-                        name="name_en"
-                        type="text"
-                        maxlength="100"
-                        value="{{ request.form.get('name_en', '') }}"
-                    >
-                </div>
+                <p>
+                    {{
+                        _(
+                            "Adj meg egy magyar nevet, "
+                            "és opcionálisan az angol "
+                            "megnevezést is."
+                        )
+                    }}
+                </p>
             </div>
 
-            <div class="form-actions">
-                <button
-                    class="button"
-                    type="submit"
-                >
-                    {{ _("Témakör létrehozása") }}
-                </button>
-            </div>
-        </form>
-    </section>
+            <form method="post">
 
-    <section class="card">
-        <h2>{{ _("Rögzített témakörök") }}</h2>
+                <div class="form-grid">
 
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>{{ _("Azonosító") }}</th>
-                    <th>{{ _("Magyar név") }}</th>
-                    <th>{{ _("Angol név") }}</th>
-                    <th>{{ _("Állapot") }}</th>
-                    <th>{{ _("Műveletek") }}</th>
-                </tr>
-            </thead>
+                    <div class="form-group">
+                        <label for="name">
+                            {{ _("Magyar megnevezés") }}
+                        </label>
 
-            <tbody>
-                {% for topic in topics %}
-                    <tr>
-                        <td>{{ topic.id }}</td>
-
-                        <td>
-                            {{ topic.name }}
-                        </td>
-
-                        <td>
-                            {% if topic.name_en %}
-                                {{ topic.name_en }}
-                            {% else %}
-                                –
-                            {% endif %}
-                        </td>
-
-                        <td>
-                            {% if topic.is_active %}
-                                {{ _("Aktív") }}
-                            {% else %}
-                                {{ _("Inaktív") }}
-                            {% endif %}
-                        </td>
-<td>
-
-    <a
-        class="button button-secondary"
-        href="{{
-            url_for(
-                'admin_reference.topic_edit',
-                topic_id=topic.id
-            )
-        }}"
-    >
-        {{ _("Szerkesztés") }}
-    </a>
-
-    <form
-        method="post"
-        action="{{
-            url_for(
-                'admin_reference.topic_toggle_active',
-                topic_id=topic.id
-            )
-        }}"
-        style="display: inline;"
-    >
-
-        <button
-            class="button button-secondary"
-            type="submit"
-        >
-            {% if topic.is_active %}
-                {{ _("Inaktiválás") }}
-            {% else %}
-                {{ _("Aktiválás") }}
-            {% endif %}
-        </button>
-
-    </form>
-
-</td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4">
-                            {{
-                                _(
-                                    "Nincs még rögzített "
-                                    "témakör."
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            maxlength="100"
+                            value="{{
+                                request.form.get(
+                                    'name',
+                                    ''
                                 )
-                            }}
-                        </td>
+                            }}"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name_en">
+                            {{ _("Angol megnevezés") }}
+
+                            <span class="optional">
+                                {{ _("– opcionális") }}
+                            </span>
+                        </label>
+
+                        <input
+                            id="name_en"
+                            name="name_en"
+                            type="text"
+                            maxlength="100"
+                            value="{{
+                                request.form.get(
+                                    'name_en',
+                                    ''
+                                )
+                            }}"
+                        >
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button
+                        class="button"
+                        type="submit"
+                    >
+                        {{ _("Témakör létrehozása") }}
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+        <section class="card">
+
+            <div class="topics-list-header">
+
+                <h2>
+                    {{ _("Rögzített témakörök") }}
+                </h2>
+
+                <div class="topics-count">
+                    {{ _("Összesen") }}:
+                    <strong>
+                        {{ topics | length }}
+                    </strong>
+                </div>
+
+            </div>
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        <th>
+                            {{ _("Azonosító") }}
+                        </th>
+
+                        <th>
+                            {{ _("Magyar név") }}
+                        </th>
+
+                        <th>
+                            {{ _("Angol név") }}
+                        </th>
+
+                        <th>
+                            {{ _("Állapot") }}
+                        </th>
+
+                        <th>
+                            {{ _("Műveletek") }}
+                        </th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
+                </thead>
+
+                <tbody>
+
+                    {% for topic in topics %}
+
+                        <tr
+                            {% if not topic.is_active %}
+                                class="topic-row-inactive"
+                            {% endif %}
+                        >
+
+                            <td>
+                                {{ topic.id }}
+                            </td>
+
+                            <td class="topic-name">
+                                {{ topic.name }}
+                            </td>
+
+                            <td class="topic-name-en">
+
+                                {% if topic.name_en %}
+                                    {{ topic.name_en }}
+                                {% else %}
+                                    –
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                {% if topic.is_active %}
+
+                                    <span
+                                        class="
+                                            topic-status
+                                            topic-status-active
+                                        "
+                                    >
+                                        {{ _("Aktív") }}
+                                    </span>
+
+                                {% else %}
+
+                                    <span
+                                        class="
+                                            topic-status
+                                            topic-status-inactive
+                                        "
+                                    >
+                                        {{ _("Inaktív") }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+
+                                <div class="topic-actions">
+
+                                    <a
+                                        class="
+                                            button
+                                            button-secondary
+                                        "
+                                        href="{{
+                                            url_for(
+                                                'admin_reference.topic_edit',
+                                                topic_id=topic.id
+                                            )
+                                        }}"
+                                    >
+                                        {{ _("Szerkesztés") }}
+                                    </a>
+
+                                    <form
+                                        method="post"
+                                        action="{{
+                                            url_for(
+                                                'admin_reference.topic_toggle_active',
+                                                topic_id=topic.id
+                                            )
+                                        }}"
+                                    >
+
+                                        <button
+                                            class="
+                                                button
+                                                button-secondary
+                                            "
+                                            type="submit"
+                                        >
+                                            {% if topic.is_active %}
+                                                {{
+                                                    _(
+                                                        "Inaktiválás"
+                                                    )
+                                                }}
+                                            {% else %}
+                                                {{
+                                                    _(
+                                                        "Aktiválás"
+                                                    )
+                                                }}
+                                            {% endif %}
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+                            <td
+                                colspan="5"
+                                class="topics-empty"
+                            >
+                                {{
+                                    _(
+                                        "Nincs még rögzített "
+                                        "témakör."
+                                    )
+                                }}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </div>
+
 {% endblock %}
