@@ -582,6 +582,144 @@ def template_questions(template_id: int):
     )
 
 
+@template_bp.post(
+    "/<int:template_id>/questions/"
+    "<int:question_id>/move/<direction>"
+)
+def template_question_move(
+    template_id: int,
+    question_id: int,
+    direction: str,
+):
+    template = db.get_or_404(
+        TestTemplate,
+        template_id,
+    )
+
+    if template.selection_mode != "manual":
+        flash(
+            _(
+                "A feladatok sorrendje csak manuális "
+                "tesztsablonnál módosítható."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    if direction not in {"up", "down"}:
+        flash(
+            _("Érvénytelen mozgatási irány."),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    rows = (
+        TestTemplateQuestion.query
+        .filter_by(
+            test_template_id=template.id,
+        )
+        .order_by(
+            TestTemplateQuestion.display_position,
+            TestTemplateQuestion.id,
+        )
+        .all()
+    )
+
+    current_index = next(
+        (
+            index
+            for index, row in enumerate(rows)
+            if row.question_id == question_id
+        ),
+        None,
+    )
+
+    if current_index is None:
+        flash(
+            _(
+                "A kiválasztott feladat nem tartozik "
+                "ehhez a tesztsablonhoz."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    if direction == "up":
+        target_index = current_index - 1
+    else:
+        target_index = current_index + 1
+
+    if (
+        target_index < 0
+        or target_index >= len(rows)
+    ):
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    rows[current_index], rows[target_index] = (
+        rows[target_index],
+        rows[current_index],
+    )
+
+    ordered_question_ids = [
+        row.question_id
+        for row in rows
+    ]
+
+    for row in rows:
+        db.session.delete(row)
+
+    db.session.flush()
+
+    for position, ordered_question_id in enumerate(
+        ordered_question_ids,
+        start=1,
+    ):
+        db.session.add(
+            TestTemplateQuestion(
+                test_template_id=template.id,
+                question_id=ordered_question_id,
+                display_position=position,
+            )
+        )
+
+    db.session.commit()
+
+    flash(
+        _("A feladat sorrendjét módosítottuk."),
+        "success",
+    )
+
+    return redirect(
+        url_for(
+            "admin_templates.template_detail",
+            template_id=template.id,
+        )
+    )
+
+
 @template_bp.route(
     "/<int:template_id>/edit",
     methods=["GET", "POST"],

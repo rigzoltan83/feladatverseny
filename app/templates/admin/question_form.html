@@ -18,7 +18,22 @@
             {% endif %}
     </h1>
         <p>
-            {{ _("A feladat alapadatainak rögzítése.") }}
+            {% if manual_template %}
+                {{
+                    _(
+                        "Az új feladat a mentés után "
+                        "automatikusan bekerül a "
+                        "manuális feladatsor végére."
+                    )
+                }}
+            {% else %}
+                {{
+                    _(
+                        "A feladat alapadatainak "
+                        "rögzítése."
+                    )
+                }}
+            {% endif %}
         </p>
     </section>
 
@@ -27,6 +42,14 @@
         method="post"
         enctype="multipart/form-data"
     >
+
+        {% if manual_template_id %}
+            <input
+                type="hidden"
+                name="manual_template_id"
+                value="{{ manual_template_id }}"
+            >
+        {% endif %}
 
         <div class="form-grid">
             <div class="form-group">
@@ -273,7 +296,20 @@
 
             <a
                 class="button button-secondary"
-                href="{{ url_for('admin.questions') }}"
+                href="{%
+                    if manual_template
+                %}{{
+                    url_for(
+                        'admin_templates.template_detail',
+                        template_id=manual_template.id
+                    )
+                }}{%
+                    else
+                %}{{
+                    url_for('admin.questions')
+                }}{%
+                    endif
+                %}"
             >
                 {{ _("Mégse") }}
             </a>

@@ -135,38 +135,97 @@ def generate_test(template_id: int):
             )
         )
 
-    candidates = get_candidate_questions(
-        template
-    )
-
-    if len(candidates) < template.question_count:
-        flash(
-            _(
-                "Nincs elegendő megfelelő feladat. "
-                "Elérhető: %(available)s, "
-                "szükséges: %(required)s.",
-                available=len(candidates),
-                required=template.question_count,
-            ),
-            "error",
+    if template.selection_mode == "manual":
+        manual_rows = list(
+            template.manual_questions
         )
 
-        return redirect(
-            url_for(
-                "admin_templates.template_detail",
-                template_id=template.id,
+        if not manual_rows:
+            flash(
+                _(
+                    "A manuális tesztsablonhoz még "
+                    "nincs feladat kiválasztva."
+                ),
+                "error",
             )
+
+            return redirect(
+                url_for(
+                    "admin_templates.template_detail",
+                    template_id=template.id,
+                )
+            )
+
+        selected_questions = [
+            row.question
+            for row in manual_rows
+        ]
+
+        inactive_questions = [
+            question
+            for question in selected_questions
+            if not question.is_active
+        ]
+
+        if inactive_questions:
+            flash(
+                _(
+                    "A manuális feladatsor inaktív "
+                    "feladatot tartalmaz. Generálás "
+                    "előtt módosítsd a kiválasztást."
+                ),
+                "error",
+            )
+
+            return redirect(
+                url_for(
+                    "admin_templates.template_detail",
+                    template_id=template.id,
+                )
+            )
+
+        if (
+            template.question_count
+            != len(selected_questions)
+        ):
+            template.question_count = len(
+                selected_questions
+            )
+            db.session.commit()
+
+    else:
+        candidates = get_candidate_questions(
+            template
         )
 
-    if template.shuffle_questions:
-        selected_questions = random.sample(
-            candidates,
-            template.question_count,
-        )
-    else:
-        selected_questions = candidates[
-            :template.question_count
-        ]
+        if len(candidates) < template.question_count:
+            flash(
+                _(
+                    "Nincs elegendő megfelelő feladat. "
+                    "Elérhető: %(available)s, "
+                    "szükséges: %(required)s.",
+                    available=len(candidates),
+                    required=template.question_count,
+                ),
+                "error",
+            )
+
+            return redirect(
+                url_for(
+                    "admin_templates.template_detail",
+                    template_id=template.id,
+                )
+            )
+
+        if template.shuffle_questions:
+            selected_questions = random.sample(
+                candidates,
+                template.question_count,
+            )
+        else:
+            selected_questions = candidates[
+                :template.question_count
+            ]
 
     selected_question_ids = [
         question.id

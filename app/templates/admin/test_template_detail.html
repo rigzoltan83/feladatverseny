@@ -290,6 +290,15 @@
 
             <div class="manual-template-actions">
                 <a
+                    class="button"
+                    href="{{ url_for(
+                        'admin.question_new',
+                        manual_template_id=template.id
+                    ) }}"
+                >
+                    {{ _("Új feladat hozzáadása") }}
+                </a>
+                <a
                     class="button button-secondary"
                     href="{{ url_for(
                         'admin_templates.template_questions',

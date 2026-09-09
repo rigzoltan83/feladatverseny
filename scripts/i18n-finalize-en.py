@@ -15,6 +15,92 @@ PO_PATH = Path(
 
 TRANSLATIONS = {
     (
+        "A feladatok sorrendje csak manuális "
+        "tesztsablonnál módosítható."
+    ):
+        (
+            "Question order can be changed only "
+            "for manual test templates."
+        ),
+
+    "Érvénytelen mozgatási irány.":
+        "Invalid move direction.",
+
+    (
+        "A kiválasztott feladat nem tartozik "
+        "ehhez a tesztsablonhoz."
+    ):
+        (
+            "The selected question does not belong "
+            "to this test template."
+        ),
+
+    "A feladat sorrendjét módosítottuk.":
+        "The question order has been changed.",
+
+    "Új feladat hozzáadása":
+        "Add new question",
+
+    "Az új feladat a mentés után automatikusan bekerül a manuális feladatsor végére.":
+        (
+            "After saving, the new question will automatically "
+            "be added to the end of the manual question set."
+        ),
+
+    "A feladatok a lent látható sorrendben kerülnek a generált feladatsorba.":
+        (
+            "Questions will appear in the generated test "
+            "in the order shown below."
+        ),
+
+    "A feladatsor készen áll.":
+        "The question set is ready.",
+
+    "Tipp":
+        "Tip",
+
+    "A sorrendet a fel és le nyilakkal módosíthatod. A kiválasztást bármikor megváltoztathatod.":
+        (
+            "Use the up and down arrows to change the order. "
+            "You can change the selection at any time."
+        ),
+
+    "Még nincs kiválasztott feladat.":
+        "No questions have been selected yet.",
+
+    "Válassz feladatokat a kérdésbankból a manuális feladatsor összeállításához.":
+        (
+            "Select questions from the question bank "
+            "to build the manual question set."
+        ),
+
+    "Fel":
+        "Up",
+
+    "Le":
+        "Down",
+
+    (
+        "A manuális tesztsablonhoz még "
+        "nincs feladat kiválasztva."
+    ):
+        (
+            "No questions have been selected for "
+            "the manual test template yet."
+        ),
+
+    (
+        "A manuális feladatsor inaktív "
+        "feladatot tartalmaz. Generálás "
+        "előtt módosítsd a kiválasztást."
+    ):
+        (
+            "The manual question set contains an "
+            "inactive question. Edit the selection "
+            "before generating the test."
+        ),
+
+    (
         "Kézi feladatválasztás csak manuális "
         "tesztsablonnál használható."
     ):
@@ -62,18 +148,6 @@ TRANSLATIONS = {
 
     "Meglévő feladatok kiválasztása":
         "Select existing questions",
-
-    "Sorrend":
-        "Order",
-
-    (
-        "Ehhez a manuális sablonhoz "
-        "még nincs feladat kiválasztva."
-    ):
-        (
-            "No questions have been selected for "
-            "this manual template yet."
-        ),
 
     "Feladatok kiválasztása":
         "Select questions",

@@ -23,6 +23,8 @@ from app.models import (
     Grade,
     Question,
     SourceYear,
+    TestTemplate,
+    TestTemplateQuestion,
     Topic,
 )
 
@@ -629,6 +631,26 @@ def questions():
 
 @admin_bp.route("/questions/new", methods=["GET", "POST"])
 def question_new():
+    manual_template_id = request.values.get(
+        "manual_template_id",
+        type=int,
+    )
+
+    manual_template = None
+
+    if manual_template_id:
+        manual_template = db.session.get(
+            TestTemplate,
+            manual_template_id,
+        )
+
+        if (
+            manual_template is None
+            or manual_template.selection_mode != "manual"
+        ):
+            manual_template = None
+            manual_template_id = None
+
     grade_list = Grade.query.order_by(
         Grade.grade_number
     ).all()
@@ -837,6 +859,33 @@ def question_new():
             db.session.add(question)
             db.session.flush()
 
+            if manual_template is not None:
+                next_position = (
+                    db.session.query(
+                        db.func.max(
+                            TestTemplateQuestion.display_position
+                        )
+                    )
+                    .filter(
+                        TestTemplateQuestion.test_template_id
+                        == manual_template.id
+                    )
+                    .scalar()
+                    or 0
+                ) + 1
+
+                db.session.add(
+                    TestTemplateQuestion(
+                        test_template_id=manual_template.id,
+                        question_id=question.id,
+                        display_position=next_position,
+                    )
+                )
+
+                manual_template.question_count = (
+                    next_position
+                )
+
             if (
                 uploaded_image is not None
                 and uploaded_image.filename
@@ -866,6 +915,14 @@ def question_new():
                 "success",
             )
 
+            if manual_template is not None:
+                return redirect(
+                    url_for(
+                        "admin_templates.template_detail",
+                        template_id=manual_template.id,
+                    )
+                )
+
             return redirect(
                 url_for("admin.questions")
             )
@@ -879,6 +936,8 @@ def question_new():
         selected_grade_ids=set(),
         selected_topic_ids=set(),
         answer_by_position={},
+        manual_template=manual_template,
+        manual_template_id=manual_template_id,
     )
 
 
