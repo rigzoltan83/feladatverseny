@@ -124,6 +124,145 @@ def topics():
     )
 
 
+@reference_bp.route(
+    "/topics/<int:topic_id>/edit",
+    methods=["GET", "POST"],
+)
+def topic_edit(topic_id: int):
+    topic = db.get_or_404(
+        Topic,
+        topic_id,
+    )
+
+    if request.method == "POST":
+        name = request.form.get(
+            "name",
+            "",
+        ).strip()
+
+        name_en = request.form.get(
+            "name_en",
+            "",
+        ).strip()
+
+        is_active = (
+            request.form.get("is_active")
+            == "on"
+        )
+
+        errors = []
+
+        if not name:
+            errors.append(
+                _("A témakör magyar neve kötelező.")
+            )
+
+        if len(name) > 100:
+            errors.append(
+                _(
+                    "A témakör magyar neve "
+                    "legfeljebb 100 karakter lehet."
+                )
+            )
+
+        if len(name_en) > 100:
+            errors.append(
+                _(
+                    "A témakör angol neve "
+                    "legfeljebb 100 karakter lehet."
+                )
+            )
+
+        duplicate_topic = (
+            Topic.query
+            .filter(
+                db.func.lower(
+                    Topic.name
+                )
+                == name.lower(),
+                Topic.id != topic.id,
+            )
+            .first()
+        )
+
+        if duplicate_topic is not None:
+            errors.append(
+                _(
+                    "Már létezik ilyen nevű "
+                    "témakör."
+                )
+            )
+
+        if errors:
+            for error in errors:
+                flash(
+                    error,
+                    "error",
+                )
+
+        else:
+            topic.name = name
+            topic.name_en = (
+                name_en or None
+            )
+            topic.is_active = is_active
+
+            db.session.commit()
+
+            flash(
+                _(
+                    "A témakör módosításait "
+                    "elmentettük."
+                ),
+                "success",
+            )
+
+            return redirect(
+                url_for(
+                    "admin_reference.topics"
+                )
+            )
+
+    return render_template(
+        "admin/topic_form.html",
+        topic=topic,
+    )
+
+
+@reference_bp.post(
+    "/topics/<int:topic_id>/toggle-active"
+)
+def topic_toggle_active(topic_id: int):
+    topic = db.get_or_404(
+        Topic,
+        topic_id,
+    )
+
+    topic.is_active = not topic.is_active
+
+    db.session.commit()
+
+    if topic.is_active:
+        message = _(
+            "A témakört aktiváltuk."
+        )
+    else:
+        message = _(
+            "A témakört inaktiváltuk."
+        )
+
+    flash(
+        message,
+        "success",
+    )
+
+    return redirect(
+        url_for(
+            "admin_reference.topics"
+        )
+    )
+
+
 @reference_bp.get("/source-years")
 def source_years():
     source_year_list = SourceYear.query.order_by(

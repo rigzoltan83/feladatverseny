@@ -121,6 +121,36 @@ TRANSLATIONS = {
 
     "Angol név":
         "English name",
+
+    "Témakör szerkesztése":
+        "Edit topic",
+
+    "A témakör módosításait elmentettük.":
+        "Topic changes saved.",
+
+    "A témakört aktiváltuk.":
+        "Topic activated.",
+
+    "A témakört inaktiváltuk.":
+        "Topic deactivated.",
+
+    "Aktív témakör":
+        "Active topic",
+
+    "Műveletek":
+        "Actions",
+
+    "Szerkesztés":
+        "Edit",
+
+    "Inaktiválás":
+        "Deactivate",
+
+    "Aktiválás":
+        "Activate",
+
+    "Mentés":
+        "Save",
 }
 
 

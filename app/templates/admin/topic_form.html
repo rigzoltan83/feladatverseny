@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ _("Témakör szerkesztése") }}
+{% endblock %}
+
+{% block content %}
+
+<section class="card">
+
+    <h1>
+        {{ _("Témakör szerkesztése") }}
+    </h1>
+
+    <form method="post">
+
+        <div class="form-group">
+            <label for="name">
+                {{ _("Magyar megnevezés") }}
+            </label>
+
+            <input
+                id="name"
+                name="name"
+                type="text"
+                maxlength="100"
+                required
+                value="{{ request.form.get(
+                    'name',
+                    topic.name
+                ) }}"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="name_en">
+                {{ _("Angol megnevezés") }}
+            </label>
+
+            <input
+                id="name_en"
+                name="name_en"
+                type="text"
+                maxlength="100"
+                value="{{ request.form.get(
+                    'name_en',
+                    topic.name_en or ''
+                ) }}"
+            >
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                <input
+                    type="checkbox"
+                    name="is_active"
+                    {% if request.method == "POST" %}
+                        {% if request.form.get(
+                            "is_active"
+                        ) %}
+                            checked
+                        {% endif %}
+                    {% elif topic.is_active %}
+                        checked
+                    {% endif %}
+                >
+
+                {{ _("Aktív témakör") }}
+            </label>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="button"
+                type="submit"
+            >
+                {{ _("Mentés") }}
+            </button>
+
+            <a
+                class="button button-secondary"
+                href="{{
+                    url_for(
+                        'admin_reference.topics'
+                    )
+                }}"
+            >
+                {{ _("Vissza") }}
+            </a>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}
