@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-09 08:33+0200\n"
+"POT-Creation-Date: 2026-09-09 08:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,15 +75,15 @@ msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:755
 #: /opt/feladatverseny/app/routes/admin.py:1357
-#: /opt/feladatverseny/app/routes/admin_templates.py:159
-#: /opt/feladatverseny/app/routes/admin_templates.py:449
+#: /opt/feladatverseny/app/routes/admin_templates.py:161
+#: /opt/feladatverseny/app/routes/admin_templates.py:715
 msgid "Legalább egy évfolyamot ki kell választani."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:760
 #: /opt/feladatverseny/app/routes/admin.py:1362
-#: /opt/feladatverseny/app/routes/admin_templates.py:167
-#: /opt/feladatverseny/app/routes/admin_templates.py:457
+#: /opt/feladatverseny/app/routes/admin_templates.py:169
+#: /opt/feladatverseny/app/routes/admin_templates.py:723
 msgid "Legalább egy témakört ki kell választani."
 msgstr ""
 
@@ -100,15 +100,15 @@ msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:796
 #: /opt/feladatverseny/app/routes/admin.py:1398
-#: /opt/feladatverseny/app/routes/admin_templates.py:184
-#: /opt/feladatverseny/app/routes/admin_templates.py:474
+#: /opt/feladatverseny/app/routes/admin_templates.py:186
+#: /opt/feladatverseny/app/routes/admin_templates.py:740
 msgid "Az évfolyamválasztás érvénytelen."
 msgstr ""
 
 #: /opt/feladatverseny/app/routes/admin.py:803
 #: /opt/feladatverseny/app/routes/admin.py:1405
-#: /opt/feladatverseny/app/routes/admin_templates.py:191
-#: /opt/feladatverseny/app/routes/admin_templates.py:481
+#: /opt/feladatverseny/app/routes/admin_templates.py:193
+#: /opt/feladatverseny/app/routes/admin_templates.py:747
 msgid "A témakörválasztás érvénytelen."
 msgstr ""
 
@@ -404,39 +404,61 @@ msgstr ""
 msgid "A témakört inaktiváltuk."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:113
-#: /opt/feladatverseny/app/routes/admin_templates.py:402
+#: /opt/feladatverseny/app/routes/admin_templates.py:115
+#: /opt/feladatverseny/app/routes/admin_templates.py:668
 msgid "Az összeállítás módja érvénytelen."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:118
-#: /opt/feladatverseny/app/routes/admin_templates.py:407
+#: /opt/feladatverseny/app/routes/admin_templates.py:120
+#: /opt/feladatverseny/app/routes/admin_templates.py:673
 msgid "A tesztsablon neve kötelező."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:136
-#: /opt/feladatverseny/app/routes/admin_templates.py:426
+#: /opt/feladatverseny/app/routes/admin_templates.py:138
+#: /opt/feladatverseny/app/routes/admin_templates.py:692
 msgid "Már létezik ilyen nevű tesztsablon."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:149
-#: /opt/feladatverseny/app/routes/admin_templates.py:439
+#: /opt/feladatverseny/app/routes/admin_templates.py:151
+#: /opt/feladatverseny/app/routes/admin_templates.py:705
 msgid "A feladatok száma 1 és 100 közötti lehet."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:227
+#: /opt/feladatverseny/app/routes/admin_templates.py:229
 msgid "A tesztsablont létrehoztuk."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:514
+#: /opt/feladatverseny/app/routes/admin_templates.py:367
+msgid "Kézi feladatválasztás csak manuális tesztsablonnál használható."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:412
+msgid "Legalább egy feladatot ki kell választani."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:420
+msgid "Legfeljebb 100 feladat választható ki."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:445
+msgid ""
+"A kiválasztott feladatok között érvénytelen vagy inaktív feladat "
+"található."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:485
+msgid "A manuális feladatsor kiválasztását elmentettük."
+msgstr ""
+
+#: /opt/feladatverseny/app/routes/admin_templates.py:780
 msgid "A tesztsablon módosításait elmentettük."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:553
+#: /opt/feladatverseny/app/routes/admin_templates.py:819
 msgid "A tesztsablont aktiváltuk."
 msgstr ""
 
-#: /opt/feladatverseny/app/routes/admin_templates.py:557
+#: /opt/feladatverseny/app/routes/admin_templates.py:823
 msgid "A tesztsablont inaktiváltuk."
 msgstr ""
 
@@ -520,7 +542,8 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/grades.html:26
 #: /opt/feladatverseny/app/templates/admin/questions.html:58
 #: /opt/feladatverseny/app/templates/admin/result_detail.html:84
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:180
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:202
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:56
 msgid "Évfolyam"
 msgstr ""
 
@@ -534,8 +557,8 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/questions.html:222
 #: /opt/feladatverseny/app/templates/admin/result_detail.html:96
 #: /opt/feladatverseny/app/templates/admin/source_years.html:27
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:98
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:133
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:118
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:155
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:39
 #: /opt/feladatverseny/app/templates/admin/topics.html:259
 msgid "Állapot"
@@ -770,7 +793,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/questions.html:162
 #: /opt/feladatverseny/app/templates/admin/questions.html:266
 #: /opt/feladatverseny/app/templates/admin/source_years.html:39
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:104
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:124
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:97
 #: /opt/feladatverseny/app/templates/admin/topics.html:306
 msgid "Aktív"
@@ -781,7 +804,7 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/questions.html:171
 #: /opt/feladatverseny/app/templates/admin/questions.html:268
 #: /opt/feladatverseny/app/templates/admin/source_years.html:41
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:110
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:130
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:103
 #: /opt/feladatverseny/app/templates/admin/topics.html:317
 msgid "Inaktív"
@@ -789,7 +812,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/competitors.html:158
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:37
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:46
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:50
 #: /opt/feladatverseny/app/templates/admin/topics.html:340
 msgid "Szerkesztés"
 msgstr ""
@@ -819,7 +842,7 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:30
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:57
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:66
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:70
 #: /opt/feladatverseny/app/templates/admin/topics.html:368
 msgid "Aktiválás"
 msgstr ""
@@ -839,6 +862,7 @@ msgid "Vissza piszkozatba"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:95
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:28
 msgid "Vissza a sablonhoz"
 msgstr ""
 
@@ -850,14 +874,14 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:111
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:74
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:84
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:88
 msgid "Alapadatok"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:115
 #: /opt/feladatverseny/app/templates/admin/grades.html:25
 #: /opt/feladatverseny/app/templates/admin/source_years.html:25
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:88
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:92
 #: /opt/feladatverseny/app/templates/admin/topics.html:247
 msgid "Azonosító"
 msgstr ""
@@ -878,7 +902,7 @@ msgid "Lezárt"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/generated_test_detail.html:148
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:93
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:113
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:125
 msgid "Feladatok száma"
 msgstr ""
@@ -914,7 +938,9 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/questions.html:223
 #: /opt/feladatverseny/app/templates/admin/result_detail.html:111
 #: /opt/feladatverseny/app/templates/admin/results.html:49
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:183
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:205
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:304
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:202
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:16
 #: /opt/feladatverseny/app/templates/competitor/dashboard.html:142
 msgid "Művelet"
@@ -923,7 +949,9 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/generated_tests.html:82
 #: /opt/feladatverseny/app/templates/admin/question_import_result.html:73
 #: /opt/feladatverseny/app/templates/admin/questions.html:279
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:220
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:242
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:337
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:269
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:115
 msgid "Megnyitás"
 msgstr ""
@@ -942,8 +970,9 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/question_form.html:150
 #: /opt/feladatverseny/app/templates/admin/question_import.html:108
 #: /opt/feladatverseny/app/templates/admin/questions.html:219
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:269
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:386
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:153
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:199
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:35
 msgid "Évfolyamok"
 msgstr ""
@@ -981,8 +1010,9 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/question_form.html:175
 #: /opt/feladatverseny/app/templates/admin/question_import.html:109
 #: /opt/feladatverseny/app/templates/admin/questions.html:220
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:283
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:400
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:189
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:200
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:36
 #: /opt/feladatverseny/app/templates/admin/topics.html:131
 msgid "Témakörök"
@@ -1046,13 +1076,13 @@ msgid "A feladat részletes adatai és válaszlehetőségei."
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:55
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:64
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:68
 #: /opt/feladatverseny/app/templates/admin/topics.html:362
 msgid "Inaktiválás"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/question_detail.html:66
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:77
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:81
 msgid "Vissza a listához"
 msgstr ""
 
@@ -1060,6 +1090,8 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/question_form.html:34
 #: /opt/feladatverseny/app/templates/admin/questions.html:111
 #: /opt/feladatverseny/app/templates/admin/questions.html:216
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:115
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:197
 msgid "Forrásév"
 msgstr ""
 
@@ -1072,7 +1104,9 @@ msgstr ""
 #: /opt/feladatverseny/app/templates/admin/question_form.html:86
 #: /opt/feladatverseny/app/templates/admin/question_import.html:107
 #: /opt/feladatverseny/app/templates/admin/questions.html:218
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:179
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:201
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:302
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:198
 msgid "Nehézség"
 msgstr ""
 
@@ -1262,7 +1296,9 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/question_import.html:110
 #: /opt/feladatverseny/app/templates/admin/questions.html:221
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:182
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:204
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:303
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:201
 msgid "Feladat"
 msgstr ""
 
@@ -1320,31 +1356,38 @@ msgid "CSV-import"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:44
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:42
 msgid "Keresés a feladatok szövegében"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:52
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:50
 msgid "Szó vagy kifejezés..."
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:66
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:64
 msgid "Minden évfolyam"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:77
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:78
 msgid "évfolyam"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:85
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:181
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:203
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:86
 msgid "Témakör"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:93
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:94
 msgid "Minden témakör"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:119
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:123
 msgid "Minden forrásév"
 msgstr ""
 
@@ -1353,10 +1396,12 @@ msgid "Minden állapot"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:181
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:147
 msgid "Szűrés"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/questions.html:195
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:157
 msgid "Szűrők törlése"
 msgstr ""
 
@@ -1465,79 +1510,117 @@ msgstr ""
 msgid "Tesztsablon részletes beállításai."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:26
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:30
 msgid "Létrehozod a feladatsort ebből a sablonból?"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:34
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:38
 msgid "Feladatsor generálása"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:119
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:98
+#: /opt/feladatverseny/app/templates/admin/test_template_form.html:64
+msgid "Összeállítás módja"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:105
+msgid "Manuális"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:107
+msgid "Automatikus"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:141
 msgid "Generálhatóság"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:123
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:145
 msgid "Kért feladatok"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:128
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:150
 msgid "Elérhető aktív feladatok"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:139
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:161
 msgid "Generálható"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:145
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:167
 msgid "Nincs elég feladat"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:154
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:176
 msgid "A sablonhoz elegendő aktív feladat található az adatbázisban."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:159
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:181
 #, python-format
 msgid "Még %(count)s megfelelő feladatra lenne szükség."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:172
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:194
 msgid "Megfelelő feladatok – minta"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:230
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:252
 msgid "Az első 10 megfelelő feladat látható."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:235
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:257
 msgid "A sablon feltételeinek jelenleg egyetlen aktív feladat sem felel meg."
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:241
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:267
+msgid "Manuális feladatsor"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:272
+#, python-format
+msgid "%(count)s feladat van kiválasztva."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:289
+msgid "Kiválasztás módosítása"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:291
+msgid "Meglévő feladatok kiválasztása"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:300
+msgid "Sorrend"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:347
+msgid "Ehhez a manuális sablonhoz még nincs feladat kiválasztva."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:358
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:225
 msgid "Keverési beállítások"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:245
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:362
 msgid "Kérdések"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:248
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:259
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:365
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:376
 msgid "Keverve"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:250
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:261
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:367
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:378
 msgid "Eredeti sorrendben"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:256
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:373
 msgid "Válaszok"
 msgstr ""
 
-#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:299
+#: /opt/feladatverseny/app/templates/admin/test_template_detail.html:416
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:50
 msgid "Leírás"
 msgstr ""
@@ -1564,10 +1647,6 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:32
 msgid "Sablon neve"
-msgstr ""
-
-#: /opt/feladatverseny/app/templates/admin/test_template_form.html:64
-msgid "Összeállítás módja"
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:88
@@ -1613,6 +1692,37 @@ msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/test_template_form.html:279
 msgid "Tesztsablon mentése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:4
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:12
+msgid "Feladatok kiválasztása"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:34
+msgid "Kérdésbank szűrése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:168
+msgid "Meglévő feladatok"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:173
+#, python-format
+msgid "%(count)s aktív feladat látható."
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:186
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:294
+msgid "Kiválasztás mentése"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:194
+msgid "Kiválasztás"
+msgstr ""
+
+#: /opt/feladatverseny/app/templates/admin/test_template_questions.html:277
+msgid "A szűrésnek egyetlen aktív feladat sem felel meg."
 msgstr ""
 
 #: /opt/feladatverseny/app/templates/admin/test_templates.html:4

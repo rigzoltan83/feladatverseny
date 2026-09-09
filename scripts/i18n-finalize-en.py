@@ -14,6 +14,94 @@ PO_PATH = Path(
 )
 
 TRANSLATIONS = {
+    (
+        "Kézi feladatválasztás csak manuális "
+        "tesztsablonnál használható."
+    ):
+        (
+            "Manual question selection is available "
+            "only for manual test templates."
+        ),
+
+    "Legalább egy feladatot ki kell választani.":
+        "At least one question must be selected.",
+
+    "Legfeljebb 100 feladat választható ki.":
+        "At most 100 questions can be selected.",
+
+    (
+        "A kiválasztott feladatok között "
+        "érvénytelen vagy inaktív feladat "
+        "található."
+    ):
+        (
+            "The selected questions include an "
+            "invalid or inactive question."
+        ),
+
+    (
+        "A manuális feladatsor "
+        "kiválasztását elmentettük."
+    ):
+        "The manual question selection has been saved.",
+
+    "Automatikus":
+        "Automatic",
+
+    "Manuális":
+        "Manual",
+
+    "Manuális feladatsor":
+        "Manual question set",
+
+    "%(count)s feladat van kiválasztva.":
+        "%(count)s questions selected.",
+
+    "Kiválasztás módosítása":
+        "Edit selection",
+
+    "Meglévő feladatok kiválasztása":
+        "Select existing questions",
+
+    "Sorrend":
+        "Order",
+
+    (
+        "Ehhez a manuális sablonhoz "
+        "még nincs feladat kiválasztva."
+    ):
+        (
+            "No questions have been selected for "
+            "this manual template yet."
+        ),
+
+    "Feladatok kiválasztása":
+        "Select questions",
+
+    "Vissza a sablonhoz":
+        "Back to template",
+
+    "Kérdésbank szűrése":
+        "Filter question bank",
+
+    "Meglévő feladatok":
+        "Existing questions",
+
+    "%(count)s aktív feladat látható.":
+        "%(count)s active questions shown.",
+
+    "Kiválasztás mentése":
+        "Save selection",
+
+    "Kiválasztás":
+        "Selection",
+
+    (
+        "A szűrésnek egyetlen "
+        "aktív feladat sem felel meg."
+    ):
+        "No active questions match the filters.",
+
     "Az összeállítás módja érvénytelen.":
         "The composition mode is invalid.",
     "Összeállítás módja":

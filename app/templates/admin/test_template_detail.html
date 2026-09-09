@@ -15,7 +15,11 @@
         </div>
 
         <div class="form-actions">
-        {% if template.is_active and enough_questions %}
+{% if
+    template.is_active
+    and enough_questions
+    and template.selection_mode == 'automatic'
+%}
             <form
                 method="post"
                 action="{{ url_for(
@@ -90,6 +94,22 @@
                 </div>
 
                 <div>
+                    <dt>
+                        {{ _("Összeállítás módja") }}
+                    </dt>
+                    <dd>
+                        {% if
+                            template.selection_mode
+                            == 'manual'
+                        %}
+                            {{ _("Manuális") }}
+                        {% else %}
+                            {{ _("Automatikus") }}
+                        {% endif %}
+                    </dd>
+                </div>
+
+                <div>
                     <dt>{{ _("Feladatok száma") }}</dt>
                     <dd>{{ template.question_count }}</dd>
                 </div>
@@ -114,6 +134,8 @@
                 </div>
             </dl>
         </article>
+
+{% if template.selection_mode == 'automatic' %}
 
 <section class="card">
     <h2>{{ _("Generálhatóság") }}</h2>
@@ -236,6 +258,101 @@
         </p>
     {% endif %}
 </section>
+
+{% else %}
+    <section class="card">
+        <div class="page-header-row">
+            <div>
+                <h2>
+                    {{ _("Manuális feladatsor") }}
+                </h2>
+
+                <p>
+                    {{
+                        _(
+                            "%(count)s feladat van "
+                            "kiválasztva.",
+                            count=manual_questions|length
+                        )
+                    }}
+                </p>
+            </div>
+
+            <a
+                class="button"
+                href="{{ url_for(
+                    'admin_templates.template_questions',
+                    template_id=template.id
+                ) }}"
+            >
+                {% if manual_questions %}
+                    {{ _("Kiválasztás módosítása") }}
+                {% else %}
+                    {{ _("Meglévő feladatok kiválasztása") }}
+                {% endif %}
+            </a>
+        </div>
+
+        {% if manual_questions %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>{{ _("Sorrend") }}</th>
+                        <th>ID</th>
+                        <th>{{ _("Nehézség") }}</th>
+                        <th>{{ _("Feladat") }}</th>
+                        <th>{{ _("Művelet") }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for row in manual_questions %}
+                        <tr>
+                            <td>
+                                {{ row.display_position }}.
+                            </td>
+
+                            <td>
+                                {{ row.question.id }}
+                            </td>
+
+                            <td>
+                                {{ row.question.difficulty }}
+                            </td>
+
+                            <td class="question-text-cell">
+                                {{
+                                    row.question.question_text
+                                }}
+                            </td>
+
+                            <td>
+                                <a
+                                    class="table-link"
+                                    href="{{ url_for(
+                                        'admin.question_detail',
+                                        question_id=row.question.id
+                                    ) }}"
+                                >
+                                    {{ _("Megnyitás") }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>
+                {{
+                    _(
+                        "Ehhez a manuális sablonhoz "
+                        "még nincs feladat kiválasztva."
+                    )
+                }}
+            </p>
+        {% endif %}
+    </section>
+{% endif %}
 
         <article class="card">
             <h2>{{ _("Keverési beállítások") }}</h2>

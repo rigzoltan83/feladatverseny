@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ _("Feladatok kiválasztása") }}
+    – {{ template.name }}
+{% endblock %}
+
+{% block content %}
+    <section class="page-header page-header-row">
+        <div>
+            <h1>
+                {{ _("Feladatok kiválasztása") }}
+            </h1>
+
+            <p>
+                {{ template.name }}
+            </p>
+        </div>
+
+        <div class="form-actions">
+            <a
+                class="button button-secondary"
+                href="{{ url_for(
+                    'admin_templates.template_detail',
+                    template_id=template.id
+                ) }}"
+            >
+                {{ _("Vissza a sablonhoz") }}
+            </a>
+        </div>
+    </section>
+
+    <section class="card question-filter-card">
+        <h2>{{ _("Kérdésbank szűrése") }}</h2>
+
+        <form
+            method="get"
+            class="question-filter-form"
+        >
+            <div class="form-group question-search-field">
+                <label for="q">
+                    {{ _("Keresés a feladatok szövegében") }}
+                </label>
+
+                <input
+                    id="q"
+                    name="q"
+                    type="search"
+                    value="{{ search_text }}"
+                    placeholder="{{ _('Szó vagy kifejezés...') }}"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="grade_id">
+                    {{ _("Évfolyam") }}
+                </label>
+
+                <select
+                    id="grade_id"
+                    name="grade_id"
+                >
+                    <option value="0">
+                        {{ _("Minden évfolyam") }}
+                    </option>
+
+                    {% for grade in grades %}
+                        <option
+                            value="{{ grade.id }}"
+                            {% if
+                                selected_grade_id
+                                == grade.id
+                            %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ grade.grade_number }}.
+                            {{ _("évfolyam") }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="topic_id">
+                    {{ _("Témakör") }}
+                </label>
+
+                <select
+                    id="topic_id"
+                    name="topic_id"
+                >
+                    <option value="0">
+                        {{ _("Minden témakör") }}
+                    </option>
+
+                    {% for topic in topics %}
+                        <option
+                            value="{{ topic.id }}"
+                            {% if
+                                selected_topic_id
+                                == topic.id
+                            %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ topic.display_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="source_year_id">
+                    {{ _("Forrásév") }}
+                </label>
+
+                <select
+                    id="source_year_id"
+                    name="source_year_id"
+                >
+                    <option value="0">
+                        {{ _("Minden forrásév") }}
+                    </option>
+
+                    {% for source_year in source_years %}
+                        <option
+                            value="{{ source_year.id }}"
+                            {% if
+                                selected_source_year_id
+                                == source_year.id
+                            %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ source_year.year_number }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="question-search-actions">
+                <button
+                    class="button"
+                    type="submit"
+                >
+                    {{ _("Szűrés") }}
+                </button>
+
+                <a
+                    class="button button-secondary"
+                    href="{{ url_for(
+                        'admin_templates.template_questions',
+                        template_id=template.id
+                    ) }}"
+                >
+                    {{ _("Szűrők törlése") }}
+                </a>
+            </div>
+        </form>
+    </section>
+
+    <form method="post">
+        <section class="card">
+            <div class="page-header-row">
+                <div>
+                    <h2>
+                        {{ _("Meglévő feladatok") }}
+                    </h2>
+
+                    <p>
+                        {{
+                            _(
+                                "%(count)s aktív feladat "
+                                "látható.",
+                                count=questions|length
+                            )
+                        }}
+                    </p>
+                </div>
+
+                <button
+                    class="button"
+                    type="submit"
+                >
+                    {{ _("Kiválasztás mentése") }}
+                </button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ _("Kiválasztás") }}
+                        </th>
+                        <th>ID</th>
+                        <th>{{ _("Forrásév") }}</th>
+                        <th>{{ _("Nehézség") }}</th>
+                        <th>{{ _("Évfolyamok") }}</th>
+                        <th>{{ _("Témakörök") }}</th>
+                        <th>{{ _("Feladat") }}</th>
+                        <th>{{ _("Művelet") }}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for question in questions %}
+                        <tr>
+                            <td>
+                                <input
+                                    type="checkbox"
+                                    name="question_ids"
+                                    value="{{ question.id }}"
+                                    {% if
+                                        question.id
+                                        in selected_question_ids
+                                    %}
+                                        checked
+                                    {% endif %}
+                                >
+                            </td>
+
+                            <td>{{ question.id }}</td>
+
+                            <td>
+                                {{
+                                    question.source_year.year_number
+                                }}
+                            </td>
+
+                            <td>
+                                {{ question.difficulty }}
+                            </td>
+
+                            <td>
+                                {% for grade in question.grades %}
+                                    {{ grade.grade_number }}.
+                                    {% if not loop.last %}
+                                        ,
+                                    {% endif %}
+                                {% else %}
+                                    –
+                                {% endfor %}
+                            </td>
+
+                            <td>
+                                {% for topic in question.topics %}
+                                    {{ topic.display_name }}
+                                    {% if not loop.last %}
+                                        ,
+                                    {% endif %}
+                                {% else %}
+                                    –
+                                {% endfor %}
+                            </td>
+
+                            <td class="question-text-cell">
+                                {{ question.question_text }}
+                            </td>
+
+                            <td>
+                                <a
+                                    class="table-link"
+                                    href="{{ url_for(
+                                        'admin.question_detail',
+                                        question_id=question.id
+                                    ) }}"
+                                >
+                                    {{ _("Megnyitás") }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">
+                                {{
+                                    _(
+                                        "A szűrésnek egyetlen "
+                                        "aktív feladat sem felel meg."
+                                    )
+                                }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            {% if questions %}
+                <div class="form-actions">
+                    <button
+                        class="button"
+                        type="submit"
+                    >
+                        {{ _("Kiválasztás mentése") }}
+                    </button>
+                </div>
+            {% endif %}
+        </section>
+    </form>
+{% endblock %}

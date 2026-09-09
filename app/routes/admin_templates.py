@@ -13,7 +13,9 @@ from app.extensions import db
 from app.models import (
     Grade,
     Question,
+    SourceYear,
     TestTemplate,
+    TestTemplateQuestion,
     Topic,
 )
 
@@ -251,6 +253,37 @@ def template_detail(template_id: int):
         template_id,
     )
 
+    if template.selection_mode == "manual":
+        manual_questions = (
+            TestTemplateQuestion.query
+            .filter_by(
+                test_template_id=template.id,
+            )
+            .order_by(
+                TestTemplateQuestion.display_position
+            )
+            .all()
+        )
+
+        available_question_count = len(
+            manual_questions
+        )
+
+        enough_questions = (
+            available_question_count > 0
+        )
+
+        return render_template(
+            "admin/test_template_detail.html",
+            template=template,
+            available_question_count=(
+                available_question_count
+            ),
+            enough_questions=enough_questions,
+            sample_questions=[],
+            manual_questions=manual_questions,
+        )
+
     grade_ids = [
         grade.id
         for grade in template.grades
@@ -314,7 +347,240 @@ def template_detail(template_id: int):
         ),
         enough_questions=enough_questions,
         sample_questions=sample_questions,
+        manual_questions=[],
     )
+
+
+@template_bp.route(
+    "/<int:template_id>/questions",
+    methods=["GET", "POST"],
+)
+def template_questions(template_id: int):
+    template = db.get_or_404(
+        TestTemplate,
+        template_id,
+    )
+
+    if template.selection_mode != "manual":
+        flash(
+            _(
+                "Kézi feladatválasztás csak manuális "
+                "tesztsablonnál használható."
+            ),
+            "error",
+        )
+
+        return redirect(
+            url_for(
+                "admin_templates.template_detail",
+                template_id=template.id,
+            )
+        )
+
+    grades = Grade.query.order_by(
+        Grade.grade_number
+    ).all()
+
+    topics = (
+        Topic.query
+        .filter_by(is_active=True)
+        .order_by(Topic.name)
+        .all()
+    )
+
+    source_years = (
+        SourceYear.query
+        .order_by(
+            SourceYear.year_number.desc()
+        )
+        .all()
+    )
+
+    if request.method == "POST":
+        question_ids = request.form.getlist(
+            "question_ids",
+            type=int,
+        )
+
+        question_ids = list(
+            dict.fromkeys(question_ids)
+        )
+
+        if not question_ids:
+            flash(
+                _(
+                    "Legalább egy feladatot "
+                    "ki kell választani."
+                ),
+                "error",
+            )
+        elif len(question_ids) > 100:
+            flash(
+                _(
+                    "Legfeljebb 100 feladat "
+                    "választható ki."
+                ),
+                "error",
+            )
+        else:
+            selected_questions = (
+                Question.query
+                .filter(
+                    Question.id.in_(question_ids),
+                    Question.is_active.is_(True),
+                )
+                .all()
+            )
+
+            selected_by_id = {
+                question.id: question
+                for question in selected_questions
+            }
+
+            if len(selected_by_id) != len(
+                question_ids
+            ):
+                flash(
+                    _(
+                        "A kiválasztott feladatok között "
+                        "érvénytelen vagy inaktív feladat "
+                        "található."
+                    ),
+                    "error",
+                )
+            else:
+                existing_rows = (
+                    TestTemplateQuestion.query
+                    .filter_by(
+                        test_template_id=template.id,
+                    )
+                    .all()
+                )
+
+                for row in existing_rows:
+                    db.session.delete(row)
+
+                db.session.flush()
+
+                for position, question_id in enumerate(
+                    question_ids,
+                    start=1,
+                ):
+                    db.session.add(
+                        TestTemplateQuestion(
+                            test_template_id=template.id,
+                            question_id=question_id,
+                            display_position=position,
+                        )
+                    )
+
+                template.question_count = len(
+                    question_ids
+                )
+
+                db.session.commit()
+
+                flash(
+                    _(
+                        "A manuális feladatsor "
+                        "kiválasztását elmentettük."
+                    ),
+                    "success",
+                )
+
+                return redirect(
+                    url_for(
+                        "admin_templates.template_detail",
+                        template_id=template.id,
+                    )
+                )
+
+    search_text = request.args.get(
+        "q",
+        "",
+    ).strip()
+
+    selected_grade_id = request.args.get(
+        "grade_id",
+        0,
+        type=int,
+    )
+
+    selected_topic_id = request.args.get(
+        "topic_id",
+        0,
+        type=int,
+    )
+
+    selected_source_year_id = request.args.get(
+        "source_year_id",
+        0,
+        type=int,
+    )
+
+    question_query = Question.query.filter(
+        Question.is_active.is_(True)
+    )
+
+    if search_text:
+        question_query = question_query.filter(
+            Question.question_text.ilike(
+                f"%{search_text}%"
+            )
+        )
+
+    if selected_grade_id:
+        question_query = question_query.filter(
+            Question.grades.any(
+                Grade.id == selected_grade_id
+            )
+        )
+
+    if selected_topic_id:
+        question_query = question_query.filter(
+            Question.topics.any(
+                Topic.id == selected_topic_id
+            )
+        )
+
+    if selected_source_year_id:
+        question_query = question_query.filter(
+            Question.source_year_id
+            == selected_source_year_id
+        )
+
+    questions = (
+        question_query
+        .order_by(
+            Question.difficulty,
+            Question.id,
+        )
+        .all()
+    )
+
+    selected_question_ids = {
+        row.question_id
+        for row in template.manual_questions
+    }
+
+    return render_template(
+        "admin/test_template_questions.html",
+        template=template,
+        questions=questions,
+        grades=grades,
+        topics=topics,
+        source_years=source_years,
+        search_text=search_text,
+        selected_grade_id=selected_grade_id,
+        selected_topic_id=selected_topic_id,
+        selected_source_year_id=(
+            selected_source_year_id
+        ),
+        selected_question_ids=(
+            selected_question_ids
+        ),
+    )
+
 
 @template_bp.route(
     "/<int:template_id>/edit",
