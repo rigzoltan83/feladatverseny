@@ -111,16 +111,47 @@ def results():
         scores = []
 
         for attempt in submitted_attempts:
-            score = sum(
-                1
-                for competitor_answer in attempt.answers
-                if (
+            selected_answers = {}
+
+            for competitor_answer in attempt.answers:
+                selected_answers.setdefault(
                     competitor_answer
-                    .generated_test_answer
-                    .answer_option
-                    .is_correct
+                    .generated_test_question_id,
+                    set(),
+                ).add(
+                    competitor_answer
+                    .generated_test_answer_id
                 )
-            )
+
+            score = 0
+
+            for generated_question in (
+                generated_test.generated_questions
+            ):
+                correct_answer_ids = {
+                    generated_answer.id
+                    for generated_answer
+                    in generated_question.generated_answers
+                    if (
+                        generated_answer
+                        .answer_option
+                        .is_correct
+                    )
+                }
+
+                selected_answer_ids = (
+                    selected_answers.get(
+                        generated_question.id,
+                        set(),
+                    )
+                )
+
+                if (
+                    correct_answer_ids
+                    and selected_answer_ids
+                    == correct_answer_ids
+                ):
+                    score += 1
 
             scores.append(score)
 
@@ -183,16 +214,47 @@ def result_detail(
     result_rows = []
 
     for attempt in attempts:
-        score = sum(
-            1
-            for competitor_answer in attempt.answers
-            if (
+        selected_answers = {}
+
+        for competitor_answer in attempt.answers:
+            selected_answers.setdefault(
                 competitor_answer
-                .generated_test_answer
-                .answer_option
-                .is_correct
+                .generated_test_question_id,
+                set(),
+            ).add(
+                competitor_answer
+                .generated_test_answer_id
             )
-        )
+
+        score = 0
+
+        for generated_question in (
+            generated_test.generated_questions
+        ):
+            correct_answer_ids = {
+                generated_answer.id
+                for generated_answer
+                in generated_question.generated_answers
+                if (
+                    generated_answer
+                    .answer_option
+                    .is_correct
+                )
+            }
+
+            selected_answer_ids = (
+                selected_answers.get(
+                    generated_question.id,
+                    set(),
+                )
+            )
+
+            if (
+                correct_answer_ids
+                and selected_answer_ids
+                == correct_answer_ids
+            ):
+                score += 1
 
         percentage = (
             score / question_count * 100
@@ -318,34 +380,42 @@ def attempt_result_detail(
         key=lambda question: question.display_position,
     )
 
-    saved_answers = {
-        competitor_answer.generated_test_question_id:
-            competitor_answer.generated_test_answer_id
-        for competitor_answer in attempt.answers
-    }
+    saved_answers = {}
+
+    for competitor_answer in attempt.answers:
+        saved_answers.setdefault(
+            competitor_answer
+            .generated_test_question_id,
+            set(),
+        ).add(
+            competitor_answer
+            .generated_test_answer_id
+        )
 
     correct_answer_count = 0
     question_results = []
 
     for generated_question in generated_questions:
-        selected_answer_id = saved_answers.get(
-            generated_question.id
+        selected_answer_ids = saved_answers.get(
+            generated_question.id,
+            set(),
         )
 
-        selected_answer = next(
-            (
+        correct_answer_ids = {
+            generated_answer.id
+            for generated_answer
+            in generated_question.generated_answers
+            if (
                 generated_answer
-                for generated_answer
-                in generated_question.generated_answers
-                if generated_answer.id
-                == selected_answer_id
-            ),
-            None,
-        )
+                .answer_option
+                .is_correct
+            )
+        }
 
         is_correct = (
-            selected_answer is not None
-            and selected_answer.answer_option.is_correct
+            bool(correct_answer_ids)
+            and selected_answer_ids
+            == correct_answer_ids
         )
 
         if is_correct:
@@ -355,8 +425,8 @@ def attempt_result_detail(
             {
                 "generated_question":
                     generated_question,
-                "selected_answer_id":
-                    selected_answer_id,
+                "selected_answer_ids":
+                    selected_answer_ids,
                 "is_correct":
                     is_correct,
             }
@@ -603,6 +673,10 @@ def question_new():
             "",
         ).strip()
 
+        uploaded_image = request.files.get(
+            "image"
+        )
+
         selected_grade_ids = request.form.getlist(
             "grade_ids",
             type=int,
@@ -621,9 +695,11 @@ def question_new():
             for position in range(1, 6)
         ]
 
-        correct_answer = request.form.get(
-            "correct_answer",
-            type=int,
+        correct_answers = set(
+            request.form.getlist(
+                "correct_answers",
+                type=int,
+            )
         )
 
         errors = []
@@ -659,6 +735,21 @@ def question_new():
                 _("A feladat szövege kötelező.")
             )
 
+        if (
+            uploaded_image is not None
+            and uploaded_image.filename
+            and not uploaded_image.filename
+            .strip()
+            .lower()
+            .endswith((".jpg", ".jpeg"))
+        ):
+            errors.append(
+                _(
+                    "Csak JPG vagy JPEG kép "
+                    "tölthető fel."
+                )
+            )
+
         if not selected_grade_ids:
             errors.append(
                 _("Legalább egy évfolyamot ki kell választani.")
@@ -677,9 +768,17 @@ def question_new():
                 _("Mind az öt válaszlehetőséget ki kell tölteni.")
             )
 
-        if correct_answer not in range(1, 6):
+        if (
+            not correct_answers
+            or not correct_answers.issubset(
+                set(range(1, 6))
+            )
+        ):
             errors.append(
-                _("Ki kell választani a helyes választ.")
+                _(
+                    "Legalább egy érvényes helyes "
+                    "választ ki kell választani."
+                )
             )
 
         selected_grades = Grade.query.filter(
@@ -730,12 +829,31 @@ def question_new():
                         original_position=position,
                         answer_text=answer_text,
                         is_correct=(
-                            position == correct_answer
+                            position in correct_answers
                         ),
                     )
                 )
 
             db.session.add(question)
+            db.session.flush()
+
+            if (
+                uploaded_image is not None
+                and uploaded_image.filename
+            ):
+                image_path = get_question_image_path(
+                    question
+                )
+
+                image_path.parent.mkdir(
+                    parents=True,
+                    exist_ok=True,
+                )
+
+                uploaded_image.save(
+                    image_path
+                )
+
             db.session.commit()
 
             flash(
@@ -1157,6 +1275,10 @@ def question_edit(question_id: int):
             "",
         ).strip()
 
+        uploaded_image = request.files.get(
+            "image"
+        )
+
         posted_grade_ids = request.form.getlist(
             "grade_ids",
             type=int,
@@ -1175,9 +1297,11 @@ def question_edit(question_id: int):
             for position in range(1, 6)
         ]
 
-        correct_answer = request.form.get(
-            "correct_answer",
-            type=int,
+        correct_answers = set(
+            request.form.getlist(
+                "correct_answers",
+                type=int,
+            )
         )
 
         errors = []
@@ -1213,6 +1337,21 @@ def question_edit(question_id: int):
                 _("A feladat szövege kötelező.")
             )
 
+        if (
+            uploaded_image is not None
+            and uploaded_image.filename
+            and not uploaded_image.filename
+            .strip()
+            .lower()
+            .endswith((".jpg", ".jpeg"))
+        ):
+            errors.append(
+                _(
+                    "Csak JPG vagy JPEG kép "
+                    "tölthető fel."
+                )
+            )
+
         if not posted_grade_ids:
             errors.append(
                 _("Legalább egy évfolyamot ki kell választani.")
@@ -1231,9 +1370,17 @@ def question_edit(question_id: int):
                 _("Mind az öt válaszlehetőséget ki kell tölteni.")
             )
 
-        if correct_answer not in range(1, 6):
+        if (
+            not correct_answers
+            or not correct_answers.issubset(
+                set(range(1, 6))
+            )
+        ):
             errors.append(
-                _("Ki kell választani a helyes választ.")
+                _(
+                    "Legalább egy érvényes helyes "
+                    "választ ki kell választani."
+                )
             )
 
         selected_grades = Grade.query.filter(
@@ -1289,12 +1436,30 @@ def question_edit(question_id: int):
                         original_position=position,
                         answer_text=answer_text,
                         is_correct=(
-                            position == correct_answer
+                            position in correct_answers
                         ),
                     )
                 )
 
             # Important: this is intentionally outside the loop.
+
+            if (
+                uploaded_image is not None
+                and uploaded_image.filename
+            ):
+                image_path = get_question_image_path(
+                    question
+                )
+
+                image_path.parent.mkdir(
+                    parents=True,
+                    exist_ok=True,
+                )
+
+                uploaded_image.save(
+                    image_path
+                )
+
             db.session.commit()
 
             flash(
@@ -1494,20 +1659,28 @@ def question_import():
                     _("A nehézség nem érvényes szám.")
                 )
 
-            try:
-                correct_answer = int(
-                    normalized_row["helyes"]
-                )
-            except ValueError:
-                correct_answer = None
-                row_errors.append(
-                    (
+            correct_answers = set()
+
+            for correct_value in (
+                normalized_row["helyes"].split("|")
+            ):
+                correct_value = correct_value.strip()
+
+                if not correct_value:
+                    continue
+
+                try:
+                    correct_answers.add(
+                        int(correct_value)
+                    )
+                except ValueError:
+                    row_errors.append(
                         _(
-                        "A helyes válasz "
-                        "nem érvényes szám."
+                            "Érvénytelen helyes "
+                            "válasz: %(answer)s.",
+                            answer=correct_value,
+                        )
                     )
-                    )
-                )
 
             if (
                 source_year_number is not None
@@ -1550,17 +1723,21 @@ def question_import():
                     )
                 )
 
-            if (
-                correct_answer is not None
-                and correct_answer
-                not in range(1, 6)
+            if not correct_answers:
+                row_errors.append(
+                    _(
+                        "Legalább egy helyes "
+                        "választ meg kell adni."
+                    )
+                )
+
+            elif not correct_answers.issubset(
+                set(range(1, 6))
             ):
                 row_errors.append(
-                    (
-                        _(
-                        "A helyes válasz 1 és 5 "
-                        "közötti lehet."
-                    )
+                    _(
+                        "A helyes válaszok csak "
+                        "1 és 5 közöttiek lehetnek."
                     )
                 )
 
@@ -1776,7 +1953,8 @@ def question_import():
                     "feladat"
                 ],
                 "answer_texts": answer_texts,
-                "correct_answer": correct_answer,
+                "correct_answers":
+                    correct_answers,
                 "explanation": normalized_row[
                     "magyarazat"
                 ],
@@ -1867,8 +2045,8 @@ def question_import():
                                 ),
                                 is_correct=(
                                     position
-                                    == row[
-                                        "correct_answer"
+                                    in row[
+                                        "correct_answers"
                                     ]
                                 ),
                             )

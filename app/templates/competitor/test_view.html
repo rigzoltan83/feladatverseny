@@ -137,12 +137,13 @@
 
                         <input
                             class="answer-radio"
-                            type="radio"
+                            type="checkbox"
                             name="question_{{ generated_question.id }}"
                             value="{{ generated_answer.id }}"
-                            {% if saved_answers.get(
-                                generated_question.id
-                            ) == generated_answer.id %}
+                            {% if generated_answer.id in saved_answers.get(
+                                generated_question.id,
+                                []
+                            ) %}
                                 checked
                             {% endif %}
                             {% if (
@@ -178,10 +179,11 @@
                             {% if results_visible %}
 
                                 {% set is_selected =
-                                    saved_answers.get(
-                                        generated_question.id
+                                    generated_answer.id
+                                    in saved_answers.get(
+                                        generated_question.id,
+                                        []
                                     )
-                                    == generated_answer.id
                                 %}
 
                                 {% if (

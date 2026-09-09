@@ -860,7 +860,8 @@ class CompetitorAnswer(db.Model):
         db.UniqueConstraint(
             "attempt_id",
             "generated_test_question_id",
-            name="uq_competitor_answer_question",
+            "generated_test_answer_id",
+            name="uq_competitor_answer_selection",
         ),
     )
 

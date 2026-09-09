@@ -25,7 +25,9 @@
     <form
         class="card form-card"
         method="post"
+        enctype="multipart/form-data"
     >
+
         <div class="form-grid">
             <div class="form-group">
                 <label for="source_year_id">
@@ -117,6 +119,33 @@
         ) }}</textarea>
         </div>
 
+        <div class="form-group">
+            <label for="image">
+                {% if question %}
+                    {{ _("Feladat képe – opcionális csere") }}
+                {% else %}
+                    {{ _("Feladat képe – opcionális") }}
+                {% endif %}
+            </label>
+
+            <input
+                id="image"
+                name="image"
+                type="file"
+                accept=".jpg,.jpeg,image/jpeg"
+            >
+
+            <small>
+                {{
+                    _(
+                        "JPG vagy JPEG kép tölthető fel. "
+                        "Ha nem választasz képet, a feladat "
+                        "kép nélkül kerül mentésre."
+                    )
+                }}
+            </small>
+        </div>
+
         <div class="form-section">
             <h2>{{ _("Évfolyamok") }}</h2>
 
@@ -171,7 +200,7 @@
             <h2>{{ _("Válaszlehetőségek") }}</h2>
 
             <p>
-                {{ _("Töltsd ki mind az öt választ, majd jelöld meg a helyeset.") }}
+                {{ _("Töltsd ki mind az öt választ, majd jelöld meg az összes helyes választ.") }}
             </p>
 
             <div class="answer-list">
@@ -184,17 +213,16 @@
                     title="{{ _('Helyes válasz') }}"
                 >
                     <input
-                        type="radio"
-                        name="correct_answer"
+                        type="checkbox"
+                        name="correct_answers"
                         value="{{ position }}"
                         {% if request.method == 'POST' %}
-                            {% if request.form.get('correct_answer') == position|string %}
+                            {% if position|string in request.form.getlist('correct_answers') %}
                                 checked
                             {% endif %}
                         {% elif existing_answer and existing_answer.is_correct %}
                             checked
                         {% endif %}
-                        required
                     >
 
                     <span>{{ position }}.</span>

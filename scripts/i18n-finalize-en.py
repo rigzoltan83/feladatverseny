@@ -43,6 +43,84 @@ TRANSLATIONS = {
 
     "A feladathoz nem tartozik kép.":
         "This question does not have an image.",
+
+    "Feladat képe – opcionális":
+        "Question image – optional",
+
+    "Feladat képe – opcionális csere":
+        "Question image – optional replacement",
+
+    "JPG vagy JPEG kép tölthető fel. "
+    "Ha nem választasz képet, a feladat "
+    "kép nélkül kerül mentésre.":
+        "A JPG or JPEG image can be uploaded. "
+        "If you do not select an image, the question "
+        "will be saved without one.",
+
+    "Töltsd ki mind az öt választ, majd jelöld meg "
+    "az összes helyes választ.":
+        "Fill in all five answers, then select "
+        "all correct answers.",
+
+    "Legalább egy érvényes helyes "
+    "választ ki kell választani.":
+        "At least one valid correct answer "
+        "must be selected.",
+
+    "Érvénytelen helyes "
+    "válasz: %(answer)s.":
+        "Invalid correct answer: %(answer)s.",
+
+    "Legalább egy helyes "
+    "választ meg kell adni.":
+        "At least one correct answer "
+        "must be provided.",
+
+    "A helyes válaszok csak "
+    "1 és 5 közöttiek lehetnek.":
+        "Correct answers must be "
+        "between 1 and 5.",
+
+    "A témakör magyar neve kötelező.":
+        "The Hungarian topic name is required.",
+
+    "A témakör magyar neve "
+    "legfeljebb 100 karakter lehet.":
+        "The Hungarian topic name can be "
+        "at most 100 characters.",
+
+    "A témakör angol neve "
+    "legfeljebb 100 karakter lehet.":
+        "The English topic name can be "
+        "at most 100 characters.",
+
+    "Már létezik ilyen nevű "
+    "témakör.":
+        "A topic with this name already exists.",
+
+    "A témakör sikeresen létrejött.":
+        "Topic created successfully.",
+
+    "Új témakör létrehozása":
+        "Create new topic",
+
+    "Magyar megnevezés":
+        "Hungarian name",
+
+    "Angol megnevezés":
+        "English name",
+
+    "Témakör létrehozása":
+        "Create topic",
+
+    "Rögzített témakörök":
+        "Created topics",
+
+    "Magyar név":
+        "Hungarian name",
+
+    "Angol név":
+        "English name",
 }
 
 

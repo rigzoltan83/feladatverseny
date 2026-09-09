@@ -148,7 +148,13 @@
                             </td>
 
                             <td>
-                                {{ row.correct_answer or '–' }}
+{{
+    row.correct_answers
+    | sort
+    | join(" | ")
+    if row.correct_answers
+    else "–"
+}}
                             </td>
                         </tr>
                     {% endfor %}

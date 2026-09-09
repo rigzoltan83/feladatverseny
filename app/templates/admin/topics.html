@@ -18,12 +18,64 @@
         </p>
     </section>
 
+    <section class="card form-card">
+        <h2>{{ _("Új témakör létrehozása") }}</h2>
+
+        <form method="post">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="name">
+                        {{ _("Magyar megnevezés") }}
+                    </label>
+
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        maxlength="100"
+                        value="{{ request.form.get('name', '') }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="name_en">
+                        {{ _("Angol megnevezés") }}
+                        <span class="optional">
+                            {{ _("– opcionális") }}
+                        </span>
+                    </label>
+
+                    <input
+                        id="name_en"
+                        name="name_en"
+                        type="text"
+                        maxlength="100"
+                        value="{{ request.form.get('name_en', '') }}"
+                    >
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button
+                    class="button"
+                    type="submit"
+                >
+                    {{ _("Témakör létrehozása") }}
+                </button>
+            </div>
+        </form>
+    </section>
+
     <section class="card">
+        <h2>{{ _("Rögzített témakörök") }}</h2>
+
         <table class="data-table">
             <thead>
                 <tr>
                     <th>{{ _("Azonosító") }}</th>
-                    <th>{{ _("Megnevezés") }}</th>
+                    <th>{{ _("Magyar név") }}</th>
+                    <th>{{ _("Angol név") }}</th>
                     <th>{{ _("Állapot") }}</th>
                 </tr>
             </thead>
@@ -32,7 +84,18 @@
                 {% for topic in topics %}
                     <tr>
                         <td>{{ topic.id }}</td>
-                        <td>{{ topic.display_name }}</td>
+
+                        <td>
+                            {{ topic.name }}
+                        </td>
+
+                        <td>
+                            {% if topic.name_en %}
+                                {{ topic.name_en }}
+                            {% else %}
+                                –
+                            {% endif %}
+                        </td>
 
                         <td>
                             {% if topic.is_active %}
@@ -44,7 +107,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             {{
                                 _(
                                     "Nincs még rögzített "

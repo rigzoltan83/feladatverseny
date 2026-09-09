@@ -281,16 +281,47 @@ def dashboard():
             attempt.generated_test.generated_questions
         )
 
-        score = sum(
-            1
-            for competitor_answer in attempt.answers
-            if (
+        selected_answers = {}
+
+        for competitor_answer in attempt.answers:
+            selected_answers.setdefault(
                 competitor_answer
-                .generated_test_answer
-                .answer_option
-                .is_correct
+                .generated_test_question_id,
+                set(),
+            ).add(
+                competitor_answer
+                .generated_test_answer_id
             )
-        )
+
+        score = 0
+
+        for generated_question in (
+            attempt.generated_test.generated_questions
+        ):
+            correct_answer_ids = {
+                generated_answer.id
+                for generated_answer
+                in generated_question.generated_answers
+                if (
+                    generated_answer
+                    .answer_option
+                    .is_correct
+                )
+            }
+
+            selected_answer_ids = (
+                selected_answers.get(
+                    generated_question.id,
+                    set(),
+                )
+            )
+
+            if (
+                correct_answer_ids
+                and selected_answer_ids
+                == correct_answer_ids
+            ):
+                score += 1
 
         percentage = (
             score / question_count * 100
@@ -311,17 +342,54 @@ def dashboard():
                 if other_attempt.status != "submitted":
                     continue
 
-                other_score = sum(
-                    1
-                    for competitor_answer
-                    in other_attempt.answers
-                    if (
+                other_selected_answers = {}
+
+                for competitor_answer in (
+                    other_attempt.answers
+                ):
+                    other_selected_answers.setdefault(
                         competitor_answer
-                        .generated_test_answer
-                        .answer_option
-                        .is_correct
+                        .generated_test_question_id,
+                        set(),
+                    ).add(
+                        competitor_answer
+                        .generated_test_answer_id
                     )
-                )
+
+                other_score = 0
+
+                for generated_question in (
+                    other_attempt
+                    .generated_test
+                    .generated_questions
+                ):
+                    correct_answer_ids = {
+                        generated_answer.id
+                        for generated_answer
+                        in (
+                            generated_question
+                            .generated_answers
+                        )
+                        if (
+                            generated_answer
+                            .answer_option
+                            .is_correct
+                        )
+                    }
+
+                    selected_answer_ids = (
+                        other_selected_answers.get(
+                            generated_question.id,
+                            set(),
+                        )
+                    )
+
+                    if (
+                        correct_answer_ids
+                        and selected_answer_ids
+                        == correct_answer_ids
+                    ):
+                        other_score += 1
 
                 submitted_scores.append(
                     {
@@ -523,50 +591,29 @@ def test_view(test_id):
             "save",
         )
 
-        valid_question_ids = {
-            question.id
-            for question in test_questions
-        }
-
-        valid_answers = {
-            answer.id: answer
-            for question in test_questions
-            for answer in question.generated_answers
-        }
-
         for generated_question in test_questions:
             field_name = (
                 f"question_{generated_question.id}"
             )
 
-            selected_answer_id = request.form.get(
-                field_name
-            )
+            valid_answer_ids = {
+                answer.id
+                for answer
+                in generated_question.generated_answers
+            }
 
-            if not selected_answer_id:
-                continue
-
-            try:
-                selected_answer_id = int(
-                    selected_answer_id
+            selected_answer_ids = set(
+                request.form.getlist(
+                    field_name,
+                    type=int,
                 )
-            except ValueError:
-                continue
-
-            selected_answer = valid_answers.get(
-                selected_answer_id
             )
 
-            if (
-                selected_answer is None
-                or selected_answer.generated_test_question_id
-                not in valid_question_ids
-                or selected_answer.generated_test_question_id
-                != generated_question.id
-            ):
-                continue
+            selected_answer_ids.intersection_update(
+                valid_answer_ids
+            )
 
-            competitor_answer = (
+            existing_answers = (
                 CompetitorAnswer.query
                 .filter_by(
                     attempt_id=attempt.id,
@@ -574,26 +621,42 @@ def test_view(test_id):
                         generated_question.id
                     ),
                 )
-                .first()
+                .all()
             )
 
-            if competitor_answer is None:
-                competitor_answer = CompetitorAnswer(
-                    attempt_id=attempt.id,
-                    generated_test_question_id=(
-                        generated_question.id
-                    ),
-                    generated_test_answer_id=(
-                        selected_answer.id
-                    ),
-                )
-
-                db.session.add(
+            existing_by_answer_id = {
+                competitor_answer.generated_test_answer_id:
                     competitor_answer
-                )
-            else:
-                competitor_answer.generated_test_answer_id = (
-                    selected_answer.id
+                for competitor_answer
+                in existing_answers
+            }
+
+            for (
+                generated_answer_id,
+                competitor_answer,
+            ) in existing_by_answer_id.items():
+                if (
+                    generated_answer_id
+                    not in selected_answer_ids
+                ):
+                    db.session.delete(
+                        competitor_answer
+                    )
+
+            for generated_answer_id in (
+                selected_answer_ids
+                - set(existing_by_answer_id)
+            ):
+                db.session.add(
+                    CompetitorAnswer(
+                        attempt_id=attempt.id,
+                        generated_test_question_id=(
+                            generated_question.id
+                        ),
+                        generated_test_answer_id=(
+                            generated_answer_id
+                        ),
+                    )
                 )
 
         if action == "submit":
@@ -624,11 +687,15 @@ def test_view(test_id):
             )
         )
 
-    saved_answers = {
-        answer.generated_test_question_id:
+    saved_answers = {}
+
+    for answer in attempt.answers:
+        saved_answers.setdefault(
+            answer.generated_test_question_id,
+            set(),
+        ).add(
             answer.generated_test_answer_id
-        for answer in attempt.answers
-    }
+        )
 
     correct_answer_count = 0
     total_question_count = len(
@@ -637,26 +704,26 @@ def test_view(test_id):
 
     if results_visible:
         for generated_question in test_questions:
-            selected_answer_id = saved_answers.get(
-                generated_question.id
+            selected_answer_ids = saved_answers.get(
+                generated_question.id,
+                set(),
             )
 
-            if selected_answer_id is None:
-                continue
-
-            selected_answer = next(
-                (
-                    answer
-                    for answer
-                    in generated_question.generated_answers
-                    if answer.id == selected_answer_id
-                ),
-                None,
-            )
+            correct_answer_ids = {
+                generated_answer.id
+                for generated_answer
+                in generated_question.generated_answers
+                if (
+                    generated_answer
+                    .answer_option
+                    .is_correct
+                )
+            }
 
             if (
-                selected_answer is not None
-                and selected_answer.answer_option.is_correct
+                correct_answer_ids
+                and selected_answer_ids
+                == correct_answer_ids
             ):
                 correct_answer_count += 1
 

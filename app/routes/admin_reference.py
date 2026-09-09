@@ -1,5 +1,14 @@
-from flask import Blueprint, render_template
+from flask import (
+    Blueprint,
+    flash,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+from flask_babel import gettext as _
 
+from app.extensions import db
 from app.models import Grade, SourceYear, Topic
 
 
@@ -22,8 +31,89 @@ def grades():
     )
 
 
-@reference_bp.get("/topics")
+@reference_bp.route(
+    "/topics",
+    methods=["GET", "POST"],
+)
 def topics():
+    if request.method == "POST":
+        name = request.form.get(
+            "name",
+            "",
+        ).strip()
+
+        name_en = request.form.get(
+            "name_en",
+            "",
+        ).strip()
+
+        errors = []
+
+        if not name:
+            errors.append(
+                _("A témakör magyar neve kötelező.")
+            )
+        elif len(name) > 100:
+            errors.append(
+                _(
+                    "A témakör magyar neve "
+                    "legfeljebb 100 karakter lehet."
+                )
+            )
+
+        if len(name_en) > 100:
+            errors.append(
+                _(
+                    "A témakör angol neve "
+                    "legfeljebb 100 karakter lehet."
+                )
+            )
+
+        if name:
+            existing_topic = (
+                Topic.query
+                .filter(
+                    db.func.lower(Topic.name)
+                    == name.lower()
+                )
+                .first()
+            )
+
+            if existing_topic is not None:
+                errors.append(
+                    _(
+                        "Már létezik ilyen nevű "
+                        "témakör."
+                    )
+                )
+
+        if errors:
+            for error in errors:
+                flash(
+                    error,
+                    "error",
+                )
+        else:
+            topic = Topic(
+                name=name,
+                name_en=name_en or None,
+                is_active=True,
+            )
+
+            db.session.add(topic)
+            db.session.commit()
+
+            flash(
+                _("A témakör sikeresen létrejött."),
+                "success",
+            )
+
+            return redirect(
+                url_for(
+                    "admin_reference.topics"
+                )
+            )
+
     topic_list = Topic.query.order_by(
         Topic.name
     ).all()

@@ -80,7 +80,7 @@ def get_candidate_questions(
 
         if (
             len(answers) == 5
-            and correct_count == 1
+            and correct_count >= 1
         ):
             valid_candidates.append(
                 question

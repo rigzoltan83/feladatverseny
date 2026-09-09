@@ -172,10 +172,9 @@
                     }}
                 </h2>
 
-                {% if
+                {% if not
                     question_result
-                    .selected_answer_id
-                    is none
+                    .selected_answer_ids
                 %}
                     <span
                         class="
@@ -222,9 +221,9 @@
                     .generated_answers
                 %}
                     {% set is_selected =
-                        question_result
-                        .selected_answer_id
-                        == generated_answer.id
+                        generated_answer.id
+                        in question_result
+                        .selected_answer_ids
                     %}
 
                     {% set is_correct =
