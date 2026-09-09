@@ -84,7 +84,11 @@
     </section>
 
     <section class="detail-grid">
-        <article class="card">
+<article class="card template-summary-card
+    {% if template.selection_mode == 'manual' %}
+        template-summary-card-manual
+    {% endif %}
+">
             <h2>{{ _("Alapadatok") }}</h2>
 
             <dl class="detail-list">
@@ -260,14 +264,196 @@
 </section>
 
 {% else %}
-    <section class="card">
-        <div class="page-header-row">
-            <div>
-                <h2>
-                    {{ _("Manuális feladatsor") }}
-                </h2>
+    <section class="card manual-template-card">
+        <div class="manual-template-header">
+            <div class="manual-template-heading">
+                <div class="manual-template-title-row">
+                    <h2>
+                        {{ _("Manuális feladatsor") }}
+                    </h2>
+
+                    <span class="manual-count-badge">
+                        {{ manual_questions|length }}
+                    </span>
+                </div>
 
                 <p>
+                    {{
+                        _(
+                            "A feladatok a lent látható "
+                            "sorrendben kerülnek a "
+                            "generált feladatsorba."
+                        )
+                    }}
+                </p>
+            </div>
+
+            <div class="manual-template-actions">
+                <a
+                    class="button button-secondary"
+                    href="{{ url_for(
+                        'admin_templates.template_questions',
+                        template_id=template.id
+                    ) }}"
+                >
+                    {% if manual_questions %}
+                        {{ _("Kiválasztás módosítása") }}
+                    {% else %}
+                        {{
+                            _(
+                                "Meglévő feladatok "
+                                "kiválasztása"
+                            )
+                        }}
+                    {% endif %}
+                </a>
+
+                {% if
+                    template.is_active
+                    and enough_questions
+                %}
+                    <form
+                        method="post"
+                        action="{{ url_for(
+                            'admin_generated_tests.generate_test',
+                            template_id=template.id
+                        ) }}"
+                        onsubmit='return confirm({{
+                            _(
+                                "Létrehozod a feladatsort "
+                                "ebből a sablonból?"
+                            )
+                            | tojson
+                        }});'
+                    >
+                        <button
+                            class="button"
+                            type="submit"
+                        >
+                            {{ _("Feladatsor generálása") }}
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if manual_questions %}
+            <div class="manual-question-list">
+                {% for row in manual_questions %}
+                    <article class="manual-question-row">
+                        <div class="manual-question-order">
+                            <strong>
+                                {{ row.display_position }}
+                            </strong>
+
+                            <div class="manual-order-buttons">
+                                {% if not loop.first %}
+                                    <form
+                                        method="post"
+                                        action="{{ url_for(
+                                            'admin_templates.template_question_move',
+                                            template_id=template.id,
+                                            question_id=row.question.id,
+                                            direction='up'
+                                        ) }}"
+                                    >
+                                        <button
+                                            class="manual-order-button"
+                                            type="submit"
+                                            title="{{ _('Fel') }}"
+                                            aria-label="{{ _('Fel') }}"
+                                        >
+                                            ↑
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <span
+                                        class="manual-order-placeholder"
+                                    ></span>
+                                {% endif %}
+
+                                {% if not loop.last %}
+                                    <form
+                                        method="post"
+                                        action="{{ url_for(
+                                            'admin_templates.template_question_move',
+                                            template_id=template.id,
+                                            question_id=row.question.id,
+                                            direction='down'
+                                        ) }}"
+                                    >
+                                        <button
+                                            class="manual-order-button"
+                                            type="submit"
+                                            title="{{ _('Le') }}"
+                                            aria-label="{{ _('Le') }}"
+                                        >
+                                            ↓
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <span
+                                        class="manual-order-placeholder"
+                                    ></span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="manual-question-content">
+<div class="manual-question-meta">
+    <span>
+        ID {{ row.question.id }}
+    </span>
+
+    <span>
+        {{ _("Nehézség") }}:
+        {{ row.question.difficulty }}
+    </span>
+
+    {% for grade in row.question.grades %}
+        <span>
+            {{ grade.grade_number }}.
+            {{ _("évfolyam") }}
+        </span>
+    {% endfor %}
+
+    {% for topic in row.question.topics %}
+        <span class="manual-topic-badge">
+            {{ topic.display_name }}
+        </span>
+    {% endfor %}
+</div>
+                            <div class="manual-question-text">
+                                {{
+                                    row.question.question_text
+                                }}
+                            </div>
+
+
+                        </div>
+
+                        <div class="manual-question-action">
+                            <a
+                                class="button button-secondary
+                                       manual-open-button"
+                                href="{{ url_for(
+                                    'admin.question_detail',
+                                    question_id=row.question.id
+                                ) }}"
+                            >
+                                {{ _("Megnyitás") }}
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <div class="manual-ready-note">
+                <strong>
+                    {{ _("A feladatsor készen áll.") }}
+                </strong>
+
+                <span>
                     {{
                         _(
                             "%(count)s feladat van "
@@ -275,81 +461,54 @@
                             count=manual_questions|length
                         )
                     }}
-                </p>
+                </span>
             </div>
 
-            <a
-                class="button"
-                href="{{ url_for(
-                    'admin_templates.template_questions',
-                    template_id=template.id
-                ) }}"
-            >
-                {% if manual_questions %}
-                    {{ _("Kiválasztás módosítása") }}
-                {% else %}
-                    {{ _("Meglévő feladatok kiválasztása") }}
-                {% endif %}
-            </a>
-        </div>
+            <div class="manual-help-note">
+                <strong>{{ _("Tipp") }}</strong>
 
-        {% if manual_questions %}
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>{{ _("Sorrend") }}</th>
-                        <th>ID</th>
-                        <th>{{ _("Nehézség") }}</th>
-                        <th>{{ _("Feladat") }}</th>
-                        <th>{{ _("Művelet") }}</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {% for row in manual_questions %}
-                        <tr>
-                            <td>
-                                {{ row.display_position }}.
-                            </td>
-
-                            <td>
-                                {{ row.question.id }}
-                            </td>
-
-                            <td>
-                                {{ row.question.difficulty }}
-                            </td>
-
-                            <td class="question-text-cell">
-                                {{
-                                    row.question.question_text
-                                }}
-                            </td>
-
-                            <td>
-                                <a
-                                    class="table-link"
-                                    href="{{ url_for(
-                                        'admin.question_detail',
-                                        question_id=row.question.id
-                                    ) }}"
-                                >
-                                    {{ _("Megnyitás") }}
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                <span>
+                    {{
+                        _(
+                            "A sorrendet a fel és le "
+                            "nyilakkal módosíthatod. "
+                            "A kiválasztást bármikor "
+                            "megváltoztathatod."
+                        )
+                    }}
+                </span>
+            </div>
         {% else %}
-            <p>
-                {{
-                    _(
-                        "Ehhez a manuális sablonhoz "
-                        "még nincs feladat kiválasztva."
-                    )
-                }}
-            </p>
+            <div class="manual-empty-state">
+                <h3>
+                    {{ _("Még nincs kiválasztott feladat.") }}
+                </h3>
+
+                <p>
+                    {{
+                        _(
+                            "Válassz feladatokat a "
+                            "kérdésbankból a manuális "
+                            "feladatsor összeállításához."
+                        )
+                    }}
+                </p>
+
+                <a
+                    class="button"
+                    href="{{ url_for(
+                        'admin_templates.template_questions',
+                        template_id=template.id
+                    ) }}"
+                >
+                    {{
+                        _(
+                            "Meglévő feladatok "
+                            "kiválasztása"
+                        )
+                    }}
+                </a>
+            </div>
         {% endif %}
     </section>
 {% endif %}
