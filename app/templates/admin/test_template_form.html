@@ -60,10 +60,79 @@
             >{% if request.method == 'POST' %}{{ request.form.get('description', '') }}{% elif template and template.description %}{{ template.description }}{% endif %}</textarea>
         </div>
 
+        <div class="form-section">
+            <h2>{{ _("Összeállítás módja") }}</h2>
+
+            {% set current_selection_mode =
+                request.form.get(
+                    'selection_mode',
+                    template.selection_mode
+                    if template
+                    else 'automatic'
+                )
+            %}
+
+            <div class="checkbox-grid">
+                <label class="checkbox-option">
+                    <input
+                        type="radio"
+                        name="selection_mode"
+                        value="automatic"
+                        {% if current_selection_mode
+                            == 'automatic' %}
+                            checked
+                        {% endif %}
+                    >
+                    <span>
+                        <strong>
+                            {{ _("Automatikus összeállítás") }}
+                        </strong>
+                        <br>
+                        {{ _(
+                            "A rendszer az évfolyamok és "
+                            "témakörök alapján választ "
+                            "feladatokat."
+                        ) }}
+                    </span>
+                </label>
+
+                <label class="checkbox-option">
+                    <input
+                        type="radio"
+                        name="selection_mode"
+                        value="manual"
+                        {% if current_selection_mode
+                            == 'manual' %}
+                            checked
+                        {% endif %}
+                    >
+                    <span>
+                        <strong>
+                            {{ _("Manuális összeállítás") }}
+                        </strong>
+                        <br>
+                        {{ _(
+                            "A feladatsor kérdéseit "
+                            "kézzel állítod össze."
+                        ) }}
+                    </span>
+                </label>
+            </div>
+        </div>
+
         <div class="form-group">
             <label for="question_count">
                 {{ _("Feladatok száma") }}
             </label>
+
+            <p class="form-help">
+                {{ _(
+                    "Automatikus összeállításnál ennyi "
+                    "feladatot választ a rendszer. "
+                    "Manuális összeállításnál ez a "
+                    "tervezett feladatszám."
+                ) }}
+            </p>
 
             <input
                 id="question_count"
@@ -82,6 +151,14 @@
 
         <div class="form-section">
             <h2>{{ _("Évfolyamok") }}</h2>
+
+            <p class="form-help">
+                {{ _(
+                    "Automatikus összeállításnál kötelező. "
+                    "Manuális összeállításnál opcionális, "
+                    "és a kérdésbank szűrését segíti."
+                ) }}
+            </p>
 
             <div class="checkbox-grid">
                 {% for grade in grades %}
@@ -110,6 +187,14 @@
 
         <div class="form-section">
             <h2>{{ _("Témakörök") }}</h2>
+
+            <p class="form-help">
+                {{ _(
+                    "Automatikus összeállításnál kötelező. "
+                    "Manuális összeállításnál opcionális, "
+                    "és a kérdésbank szűrését segíti."
+                ) }}
+            </p>
 
             <div class="checkbox-grid">
                 {% for topic in topics %}
@@ -154,6 +239,13 @@
                     > 
                     <span>
                         {{ _("Kérdések sorrendjének keverése") }}
+                        <br>
+                        <small>
+                            {{ _(
+                                "Csak automatikus "
+                                "összeállításnál használható."
+                            ) }}
+                        </small>
                     </span>
                 </label>
 

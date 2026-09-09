@@ -74,6 +74,11 @@ def template_new():
             type=int,
         )
 
+        selection_mode = request.form.get(
+            "selection_mode",
+            "automatic",
+        ).strip()
+
         grade_ids = request.form.getlist(
             "grade_ids",
             type=int,
@@ -99,6 +104,14 @@ def template_new():
         )
 
         errors = []
+
+        if selection_mode not in {
+            "automatic",
+            "manual",
+        }:
+            errors.append(
+                _("Az összeállítás módja érvénytelen.")
+            )
 
         if not name:
             errors.append(
@@ -139,25 +152,22 @@ def template_new():
                 )
             )
 
-        if not grade_ids:
-            errors.append(
-                (
+        if selection_mode == "automatic":
+            if not grade_ids:
+                errors.append(
                     _(
-                    "Legalább egy évfolyamot "
-                    "ki kell választani."
+                        "Legalább egy évfolyamot "
+                        "ki kell választani."
+                    )
                 )
-                )
-            )
 
-        if not topic_ids:
-            errors.append(
-                (
+            if not topic_ids:
+                errors.append(
                     _(
-                    "Legalább egy témakört "
-                    "ki kell választani."
+                        "Legalább egy témakört "
+                        "ki kell választani."
+                    )
                 )
-                )
-            )
 
         selected_grades = Grade.query.filter(
             Grade.id.in_(grade_ids)
@@ -195,8 +205,11 @@ def template_new():
                     description or None
                 ),
                 question_count=question_count,
+                selection_mode=selection_mode,
                 shuffle_questions=(
                     shuffle_questions
+                    if selection_mode == "automatic"
+                    else False
                 ),
                 shuffle_answers=(
                     shuffle_answers
@@ -217,7 +230,8 @@ def template_new():
 
             return redirect(
                 url_for(
-                    "admin_templates.template_list"
+                    "admin_templates.template_detail",
+                    template_id=template.id,
                 )
             )
 
@@ -349,6 +363,11 @@ def template_edit(template_id: int):
             type=int,
         )
 
+        selection_mode = request.form.get(
+            "selection_mode",
+            template.selection_mode,
+        ).strip()
+
         grade_ids = request.form.getlist(
             "grade_ids",
             type=int,
@@ -374,6 +393,14 @@ def template_edit(template_id: int):
         )
 
         errors = []
+
+        if selection_mode not in {
+            "automatic",
+            "manual",
+        }:
+            errors.append(
+                _("Az összeállítás módja érvénytelen.")
+            )
 
         if not name:
             errors.append(
@@ -415,25 +442,22 @@ def template_edit(template_id: int):
                 )
             )
 
-        if not grade_ids:
-            errors.append(
-                (
+        if selection_mode == "automatic":
+            if not grade_ids:
+                errors.append(
                     _(
-                    "Legalább egy évfolyamot "
-                    "ki kell választani."
+                        "Legalább egy évfolyamot "
+                        "ki kell választani."
+                    )
                 )
-                )
-            )
 
-        if not topic_ids:
-            errors.append(
-                (
+            if not topic_ids:
+                errors.append(
                     _(
-                    "Legalább egy témakört "
-                    "ki kell választani."
+                        "Legalább egy témakört "
+                        "ki kell választani."
+                    )
                 )
-                )
-            )
 
         selected_grades = Grade.query.filter(
             Grade.id.in_(grade_ids)
@@ -470,8 +494,11 @@ def template_edit(template_id: int):
                 description or None
             )
             template.question_count = question_count
+            template.selection_mode = selection_mode
             template.shuffle_questions = (
                 shuffle_questions
+                if selection_mode == "automatic"
+                else False
             )
             template.shuffle_answers = (
                 shuffle_answers

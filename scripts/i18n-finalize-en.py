@@ -14,6 +14,56 @@ PO_PATH = Path(
 )
 
 TRANSLATIONS = {
+    "Az összeállítás módja érvénytelen.":
+        "The composition mode is invalid.",
+    "Összeállítás módja":
+        "Composition mode",
+    "Automatikus összeállítás":
+        "Automatic composition",
+    "Manuális összeállítás":
+        "Manual composition",
+    (
+        "A rendszer az évfolyamok és "
+        "témakörök alapján választ "
+        "feladatokat."
+    ):
+        (
+            "The system selects questions based on "
+            "grades and topics."
+        ),
+    "A feladatsor kérdéseit kézzel állítod össze.":
+        "You select the questions manually.",
+    (
+        "Automatikus összeállításnál ennyi "
+        "feladatot választ a rendszer. "
+        "Manuális összeállításnál ez a "
+        "tervezett feladatszám."
+    ):
+        (
+            "For automatic composition, the system "
+            "selects this many questions. For manual "
+            "composition, this is the planned number "
+            "of questions."
+        ),
+    (
+        "Automatikus összeállításnál kötelező. "
+        "Manuális összeállításnál opcionális, "
+        "és a kérdésbank szűrését segíti."
+    ):
+        (
+            "Required for automatic composition. "
+            "Optional for manual composition and "
+            "used to help filter the question bank."
+        ),
+    (
+        "Csak automatikus "
+        "összeállításnál használható."
+    ):
+        (
+            "Available only for automatic "
+            "composition."
+        ),
+
     "Leírás":
         "Description",
 
