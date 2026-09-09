@@ -345,6 +345,69 @@ class AnswerOption(db.Model):
             f"position={self.original_position}>"
         )
 
+class TestTemplateQuestion(db.Model):
+    __tablename__ = "test_template_question"
+
+    id = db.Column(
+        db.BigInteger,
+        primary_key=True,
+    )
+
+    test_template_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "test_template.id",
+            ondelete="CASCADE",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    question_id = db.Column(
+        db.BigInteger,
+        db.ForeignKey(
+            "question.id",
+            ondelete="RESTRICT",
+        ),
+        nullable=False,
+        index=True,
+    )
+
+    display_position = db.Column(
+        db.SmallInteger,
+        nullable=False,
+    )
+
+    question = db.relationship(
+        "Question",
+    )
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "display_position >= 1",
+            name="ck_test_template_question_position",
+        ),
+        db.UniqueConstraint(
+            "test_template_id",
+            "display_position",
+            name="uq_test_template_question_position",
+        ),
+        db.UniqueConstraint(
+            "test_template_id",
+            "question_id",
+            name="uq_test_template_question_question",
+        ),
+    )
+
+    def __repr__(self) -> str:
+        return (
+            f"<TestTemplateQuestion "
+            f"template={self.test_template_id} "
+            f"position={self.display_position}>"
+        )
+
+
+
 class TestTemplate(db.Model):
     __tablename__ = "test_template"
 
@@ -368,6 +431,13 @@ class TestTemplate(db.Model):
         db.SmallInteger,
         nullable=False,
         default=25,
+    )
+
+    selection_mode = db.Column(
+        db.String(20),
+        nullable=False,
+        default="automatic",
+        server_default="automatic",
     )
 
     shuffle_questions = db.Column(
@@ -419,10 +489,21 @@ class TestTemplate(db.Model):
         ),
     )
 
+    manual_questions = db.relationship(
+        "TestTemplateQuestion",
+        backref="test_template",
+        cascade="all, delete-orphan",
+        order_by="TestTemplateQuestion.display_position",
+    )
+
     __table_args__ = (
         db.CheckConstraint(
             "question_count BETWEEN 1 AND 100",
             name="ck_test_template_question_count",
+        ),
+        db.CheckConstraint(
+            "selection_mode IN ('automatic', 'manual')",
+            name="ck_test_template_selection_mode",
         ),
     )
 
